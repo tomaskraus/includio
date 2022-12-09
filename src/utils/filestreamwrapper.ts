@@ -33,7 +33,7 @@ export const fileStreamWrapper = <TOptions, TResult>(
         inStream.on('error', err => reject(err));
         proc(inStream, outStream, options)
           .then((res: TResult) => {
-            outStream.end();
+            // outStream.end();   // closes also stdout
             resolve(res);
           })
           .catch(err => reject(err));

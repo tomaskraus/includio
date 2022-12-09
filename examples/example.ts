@@ -1,7 +1,7 @@
-import {processRead} from './includo';
+// import {streamLineTransformer} from './includo';
 
-import {stdin, stdout} from 'node:process';
+// import {stdin, stdout} from 'node:process';
 
-const result = processRead(stdin, stdout);
+// const result = streamLineTransformer(stdin, stdout);
 
-console.log(result);
+// console.log(result);

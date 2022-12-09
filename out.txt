@@ -1,4 +1,0 @@
-- This is an input text.
-- Second line.
-- 
-- End.

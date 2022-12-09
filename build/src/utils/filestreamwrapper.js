@@ -35,7 +35,7 @@ const fileStreamWrapper = (proc) => {
                 inStream.on('error', err => reject(err));
                 proc(inStream, outStream, options)
                     .then((res) => {
-                    outStream.end();
+                    // outStream.end();   // closes also stdout
                     resolve(res);
                 })
                     .catch(err => reject(err));
