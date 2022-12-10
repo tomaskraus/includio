@@ -2,11 +2,12 @@
 
 import {streamLineTransformer} from './utils/streamlinetransformer';
 import {fileStreamWrapper} from './utils/filestreamwrapper';
+import {createIncludoProcessor} from './includo';
 
 import {stdin, stdout} from 'node:process';
 
 const fileOrStreamProcess = fileStreamWrapper(
-  streamLineTransformer(async (x: string) => x)
+  streamLineTransformer(createIncludoProcessor())
 );
 
 fileOrStreamProcess('input.txt', stdout)

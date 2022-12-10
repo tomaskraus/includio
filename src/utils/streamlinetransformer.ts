@@ -6,8 +6,10 @@ export type TLineStats = {
   linesRead: number;
 };
 
+export type TLineMapFn = (line: string) => Promise<string>;
+
 export const streamLineTransformer =
-  (asyncLineMapFn: (line: string) => Promise<string>) =>
+  (asyncLineMapFn: TLineMapFn) =>
   async (
     input: stream.Readable,
     output: stream.Writable
