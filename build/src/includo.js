@@ -25,18 +25,23 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createIncludoProcessor = exports.DEFAULT_INCLUDO_OPTIONS = void 0;
 const crb = __importStar(require("@krausoft/comment-regexp-builder"));
+const line_transform_machines_1 = require("line-transform-machines");
 exports.DEFAULT_INCLUDO_OPTIONS = {
     tag_insert: '@@',
 };
-const createIncludoProcessor = (options) => {
-    const opts = { ...exports.DEFAULT_INCLUDO_OPTIONS, options };
-    const tagForInsert = crb.createStartTag(opts.tag_insert);
-    return async (line) => {
+const includerCB = (options) => {
+    const tagForInsert = crb.createStartTag(options.tag_insert);
+    return (line) => {
         if (tagForInsert.test(line)) {
-            return '---insert!----\n---code!------\n';
+            throw new Error('EEE!');
+            //return '---insert!----\n---code!------\n';
         }
         return `*-* ${line}\n`;
     };
+};
+const createIncludoProcessor = (options) => {
+    const opts = { ...exports.DEFAULT_INCLUDO_OPTIONS, options };
+    return (0, line_transform_machines_1.createLineMachine)(includerCB(opts));
 };
 exports.createIncludoProcessor = createIncludoProcessor;
 //# sourceMappingURL=includo.js.map

@@ -52,6 +52,7 @@
   "dependencies": {
     "@krausoft/comment-regexp-builder": "^1.0.0",
     "@types/readline-transform": "^1.0.1",
+    "line-transform-machines": "github:tomaskraus/line-transform-machines",
     "readline-transform": "^1.0.0"
   }
 }
