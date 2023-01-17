@@ -22,6 +22,6 @@ const includerCB = (options: TIncludoOptions): TAsyncLineCallback => {
 };
 
 export const createIncludoProcessor = (options?: Partial<TIncludoOptions>) => {
-  const opts = {...DEFAULT_INCLUDO_OPTIONS, options};
+  const opts = {...DEFAULT_INCLUDO_OPTIONS, ...options};
   return createAsyncLineMachine(includerCB(opts));
 };

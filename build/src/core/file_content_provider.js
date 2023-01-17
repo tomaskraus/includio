@@ -2,8 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createFileContentProvider = void 0;
 const promises_1 = require("node:fs/promises");
+const node_path_1 = require("node:path");
 const createFileContentProvider = (baseDir) => async (fileName) => {
-    const content = await (0, promises_1.readFile)(fileName, { encoding: 'utf-8' });
+    const finalFileName = (0, node_path_1.normalize)((0, node_path_1.join)(baseDir, fileName));
+    const content = await (0, promises_1.readFile)(finalFileName, { encoding: 'utf-8' });
     return content;
 };
 exports.createFileContentProvider = createFileContentProvider;

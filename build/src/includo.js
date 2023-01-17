@@ -18,7 +18,7 @@ const includerCB = (options) => {
     };
 };
 const createIncludoProcessor = (options) => {
-    const opts = { ...common_1.DEFAULT_INCLUDO_OPTIONS, options };
+    const opts = { ...common_1.DEFAULT_INCLUDO_OPTIONS, ...options };
     return (0, line_transform_machines_1.createAsyncLineMachine)(includerCB(opts));
 };
 exports.createIncludoProcessor = createIncludoProcessor;

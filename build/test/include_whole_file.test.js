@@ -43,7 +43,7 @@ beforeEach(() => {
         'tag-nonexistent-file-name.txt': 'Hello, \n@@ nonexistentfile.txt \nWorld!',
         'source1.txt': '-- text insert --\n-- text line2 --\n',
         'dir-for-insert': {
-            'source2.txt': '-- dir text insert --\n-- dir text line2 --\n',
+            'source1.txt': '-- dir text insert --\n-- dir text line2 --\n',
         },
     });
     mock_fs_1.default.file();
@@ -59,6 +59,12 @@ describe('normal ops', () => {
         const res = await p('tag-valid-file-name.txt', output);
         expect(res.lineNumber).toEqual(4);
         expect(output.toString()).toEqual('Hello, \n-- text insert --\n-- text line2 --\n\nWorld!\n');
+    });
+    test('input with valid file name tag, using non-empty baseDir', async () => {
+        const p = (0, includo_1.createIncludoProcessor)({ baseDir: 'dir-for-insert' });
+        const res = await p('tag-valid-file-name.txt', output);
+        expect(res.lineNumber).toEqual(4);
+        expect(output.toString()).toEqual('Hello, \n-- dir text insert --\n-- dir text line2 --\n\nWorld!\n');
     });
     test('input with valid file name (in double-quotes) tag', async () => {
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
@@ -96,6 +102,19 @@ describe('error handling', () => {
             expect(e.message).toContain('tag-nonexistent-file-name.txt:2'); //file&line info
             expect(e.message).toContain('@@ nonexistentfile.txt '); //line
             expect(e.message).toContain('ENOENT'); //err
+        }
+    });
+    test('Non-existent baseDir', async () => {
+        expect.assertions(4);
+        const p = (0, includo_1.createIncludoProcessor)({ baseDir: 'abc' });
+        try {
+            await p('tag-valid-file-name.txt', output);
+        }
+        catch (e) {
+            expect(e.message).toContain('tag-valid-file-name.txt'); //file&line info
+            expect(e.message).toContain('@@ source1.txt '); //line
+            expect(e.message).toContain('ENOENT'); //err
+            expect(e.message).toContain('abc/source1.txt'); //err - file info
         }
     });
 });
