@@ -1,4 +1,5 @@
-import * as crb from '@krausoft/comment-regexp-builder';
+import {createStartTag} from '@krausoft/comment-regexp-builder';
+import {defaultValue} from './utils';
 import {createLineMachine} from 'line-transform-machines';
 import type {
   TFileProcessor,
@@ -14,14 +15,21 @@ export const DEFAULT_INCLUDO_OPTIONS: TIncludoOptions = {
   tag_insert: '@@',
 };
 
+const insertionDispatcher = (command: string): string => {
+  if (command.length === 0) {
+    throw new Error('empty tag not allowed!');
+  }
+  return '--insertion--';
+};
+
 const includerCB = (options: TIncludoOptions): TLineCallback => {
-  const tagForInsert = crb.createStartTag(options.tag_insert);
-  return (line: string): string | null => {
+  const tagForInsert = createStartTag(options.tag_insert);
+  const safeTagInnerText = defaultValue('', tagForInsert.innerText);
+  return (line: string): string => {
     if (tagForInsert.test(line)) {
-      throw new Error('EEE!');
-      //return '---insert!----\n---code!------\n';
+      return insertionDispatcher(safeTagInnerText(line).trim());
     }
-    return `*-* ${line}\n`;
+    return line;
   };
 };
 

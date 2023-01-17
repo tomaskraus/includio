@@ -29,69 +29,64 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mock_fs_1 = __importDefault(require("mock-fs"));
 const includo_1 = require("../src/includo");
 const mStream = __importStar(require("memory-streams"));
-const fs = __importStar(require("fs"));
-let input;
+// import * as fs from 'fs';
+// let input: stream.Readable;
 let output;
-beforeEach(() => { });
 beforeEach(() => {
     (0, mock_fs_1.default)({
         'empty-file.txt': '',
         'no-tag-file.txt': 'Hello, \nWorld!',
-        'my-file.txt': 'Hello, \n@@ id\nWorld!',
+        'my-file.txt': 'Hello, \n@@ id\nWorld!\n',
+        'error-file.txt': 'Hello, \n@@  \nWorld!',
     });
     mock_fs_1.default.file();
-    input = fs.createReadStream('my-file.txt');
+    // input = fs.createReadStream('my-file.txt');
     output = new mStream.WritableStream();
 });
-const PATH_PREFIX = './my-dir';
 afterEach(() => {
     mock_fs_1.default.restore();
 });
-// describe('transform', () => {
-//   const lineNumberFn: TLineCallback = (
-//     line: string,
-//     lineNumber: number
-//   ): string => {
-//     return `${lineNumber}: ${line}`;
-//   };
-//   const noDollyFn: TLineCallback = (line: string) => {
-//     if (line.trim() === 'Dolly') {
-//       return null;
-//     }
-//     return line;
-//   };
-//   test('line numbers', async () => {
-//     const lnMachine = createLineMachine(lineNumberFn);
-//     const res = await lnMachine(input, output);
-//     expect(res.lineNumber).toEqual(2);
-//     expect(output.toString()).toEqual('1: Hello, \n2: World!');
-//   });
-//   test('outputs less lines if fn returns null', async () => {
-//     const inputWithDolly = fs.createReadStream(`${PATH_PREFIX}/dolly-text.txt`);
-//     const lnMachine = createLineMachine(noDollyFn);
-//     const res = await lnMachine(inputWithDolly, output);
-//     expect(res.lineNumber).toEqual(4); //line read count remains the same
-//     expect(output.toString()).toEqual('hello\n nwelcome \n');
-//   });
-//   test('outputs more lines if fn returns a string with newLine(s)', async () => {
-//     const nlFn: TLineCallback = (line: string) => `-\n${line}`;
-//     const lnMachine = createLineMachine(nlFn);
-//     const res = await lnMachine(input, output);
-//     expect(res.lineNumber).toEqual(2); //line read count remains the same
-//     expect(output.toString()).toEqual('-\nHello, \n-\nWorld!');
-//   });
-// });
+describe('normal ops', () => {
+    test('empty input', async () => {
+        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const res = await p('empty-file.txt', output);
+        expect(res.lineNumber).toEqual(0);
+        expect(output.toString()).toEqual('');
+    });
+    test('input without tags', async () => {
+        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const res = await p('no-tag-file.txt', output);
+        expect(res.lineNumber).toEqual(2);
+        expect(output.toString()).toEqual('Hello, \nWorld!');
+    });
+    test('input with tags', async () => {
+        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const res = await p('my-file.txt', output);
+        expect(res.lineNumber).toEqual(4);
+        expect(output.toString()).toEqual('Hello, \n--insertion--\nWorld!\n');
+    });
+});
 describe('error handling', () => {
-    test('Include line value, file name & line number and Error message', async () => {
-        expect.assertions(3);
-        const process = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+    test('Nonexistent input file', async () => {
+        expect.assertions(1);
+        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         try {
-            await process('my-file.txt', 'out.txt');
+            await p('non-existent-file.txt', output);
         }
         catch (e) {
-            expect(e.message).toContain('my-file.txt:2'); //file&line info
-            expect(e.message).toContain('@@ id'); //line
-            expect(e.message).toContain('EEE!'); //err
+            expect(e.message).toContain('ENOENT'); //file&line info
+        }
+    });
+    test('Include line value, file name & line number and Error message', async () => {
+        expect.assertions(3);
+        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        try {
+            await p('error-file.txt', output);
+        }
+        catch (e) {
+            expect(e.message).toContain('error-file.txt:2'); //file&line info
+            expect(e.message).toContain('@@'); //line
+            expect(e.message).toContain('empty'); //err
         }
     });
 });
