@@ -1,12 +1,7 @@
-#!/usr/bin/env/node
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const includo_1 = require("./includo");
-const node_process_1 = require("node:process");
-(0, includo_1.createIncludoProcessor)()('examples/input.txt', node_process_1.stdout)
-    // createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS)(stdin, stdout)
-    .then(result => {
-    console.log(`\nlines read: ${result.lineNumber}`);
-})
-    .catch(err => console.error(err));
+exports.DEFAULT_INCLUDO_OPTIONS = exports.createIncludoProcessor = void 0;
+var includo_1 = require("./includo");
+Object.defineProperty(exports, "createIncludoProcessor", { enumerable: true, get: function () { return includo_1.createIncludoProcessor; } });
+Object.defineProperty(exports, "DEFAULT_INCLUDO_OPTIONS", { enumerable: true, get: function () { return includo_1.DEFAULT_INCLUDO_OPTIONS; } });
 //# sourceMappingURL=index.js.map

@@ -4,6 +4,9 @@
   "description": "A simple file(part) includer.",
   "types": "build/src/index.d.ts",
   "main": "build/src/index.js",
+  "bin": {
+    "includo": "build/src/cli.js"
+  },
   "files": [
     "build/src"
   ],

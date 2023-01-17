@@ -1,2 +1,1 @@
-#!/usr/bin/env/node
-export {};
+export { createIncludoProcessor, DEFAULT_INCLUDO_OPTIONS } from './includo';
