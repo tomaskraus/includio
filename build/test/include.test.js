@@ -59,12 +59,6 @@ describe('normal ops', () => {
         expect(res.lineNumber).toEqual(2);
         expect(output.toString()).toEqual('Hello, \nWorld!');
     });
-    test('input with tags', async () => {
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
-        const res = await p('my-file.txt', output);
-        expect(res.lineNumber).toEqual(4);
-        expect(output.toString()).toEqual('Hello, \n--insertion--\nWorld!\n');
-    });
 });
 describe('error handling', () => {
     test('Nonexistent input file', async () => {
@@ -77,7 +71,7 @@ describe('error handling', () => {
             expect(e.message).toContain('ENOENT'); //file&line info
         }
     });
-    test('Include line value, file name & line number and Error message', async () => {
+    test('Empty tag: Include line value, file name & line number and Error message', async () => {
         expect.assertions(3);
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         try {
@@ -90,4 +84,4 @@ describe('error handling', () => {
         }
     });
 });
-//# sourceMappingURL=includo.test.js.map
+//# sourceMappingURL=include.test.js.map

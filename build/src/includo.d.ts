@@ -1,6 +1,5 @@
+import { DEFAULT_INCLUDO_OPTIONS } from './core/common';
 import type { TFileProcessor, TFileLineContext } from 'line-transform-machines';
-export type TIncludoOptions = {
-    tag_insert: string;
-};
-export declare const DEFAULT_INCLUDO_OPTIONS: TIncludoOptions;
+import type { TIncludoOptions } from './core/common';
+export { DEFAULT_INCLUDO_OPTIONS };
 export declare const createIncludoProcessor: (options?: Partial<TIncludoOptions>) => TFileProcessor<TFileLineContext>;
