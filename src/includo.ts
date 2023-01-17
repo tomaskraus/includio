@@ -24,10 +24,11 @@ const insertionDispatcher = (command: string): string => {
 
 const includerCB = (options: TIncludoOptions): TLineCallback => {
   const tagForInsert = createStartTag(options.tag_insert);
-  const safeTagInnerText = defaultValue('', tagForInsert.innerText);
   return (line: string): string => {
     if (tagForInsert.test(line)) {
-      return insertionDispatcher(safeTagInnerText(line).trim());
+      return insertionDispatcher(
+        defaultValue('')(tagForInsert.innerText(line)).trim()
+      );
     }
     return line;
   };

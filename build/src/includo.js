@@ -15,10 +15,9 @@ const insertionDispatcher = (command) => {
 };
 const includerCB = (options) => {
     const tagForInsert = (0, comment_regexp_builder_1.createStartTag)(options.tag_insert);
-    const safeTagInnerText = (0, utils_1.defaultValue)('', tagForInsert.innerText);
     return (line) => {
         if (tagForInsert.test(line)) {
-            return insertionDispatcher(safeTagInnerText(line).trim());
+            return insertionDispatcher((0, utils_1.defaultValue)('')(tagForInsert.innerText(line)).trim());
         }
         return line;
     };

@@ -1,15 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.defaultValue = void 0;
-const defaultValue = (defaultVal, func) => (y) => {
-    const res = func(y);
-    if (typeof res === 'undefined') {
+const defaultValue = (defaultVal) => (value) => {
+    if (typeof value === 'undefined')
         return defaultVal;
-    }
-    if (res === null) {
+    if (value === null)
         return defaultVal;
-    }
-    return res;
+    return value;
 };
 exports.defaultValue = defaultValue;
 //# sourceMappingURL=utils.js.map
