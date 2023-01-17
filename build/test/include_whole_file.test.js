@@ -34,12 +34,17 @@ const mStream = __importStar(require("memory-streams"));
 let output;
 beforeEach(() => {
     (0, mock_fs_1.default)({
-        'tag-valid-file-name.txt': 'Hello, \n@@ someFile.txt \nWorld!\n',
+        'tag-valid-file-name.txt': 'Hello, \n@@ source1.txt \nWorld!\n',
         // 'tag-valid-file-name-in-single-quotes.txt':
         //   "Hello, \n@@ 'someFile 2.txt' \nWorld!\n",
-        'tag-valid-file-path.txt': 'Hello, \n@@ ./someDir/someFile.txt \nWorld!\n',
-        'tag-valid-file-name-in-double-quotes.txt': 'Hello, \n@@ "someFile 2.txt" \nWorld!\n',
+        'tag-valid-file-path.txt': 'Hello, \n@@ ./source1.txt \nWorld!\n',
+        'tag-valid-file-name-in-double-quotes.txt': 'Hello, \n@@ "source1.txt" \nWorld!\n',
         'tag-invalid-file-name.txt': 'Hello, \n@@ ab*cd \nWorld!',
+        'tag-nonexistent-file-name.txt': 'Hello, \n@@ nonexistentfile.txt \nWorld!',
+        'source1.txt': '-- text insert --\n-- text line2 --\n',
+        'dir-for-insert': {
+            'source2.txt': '-- dir text insert --\n-- dir text line2 --\n',
+        },
     });
     mock_fs_1.default.file();
     // input = fs.createReadStream('my-file.txt');
@@ -53,23 +58,23 @@ describe('normal ops', () => {
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         const res = await p('tag-valid-file-name.txt', output);
         expect(res.lineNumber).toEqual(4);
-        expect(output.toString()).toEqual('Hello, \n--insertion--\nWorld!\n');
+        expect(output.toString()).toEqual('Hello, \n-- text insert --\n-- text line2 --\n\nWorld!\n');
     });
     test('input with valid file name (in double-quotes) tag', async () => {
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         const res = await p('tag-valid-file-name-in-double-quotes.txt', output);
         expect(res.lineNumber).toEqual(4);
-        expect(output.toString()).toEqual('Hello, \n--insertion--\nWorld!\n');
+        expect(output.toString()).toEqual('Hello, \n-- text insert --\n-- text line2 --\n\nWorld!\n');
     });
     test('input with valid file name (including a path) tag', async () => {
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         const res = await p('tag-valid-file-path.txt', output);
         expect(res.lineNumber).toEqual(4);
-        expect(output.toString()).toEqual('Hello, \n--insertion--\nWorld!\n');
+        expect(output.toString()).toEqual('Hello, \n-- text insert --\n-- text line2 --\n\nWorld!\n');
     });
 });
 describe('error handling', () => {
-    test('Invalid file name (with invalid characters in file name)', async () => {
+    test('Invalid file name for insertion (with invalid characters in file name)', async () => {
         expect.assertions(3);
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         try {
@@ -79,6 +84,18 @@ describe('error handling', () => {
             expect(e.message).toContain('tag-invalid-file-name.txt:2'); //file&line info
             expect(e.message).toContain('@@ ab*cd '); //line
             expect(e.message).toContain('Invalid'); //err
+        }
+    });
+    test('Non-existent file for insertion', async () => {
+        expect.assertions(3);
+        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        try {
+            await p('tag-nonexistent-file-name.txt', output);
+        }
+        catch (e) {
+            expect(e.message).toContain('tag-nonexistent-file-name.txt:2'); //file&line info
+            expect(e.message).toContain('@@ nonexistentfile.txt '); //line
+            expect(e.message).toContain('ENOENT'); //err
         }
     });
 });

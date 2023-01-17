@@ -1,1 +1,2 @@
-export declare const insertionFileDispatcher: (tagContent: string) => string;
+import { TIncludoOptions } from './common';
+export declare const createInsertionDispatcher: (options: TIncludoOptions) => (tagContent: string) => Promise<string>;

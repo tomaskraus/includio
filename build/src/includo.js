@@ -8,17 +8,18 @@ const insertion_dispatcher_1 = require("./core/insertion_dispatcher");
 const common_1 = require("./core/common");
 Object.defineProperty(exports, "DEFAULT_INCLUDO_OPTIONS", { enumerable: true, get: function () { return common_1.DEFAULT_INCLUDO_OPTIONS; } });
 const includerCB = (options) => {
-    const tagForInsert = (0, comment_regexp_builder_1.createStartTag)(options.tag_insert);
+    const tagForInsert = (0, comment_regexp_builder_1.createStartTag)(options.tagInsert);
+    const insertionDispatcher = (0, insertion_dispatcher_1.createInsertionDispatcher)(options);
     return (line) => {
         if (tagForInsert.test(line)) {
-            return (0, insertion_dispatcher_1.insertionFileDispatcher)((0, utils_1.defaultValue)('')(tagForInsert.innerText(line)).trim());
+            return insertionDispatcher((0, utils_1.defaultValue)('')(tagForInsert.innerText(line)).trim());
         }
-        return line;
+        return Promise.resolve(line);
     };
 };
 const createIncludoProcessor = (options) => {
     const opts = { ...common_1.DEFAULT_INCLUDO_OPTIONS, options };
-    return (0, line_transform_machines_1.createLineMachine)(includerCB(opts));
+    return (0, line_transform_machines_1.createAsyncLineMachine)(includerCB(opts));
 };
 exports.createIncludoProcessor = createIncludoProcessor;
 //# sourceMappingURL=includo.js.map

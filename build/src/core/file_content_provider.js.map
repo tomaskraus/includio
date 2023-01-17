@@ -1,0 +1,1 @@
+{"version":3,"file":"file_content_provider.js","sourceRoot":"","sources":["../../../src/core/file_content_provider.ts"],"names":[],"mappings":";;;AAAA,+CAA0C;AAEnC,MAAM,yBAAyB,GACpC,CAAC,OAAe,EAAE,EAAE,CAAC,KAAK,EAAE,QAAgB,EAAE,EAAE;IAC9C,MAAM,OAAO,GAAG,MAAM,IAAA,mBAAQ,EAAC,QAAQ,EAAE,EAAC,QAAQ,EAAE,OAAO,EAAC,CAAC,CAAC;IAC9D,OAAO,OAAO,CAAC;AACjB,CAAC,CAAC;AAJS,QAAA,yBAAyB,6BAIlC"}

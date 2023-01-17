@@ -1,4 +1,7 @@
 This is an input text.
 Second line.
 
+@@examples/source1.txt
+  
+@@ "examples/source1.txt" 
 End.
