@@ -1,5 +1,3 @@
-#!/usr/bin/env/node
-
 import {createIncludoProcessor} from './includo';
 
 import {stdin, stdout} from 'node:process';

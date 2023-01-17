@@ -5,10 +5,11 @@
   "types": "build/src/index.d.ts",
   "main": "build/src/index.js",
   "bin": {
-    "includo": "build/src/cli.js"
+    "includo": "bin/cli.js"
   },
   "files": [
-    "build/src"
+    "build/src",
+    "bin"
   ],
   "author": "Tomas Kraus <tomas.kraus.dev@gmail.com>",
   "license": "MIT",
