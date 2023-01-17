@@ -3,11 +3,7 @@ import {defaultValue} from './utils';
 import {createAsyncLineMachine} from 'line-transform-machines';
 import {createInsertionDispatcher} from './core/insertion_dispatcher';
 import {DEFAULT_INCLUDO_OPTIONS} from './core/common';
-import type {
-  TFileProcessor,
-  TFileLineContext,
-  TAsyncLineCallback,
-} from 'line-transform-machines';
+import type {TAsyncLineCallback} from 'line-transform-machines';
 import type {TIncludoOptions} from './core/common';
 
 export {DEFAULT_INCLUDO_OPTIONS};
@@ -25,10 +21,7 @@ const includerCB = (options: TIncludoOptions): TAsyncLineCallback => {
   };
 };
 
-export const createIncludoProcessor = (
-  options?: Partial<TIncludoOptions>
-): TFileProcessor<TFileLineContext> => {
+export const createIncludoProcessor = (options?: Partial<TIncludoOptions>) => {
   const opts = {...DEFAULT_INCLUDO_OPTIONS, options};
-
   return createAsyncLineMachine(includerCB(opts));
 };
