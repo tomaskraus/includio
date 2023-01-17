@@ -55,12 +55,6 @@ describe('normal ops', () => {
         expect(res.lineNumber).toEqual(4);
         expect(output.toString()).toEqual('Hello, \n--insertion--\nWorld!\n');
     });
-    //   test('input with valid file name (in single-quotes) tag', async () => {
-    //     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
-    //     const res = await p('tag-valid-file-name-in-single-quotes.txt', output);
-    //     expect(res.lineNumber).toEqual(4);
-    //     expect(output.toString()).toEqual('Hello, \n--insertion--\nWorld!\n');
-    //   });
     test('input with valid file name (in double-quotes) tag', async () => {
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         const res = await p('tag-valid-file-name-in-double-quotes.txt', output);
