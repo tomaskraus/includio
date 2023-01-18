@@ -10,10 +10,12 @@ const log = logger('includo:includo');
 
 export {DEFAULT_INCLUDO_OPTIONS};
 
-const includerCB = (options: TIncludoOptions): TAsyncLineCallback => {
+const createIncludoCallback = (
+  options: TIncludoOptions
+): TAsyncLineCallback => {
   const tagForInsert = createStartTag(options.tagInsert);
   const insertionDispatcher = createInsertionDispatcher(options);
-  log(`includerCallback for tag [${options.tagInsert}] CREATED`);
+  log(`CREATED includoCallback for tag [${options.tagInsert}] `);
   return (line: string): Promise<string> => {
     if (tagForInsert.test(line)) {
       return insertionDispatcher(
@@ -26,5 +28,5 @@ const includerCB = (options: TIncludoOptions): TAsyncLineCallback => {
 
 export const createIncludoProcessor = (options?: Partial<TIncludoOptions>) => {
   const opts = {...DEFAULT_INCLUDO_OPTIONS, ...options};
-  return createAsyncLineMachine(includerCB(opts));
+  return createAsyncLineMachine(createIncludoCallback(opts));
 };
