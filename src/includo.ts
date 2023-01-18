@@ -2,15 +2,18 @@ import {createStartTag} from '@krausoft/comment-regexp-builder';
 import {defaultValue} from './utils';
 import {createAsyncLineMachine} from 'line-transform-machines';
 import {createInsertionDispatcher} from './core/insertion_dispatcher';
-import {DEFAULT_INCLUDO_OPTIONS} from './core/common';
+import {DEFAULT_INCLUDO_OPTIONS, logger} from './core/common';
 import type {TAsyncLineCallback} from 'line-transform-machines';
 import type {TIncludoOptions} from './core/common';
+
+const log = logger('includo');
 
 export {DEFAULT_INCLUDO_OPTIONS};
 
 const includerCB = (options: TIncludoOptions): TAsyncLineCallback => {
   const tagForInsert = createStartTag(options.tagInsert);
   const insertionDispatcher = createInsertionDispatcher(options);
+  log(`includerCallback for tag [${options.tagInsert}] CREATED`);
   return (line: string): Promise<string> => {
     if (tagForInsert.test(line)) {
       return insertionDispatcher(

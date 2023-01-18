@@ -43,6 +43,7 @@
     "posttest": "npm run lint"
   },
   "devDependencies": {
+    "@types/debug": "^4.1.7",
     "@types/jest": "^28.1.6",
     "@types/mock-fs": "^4.13.1",
     "@types/node": "^18.11.11",
@@ -56,6 +57,7 @@
   "dependencies": {
     "@krausoft/comment-regexp-builder": "^1.0.0",
     "@types/readline-transform": "^1.0.1",
+    "debug": "^4.3.4",
     "line-transform-machines": "github:tomaskraus/line-transform-machines",
     "readline-transform": "^1.0.0"
   }

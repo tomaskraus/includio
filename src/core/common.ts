@@ -1,3 +1,7 @@
+import Debug from 'debug';
+
+export const logger = Debug;
+
 /**
  * Options for Includo
  */

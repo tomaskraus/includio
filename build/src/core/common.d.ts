@@ -1,3 +1,8 @@
+import Debug from 'debug';
+export declare const logger: Debug.Debug & {
+    debug: Debug.Debug;
+    default: Debug.Debug;
+};
 /**
  * Options for Includo
  */
