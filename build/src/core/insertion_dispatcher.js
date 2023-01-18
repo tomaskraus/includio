@@ -19,6 +19,7 @@ const createInsertionDispatcher = (options) => {
     const markContentProvider = (0, mark_content_provider_1.createMarkContentProvider)(fileContentProvider, '//<', '//>');
     log('CREATE InsertionDispatcher');
     return async (tagContent) => {
+        log(`call on [${tagContent}]`);
         if (tagContent.length === 0) {
             return Promise.reject(new Error('empty tag not allowed!'));
         }

@@ -36,6 +36,7 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
   );
   log('CREATE InsertionDispatcher');
   return async (tagContent: string): Promise<string> => {
+    log(`call on [${tagContent}]`);
     if (tagContent.length === 0) {
       return Promise.reject(new Error('empty tag not allowed!'));
     }
