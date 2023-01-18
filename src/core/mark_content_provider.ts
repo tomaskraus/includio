@@ -1,25 +1,28 @@
 import {logger} from './common';
+import {createMarkMapProvider} from './mark_map_provider';
 
 const log = logger('includo:markContentProvider');
 
 export const createMarkContentProvider = (
-  fileContentProvider: (filename: string) => Promise<string>
+  fileContentProvider: (filename: string) => Promise<string>,
+  markTagProvider: (filename: string) => [string, string]
 ) => {
-  //   const startMarkStr = '//<';
-  //   const endMarkStr = '//>';
+  log('CREATE markContentProvider');
 
-  log('CREATE markContentProvider for fileContentProvider');
-
+  const markMapProvider = createMarkMapProvider(
+    fileContentProvider,
+    markTagProvider
+  );
   return async (fileName: string, markName: string): Promise<string> => {
-    log(`creating marks for [${fileName}]`);
-    const fileContent = await fileContentProvider(fileName);
-
+    log(`getting marks map for file [${fileName}]`);
+    const marksMap = await markMapProvider(fileName);
     log(`looking for mark [${markName}]`);
-    if (markName === 'mark1') {
-      return Promise.resolve(' m1 line1 \nm1 line2');
+    const resultStr = marksMap.get(markName);
+    if (typeof resultStr === 'undefined') {
+      return Promise.reject(
+        new Error(`mark [${markName}] not found in [${fileName}]`)
+      );
     }
-    return Promise.reject(
-      new Error(`mark [${markName}] not found in [${fileName}]`)
-    );
+    return Promise.resolve(resultStr);
   };
 };

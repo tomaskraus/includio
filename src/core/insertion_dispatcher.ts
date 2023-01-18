@@ -2,6 +2,7 @@ import {defaultValue} from '../utils';
 import {TIncludoOptions, logger} from './common';
 import {createFileContentProvider} from './file_content_provider';
 import {createMarkContentProvider} from './mark_content_provider';
+import {createMarkTagProvider} from './mark_tag_provider';
 
 const log = logger('includo:insertionDispatcher');
 
@@ -19,7 +20,11 @@ const FILENAME_AND_MARK_REGEXP = new RegExp(
 
 export const createInsertionDispatcher = (options: TIncludoOptions) => {
   const fileContentProvider = createFileContentProvider(options.baseDir);
-  const markContentProvider = createMarkContentProvider(fileContentProvider);
+  const markTagProvider = createMarkTagProvider(options);
+  const markContentProvider = createMarkContentProvider(
+    fileContentProvider,
+    markTagProvider
+  );
   log('CREATE insertionDispatcher');
   return async (tagContent: string): Promise<string> => {
     log(`call on [${tagContent}]`);

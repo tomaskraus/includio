@@ -5,6 +5,7 @@ const utils_1 = require("../utils");
 const common_1 = require("./common");
 const file_content_provider_1 = require("./file_content_provider");
 const mark_content_provider_1 = require("./mark_content_provider");
+const mark_tag_provider_1 = require("./mark_tag_provider");
 const log = (0, common_1.logger)('includo:insertionDispatcher');
 // https://stackoverflow.com/questions/6768779/test-filename-with-regular-expression
 const _FILEPATH_CHARS_REGEXP = /[^<>;,?"*|]+/;
@@ -14,7 +15,8 @@ const ONLY_FILENAME_REGEXP = new RegExp(`^(${_FILEPATH_CHARS_NO_SPACE_REGEXP.sou
 const FILENAME_AND_MARK_REGEXP = new RegExp(`^(${_FILEPATH_CHARS_NO_SPACE_REGEXP.source})\\s+(${_MARK_NAME_REGEXP.source})$|^"(${_FILEPATH_CHARS_REGEXP.source})"\\s+(${_MARK_NAME_REGEXP.source})$`);
 const createInsertionDispatcher = (options) => {
     const fileContentProvider = (0, file_content_provider_1.createFileContentProvider)(options.baseDir);
-    const markContentProvider = (0, mark_content_provider_1.createMarkContentProvider)(fileContentProvider);
+    const markTagProvider = (0, mark_tag_provider_1.createMarkTagProvider)(options);
+    const markContentProvider = (0, mark_content_provider_1.createMarkContentProvider)(fileContentProvider, markTagProvider);
     log('CREATE insertionDispatcher');
     return async (tagContent) => {
         log(`call on [${tagContent}]`);
