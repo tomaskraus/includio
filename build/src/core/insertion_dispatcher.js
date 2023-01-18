@@ -33,7 +33,7 @@ const createInsertionDispatcher = (options) => {
             const markName = matches[2] || matches[4];
             return markContentProvider(fileName, markName);
         }
-        return Promise.reject(new Error('Invalid tag content!'));
+        return Promise.reject(new Error(`Invalid tag content: [${tagContent}]`));
     };
 };
 exports.createInsertionDispatcher = createInsertionDispatcher;

@@ -55,6 +55,6 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
       return markContentProvider(fileName, markName);
     }
 
-    return Promise.reject(new Error('Invalid tag content!'));
+    return Promise.reject(new Error(`Invalid tag content: [${tagContent}]`));
   };
 };
