@@ -1,0 +1,1 @@
+export declare const createMarkContentProvider: (fileContentProvider: (filename: string) => Promise<string>, startMarkStr: string, endMarkStr: string) => (fileName: string, markName: string) => Promise<string>;
