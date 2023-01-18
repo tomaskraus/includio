@@ -21,6 +21,7 @@ const createIncludoCallback = (options) => {
 };
 const createIncludoProcessor = (options) => {
     const opts = { ...common_1.DEFAULT_INCLUDO_OPTIONS, ...options };
+    log('CREATE includo engine');
     return (0, line_transform_machines_1.createAsyncLineMachine)(createIncludoCallback(opts));
 };
 exports.createIncludoProcessor = createIncludoProcessor;
