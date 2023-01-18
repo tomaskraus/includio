@@ -8,21 +8,11 @@ const log = logger('includo:insertionDispatcher');
 // https://stackoverflow.com/questions/6768779/test-filename-with-regular-expression
 const _FILEPATH_CHARS_REGEXP = /[^<>;,?"*|]+/;
 const _FILEPATH_CHARS_NO_SPACE_REGEXP = /[^<>;,?"*| ]+/;
-
-const ONLY_FILENAME_WITH_NO_SPACES_REGEXP = new RegExp(
-  `^(${_FILEPATH_CHARS_NO_SPACE_REGEXP.source})$`
-);
-
-const ONLY_QUOTED_FILENAME_REGEXP = new RegExp(
-  `^"(${_FILEPATH_CHARS_REGEXP.source})"$`
-);
-
-const ONLY_FILENAME_REGEXP = new RegExp(
-  `${ONLY_FILENAME_WITH_NO_SPACES_REGEXP.source}|${ONLY_QUOTED_FILENAME_REGEXP.source}`
-);
-
 const _MARK_NAME_REGEXP = /[a-zA-z]+[\w\d-]*/;
 
+const ONLY_FILENAME_REGEXP = new RegExp(
+  `^(${_FILEPATH_CHARS_NO_SPACE_REGEXP.source})$|^"(${_FILEPATH_CHARS_REGEXP.source})"$`
+);
 const FILENAME_AND_MARK_REGEXP = new RegExp(
   `^(${_FILEPATH_CHARS_NO_SPACE_REGEXP.source})\\s+(${_MARK_NAME_REGEXP.source})$|^"(${_FILEPATH_CHARS_REGEXP.source})"\\s+(${_MARK_NAME_REGEXP.source})$`
 );
