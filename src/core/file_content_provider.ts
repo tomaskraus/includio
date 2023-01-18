@@ -2,7 +2,7 @@ import {readFile} from 'node:fs/promises';
 import {join, normalize} from 'node:path';
 import {logger} from './common';
 
-const log = logger('fileContentProvider');
+const log = logger('includo:fileContentProvider');
 
 export const createFileContentProvider =
   (baseDir: string) => async (fileName: string) => {

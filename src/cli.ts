@@ -3,7 +3,7 @@ import {logger} from './core/common';
 
 import {stdin, stdout} from 'node:process';
 
-const log = logger('CLI');
+const log = logger('includo:CLI');
 
 createIncludoProcessor()(stdin, stdout)
   .then(result => {

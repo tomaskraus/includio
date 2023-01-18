@@ -6,7 +6,7 @@ import {DEFAULT_INCLUDO_OPTIONS, logger} from './core/common';
 import type {TAsyncLineCallback} from 'line-transform-machines';
 import type {TIncludoOptions} from './core/common';
 
-const log = logger('includo');
+const log = logger('includo:includo');
 
 export {DEFAULT_INCLUDO_OPTIONS};
 

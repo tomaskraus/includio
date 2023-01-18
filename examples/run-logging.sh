@@ -1,1 +1,1 @@
-cat examples/input.txt | DEBUG=* node bin/cli.js 2>&1 1> .temp/out.txt 
+cat examples/input.txt | DEBUG=includo:* node bin/cli.js 2>&1 1> .temp/out.txt 
