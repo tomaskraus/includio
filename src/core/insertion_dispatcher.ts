@@ -29,11 +29,7 @@ const FILENAME_AND_MARK_REGEXP = new RegExp(
 
 export const createInsertionDispatcher = (options: TIncludoOptions) => {
   const fileContentProvider = createFileContentProvider(options.baseDir);
-  const markContentProvider = createMarkContentProvider(
-    fileContentProvider,
-    '//<',
-    '//>'
-  );
+  const markContentProvider = createMarkContentProvider(fileContentProvider);
   log('CREATE insertionDispatcher');
   return async (tagContent: string): Promise<string> => {
     log(`call on [${tagContent}]`);

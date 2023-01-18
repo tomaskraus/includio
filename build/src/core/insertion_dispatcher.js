@@ -16,7 +16,7 @@ const _MARK_NAME_REGEXP = /[a-zA-z]+[\w\d-]*/;
 const FILENAME_AND_MARK_REGEXP = new RegExp(`^(${_FILEPATH_CHARS_NO_SPACE_REGEXP.source})\\s+(${_MARK_NAME_REGEXP.source})$|^"(${_FILEPATH_CHARS_REGEXP.source})"\\s+(${_MARK_NAME_REGEXP.source})$`);
 const createInsertionDispatcher = (options) => {
     const fileContentProvider = (0, file_content_provider_1.createFileContentProvider)(options.baseDir);
-    const markContentProvider = (0, mark_content_provider_1.createMarkContentProvider)(fileContentProvider, '//<', '//>');
+    const markContentProvider = (0, mark_content_provider_1.createMarkContentProvider)(fileContentProvider);
     log('CREATE insertionDispatcher');
     return async (tagContent) => {
         log(`call on [${tagContent}]`);

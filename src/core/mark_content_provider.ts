@@ -3,10 +3,11 @@ import {logger} from './common';
 const log = logger('includo:markContentProvider');
 
 export const createMarkContentProvider = (
-  fileContentProvider: (filename: string) => Promise<string>,
-  startMarkStr: string,
-  endMarkStr: string
+  fileContentProvider: (filename: string) => Promise<string>
 ) => {
+  //   const startMarkStr = '//<';
+  //   const endMarkStr = '//>';
+
   log('CREATE markContentProvider for fileContentProvider');
 
   return async (fileName: string, markName: string): Promise<string> => {
