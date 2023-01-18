@@ -2,13 +2,14 @@ import {logger} from './common';
 
 const log = logger('includo:markContentProvider');
 
-export const createMarkContentProvider =
-  (
-    fileContentProvider: (filename: string) => Promise<string>,
-    startMarkStr: string,
-    endMarkStr: string
-  ) =>
-  async (fileName: string, markName: string): Promise<string> => {
+export const createMarkContentProvider = (
+  fileContentProvider: (filename: string) => Promise<string>,
+  startMarkStr: string,
+  endMarkStr: string
+) => {
+  log('CREATE markContentProvider for fileContentProvider');
+
+  return async (fileName: string, markName: string): Promise<string> => {
     log(`creating marks for [${fileName}]`);
     const fileContent = await fileContentProvider(fileName);
 
@@ -20,3 +21,4 @@ export const createMarkContentProvider =
       new Error(`mark [${markName}] not found in [${fileName}]`)
     );
   };
+};

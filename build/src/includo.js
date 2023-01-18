@@ -11,7 +11,7 @@ const log = (0, common_1.logger)('includo:includo');
 const createIncludoCallback = (options) => {
     const tagForInsert = (0, comment_regexp_builder_1.createStartTag)(options.tagInsert);
     const insertionDispatcher = (0, insertion_dispatcher_1.createInsertionDispatcher)(options);
-    log(`CREATED includoCallback for tag [${options.tagInsert}] `);
+    log(`CREATE includoCallback for tag [${options.tagInsert}] `);
     return (line) => {
         if (tagForInsert.test(line)) {
             return insertionDispatcher((0, utils_1.defaultValue)('')(tagForInsert.innerText(line)).trim());

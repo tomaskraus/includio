@@ -1,7 +1,9 @@
 import {defaultValue} from '../utils';
-import {TIncludoOptions} from './common';
+import {TIncludoOptions, logger} from './common';
 import {createFileContentProvider} from './file_content_provider';
 import {createMarkContentProvider} from './mark_content_provider';
+
+const log = logger('includo:insertionDispatcher');
 
 // https://stackoverflow.com/questions/6768779/test-filename-with-regular-expression
 const _FILEPATH_CHARS_REGEXP = /[^<>;,?"*|]+/;
@@ -32,6 +34,7 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
     '//<',
     '//>'
   );
+  log('CREATE InsertionDispatcher');
   return async (tagContent: string): Promise<string> => {
     if (tagContent.length === 0) {
       return Promise.reject(new Error('empty tag not allowed!'));

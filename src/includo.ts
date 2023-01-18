@@ -15,7 +15,7 @@ const createIncludoCallback = (
 ): TAsyncLineCallback => {
   const tagForInsert = createStartTag(options.tagInsert);
   const insertionDispatcher = createInsertionDispatcher(options);
-  log(`CREATED includoCallback for tag [${options.tagInsert}] `);
+  log(`CREATE includoCallback for tag [${options.tagInsert}] `);
   return (line: string): Promise<string> => {
     if (tagForInsert.test(line)) {
       return insertionDispatcher(

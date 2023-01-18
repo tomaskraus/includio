@@ -2,8 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createInsertionDispatcher = void 0;
 const utils_1 = require("../utils");
+const common_1 = require("./common");
 const file_content_provider_1 = require("./file_content_provider");
 const mark_content_provider_1 = require("./mark_content_provider");
+const log = (0, common_1.logger)('includo:insertionDispatcher');
 // https://stackoverflow.com/questions/6768779/test-filename-with-regular-expression
 const _FILEPATH_CHARS_REGEXP = /[^<>;,?"*|]+/;
 const _FILEPATH_CHARS_NO_SPACE_REGEXP = /[^<>;,?"*| ]+/;
@@ -15,6 +17,7 @@ const FILENAME_AND_MARK_REGEXP = new RegExp(`^(${_FILEPATH_CHARS_NO_SPACE_REGEXP
 const createInsertionDispatcher = (options) => {
     const fileContentProvider = (0, file_content_provider_1.createFileContentProvider)(options.baseDir);
     const markContentProvider = (0, mark_content_provider_1.createMarkContentProvider)(fileContentProvider, '//<', '//>');
+    log('CREATE InsertionDispatcher');
     return async (tagContent) => {
         if (tagContent.length === 0) {
             return Promise.reject(new Error('empty tag not allowed!'));
