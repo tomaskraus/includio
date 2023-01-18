@@ -6,7 +6,7 @@ const node_path_1 = require("node:path");
 const common_1 = require("./common");
 const log = (0, common_1.logger)('includo:fileContentProvider');
 const createFileContentProvider = (baseDir) => {
-    log(`CREATE FileContentProvider for baseDir [${baseDir}]`);
+    log(`CREATE fileContentProvider for baseDir [${baseDir}]`);
     return async (fileName) => {
         const finalFileName = (0, node_path_1.normalize)((0, node_path_1.join)(baseDir, fileName));
         log(`loading file [${finalFileName}]`);

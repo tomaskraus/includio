@@ -17,7 +17,7 @@ const FILENAME_AND_MARK_REGEXP = new RegExp(`^(${_FILEPATH_CHARS_NO_SPACE_REGEXP
 const createInsertionDispatcher = (options) => {
     const fileContentProvider = (0, file_content_provider_1.createFileContentProvider)(options.baseDir);
     const markContentProvider = (0, mark_content_provider_1.createMarkContentProvider)(fileContentProvider, '//<', '//>');
-    log('CREATE InsertionDispatcher');
+    log('CREATE insertionDispatcher');
     return async (tagContent) => {
         log(`call on [${tagContent}]`);
         if (tagContent.length === 0) {
