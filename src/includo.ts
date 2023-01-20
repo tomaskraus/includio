@@ -1,9 +1,9 @@
 import {createStartTag} from '@krausoft/comment-regexp-builder';
 import {defaultValue} from './utils';
 import {createAsyncLineMachine} from 'line-transform-machines';
+import type {TAsyncLineCallback} from 'line-transform-machines';
 import {createInsertionDispatcher} from './core/insertion_dispatcher';
 import {DEFAULT_INCLUDO_OPTIONS, logger} from './core/common';
-import type {TAsyncLineCallback} from 'line-transform-machines';
 import type {TIncludoOptions} from './core/common';
 
 const log = logger('includo:includo');
