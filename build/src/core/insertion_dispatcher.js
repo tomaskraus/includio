@@ -4,6 +4,7 @@ exports.createInsertionDispatcher = void 0;
 const utils_1 = require("../utils");
 const common_1 = require("./common");
 const file_content_provider_1 = require("./file_content_provider");
+const mark_map_provider_1 = require("./mark_map_provider");
 const mark_content_provider_1 = require("./mark_content_provider");
 const mark_tag_provider_1 = require("./mark_tag_provider");
 const log = (0, common_1.logger)('includo:insertionDispatcher');
@@ -16,7 +17,8 @@ const FILENAME_AND_MARK_REGEXP = new RegExp(`^(${_FILEPATH_CHARS_NO_SPACE_REGEXP
 const createInsertionDispatcher = (options) => {
     const fileContentProvider = (0, file_content_provider_1.createFileContentProvider)(options.baseDir);
     const markTagProvider = (0, mark_tag_provider_1.createMarkTagProvider)(options);
-    const markContentProvider = (0, mark_content_provider_1.createMarkContentProvider)(fileContentProvider, markTagProvider);
+    const markMapProvider = (0, mark_map_provider_1.createMarkMapProvider)(fileContentProvider, markTagProvider);
+    const markContentProvider = (0, mark_content_provider_1.createMarkContentProvider)(markMapProvider);
     log('CREATE insertionDispatcher');
     return async (tagContent) => {
         log(`call on [${tagContent}]`);
