@@ -67,3 +67,8 @@ createIncludoProcessor()(stdin, stdout)
   })
   .catch(err => console.error(err));
 ```
+
+### API usage
+```ts
+import {createIncludoProcessor} from 'includo';
+```

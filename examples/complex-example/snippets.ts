@@ -4,12 +4,6 @@
 //>
 */
 
-/*
-//< import
-import {createIncludoProcessor} from 'includo';
-//>
-*/
-
 import {createIncludoProcessor} from '../../src/includo';
 
 //< code

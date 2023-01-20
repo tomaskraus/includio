@@ -29,7 +29,12 @@ That line which contains the `@@ help.txt`, tells `Includo` to insert the `help.
 @@ snippets.ts txt
 
 ```ts
-@@ snippets.ts import
+@@ shared.ts import-includo
 
 @@ snippets.ts code
+```
+
+### API usage
+```ts
+@@ shared.ts import-includo
 ```
