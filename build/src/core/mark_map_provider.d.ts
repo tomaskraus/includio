@@ -1,1 +1,1 @@
-export declare const createMarkMapProvider: (fileContentProvider: (filename: string) => Promise<string>, markTagProvider: (filename: string) => [string, string]) => (fileName: string) => Promise<Map<string, string>>;
+export declare const createMarkMapProvider: (fileContentProvider: (filename: string) => Promise<string>, markTagProvider: (filename: string) => [string, string]) => (marksFileName: string) => Promise<Map<string, string>>;

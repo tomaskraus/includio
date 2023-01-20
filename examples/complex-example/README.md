@@ -54,33 +54,16 @@ Missing required arguments: f, d
 
 ## API
 
-HUHUHU!
+    Create includo engine this way:
 
 ```ts
-HU!
+import {createIncludoProcessor} from 'includo';
 
-import {logger} from './common';
+import {stdin, stdout} from 'node:process';
 
-const log = logger('includo:markMapProvider');
-
-export const createMarkMapProvider = (
-  fileContentProvider: (filename: string) => Promise<string>,
-  markTagProvider: (filename: string) => [string, string]
-) => {
-  log('CREATE markMapProvider');
-
-  return async (fileName: string): Promise<Map<string, string>> => {
-    log(`creating mark map from [${fileName}]`);
-    const fileContent = await fileContentProvider(fileName);
-    const [beginMarkTag, endMarkTag] = markTagProvider(fileName);
-    return Promise.resolve(
-      new Map<string, string>()
-        .set('mark1', ' m1 line1 \nm1 line2')
-        .set('txt', 'HUHUHU!')
-        .set('import', 'HU!')
-        .set('code', '')
-    );
-  };
-};
-
+createIncludoProcessor()(stdin, stdout)
+  .then(result => {
+    console.log(`lines read: ${result.lineNumber}`);
+  })
+  .catch(err => console.error(err));
 ```
