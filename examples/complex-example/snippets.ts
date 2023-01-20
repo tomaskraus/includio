@@ -4,13 +4,7 @@
 //>
 */
 
-/*
-//< import
-import {createIncludoProcessor} from 'includo';
-//>
-*/
-
-import {createIncludoProcessor} from '../src/includo';
+import {createIncludoProcessor} from '../../src/includo';
 
 //< code
 import {stdin, stdout} from 'node:process';
@@ -20,4 +14,10 @@ createIncludoProcessor()(stdin, stdout)
     console.log(`lines read: ${result.lineNumber}`);
   })
   .catch(err => console.error(err));
+//>
+
+//< HU
+//>
+
+//<
 //>
