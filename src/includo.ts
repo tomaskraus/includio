@@ -10,7 +10,7 @@ const log = logger('includo:includo');
 
 export {DEFAULT_INCLUDO_OPTIONS};
 
-const createIncludoCallback = (
+const createIncludoLineCallback = (
   options: TIncludoOptions
 ): TAsyncLineCallback => {
   const tagForInsert = createStartTag(options.tagInsert);
@@ -29,5 +29,5 @@ const createIncludoCallback = (
 export const createIncludoProcessor = (options?: Partial<TIncludoOptions>) => {
   const opts = {...DEFAULT_INCLUDO_OPTIONS, ...options};
   log('CREATE includo engine');
-  return createAsyncLineMachine(createIncludoCallback(opts));
+  return createAsyncLineMachine(createIncludoLineCallback(opts));
 };

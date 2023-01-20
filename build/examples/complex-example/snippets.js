@@ -5,11 +5,6 @@
 //>
 */
 Object.defineProperty(exports, "__esModule", { value: true });
-/*
-//< import
-import {createIncludoProcessor} from 'includo';
-//>
-*/
 const includo_1 = require("../../src/includo");
 //< code
 const node_process_1 = require("node:process");
