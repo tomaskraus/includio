@@ -7,6 +7,7 @@ const rxjs_1 = require("rxjs");
 const stateful_predicates_1 = require("stateful-predicates");
 const split_if_1 = require("split-if");
 const comment_regexp_builder_1 = require("@krausoft/comment-regexp-builder");
+const utils_2 = require("../utils");
 const log = (0, common_1.logger)('includo:markMapProvider');
 const createGetMarkNameFromLine = (tagName) => {
     const beginMarkTagInfo = (0, comment_regexp_builder_1.createStartTag)(tagName);
@@ -20,7 +21,7 @@ const createGetMarkNameFromLine = (tagName) => {
 };
 const createMarkMapProvider = (fileContentProvider, markTagProvider) => {
     log('CREATE markMapProvider');
-    return async (marksFileName) => {
+    const _getMapFromFile = async (marksFileName) => {
         log(`creating mark map from [${marksFileName}]`);
         const [beginMarkStr, endMarkStr] = markTagProvider(marksFileName);
         const beginMarkTagger = (0, comment_regexp_builder_1.createStartTag)(beginMarkStr);
@@ -60,6 +61,7 @@ const createMarkMapProvider = (fileContentProvider, markTagProvider) => {
             });
         });
     };
+    return (0, utils_2.cacheOneArgFnAsync)(_getMapFromFile);
 };
 exports.createMarkMapProvider = createMarkMapProvider;
 //# sourceMappingURL=mark_map_provider.js.map

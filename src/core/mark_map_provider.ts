@@ -4,6 +4,7 @@ import {from, filter, scan, map} from 'rxjs';
 import {switchTrueFalse} from 'stateful-predicates';
 import {splitIf} from 'split-if';
 import {createStartTag} from '@krausoft/comment-regexp-builder';
+import {cacheOneArgFnAsync} from '../utils';
 
 const log = logger('includo:markMapProvider');
 
@@ -24,7 +25,9 @@ export const createMarkMapProvider = (
 ) => {
   log('CREATE markMapProvider');
 
-  return async (marksFileName: string): Promise<Map<string, string>> => {
+  const _getMapFromFile = async (
+    marksFileName: string
+  ): Promise<Map<string, string>> => {
     log(`creating mark map from [${marksFileName}]`);
     const [beginMarkStr, endMarkStr] = markTagProvider(marksFileName);
     const beginMarkTagger = createStartTag(beginMarkStr);
@@ -71,4 +74,6 @@ export const createMarkMapProvider = (
         });
     });
   };
+
+  return cacheOneArgFnAsync(_getMapFromFile);
 };
