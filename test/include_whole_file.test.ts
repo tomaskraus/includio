@@ -101,6 +101,21 @@ describe('error handling', () => {
     }
   });
 
+  test('Non-existent file for insertion, in existent baseDir', async () => {
+    expect.assertions(4);
+    const p = createIncludoProcessor({baseDir: 'dir-for-insert'});
+    try {
+      await p('tag-nonexistent-file-name.txt', output);
+    } catch (e) {
+      expect((e as Error).message).toContain('tag-nonexistent-file-name.txt:2'); //file&line info
+      expect((e as Error).message).toContain('@@ nonexistentfile.txt '); //line
+      expect((e as Error).message).toContain('ENOENT'); //err
+      expect((e as Error).message).toContain(
+        'dir-for-insert/nonexistentfile.txt'
+      ); //contains basedir in file path
+    }
+  });
+
   test('Non-existent baseDir', async () => {
     expect.assertions(4);
     const p = createIncludoProcessor({baseDir: 'abc'});

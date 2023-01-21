@@ -5,7 +5,7 @@ import {stdin, stdout} from 'node:process';
 
 const log = logger('includo:CLI');
 
-createIncludoProcessor()(stdin, stdout)
+createIncludoProcessor({baseDir: 'assets'})(stdin, stdout)
   .then(result => {
     log(`lines read: ${result.lineNumber}`);
   })

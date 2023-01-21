@@ -31,6 +31,9 @@ beforeEach(() => {
     'source-mark-without-name.txt':
       'text1 \n //< mark1 \n m1 line1 \nm1 line2\n//> \ntext2 //< \n abc\n//<',
     'source-with-no-marks.txt': 'text1 \n \ntext2 ',
+    'dir-for-insert': {
+      'source-with-no-marks.txt': 'text1 \n \ntext2 ',
+    },
   });
   mock.file();
 
@@ -110,6 +113,25 @@ describe('error handling', () => {
         '@@ source-with-no-marks.txt mark1 '
       ); //line
       expect((e as Error).message).toContain('No marks found'); //err
+    }
+  });
+
+  test('use mark from file that contains no marks. Custom BaseDir', async () => {
+    expect.assertions(4);
+    const p = createIncludoProcessor({baseDir: 'dir-for-insert'});
+    try {
+      await p('mark-valid-source-with-no-marks.txt', output);
+    } catch (e) {
+      expect((e as Error).message).toContain(
+        'mark-valid-source-with-no-marks.txt:2'
+      ); //file&line info
+      expect((e as Error).message).toContain(
+        '@@ source-with-no-marks.txt mark1 '
+      ); //line
+      expect((e as Error).message).toContain('No marks found'); //err
+      expect((e as Error).message).toContain(
+        'dir-for-insert/source-with-no-marks.txt'
+      ); //contains basedir in file path
     }
   });
 

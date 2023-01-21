@@ -1,4 +1,5 @@
 import Debug from 'debug';
+import {join, normalize} from 'node:path';
 
 export const logger = Debug;
 
@@ -20,3 +21,6 @@ export const DEFAULT_INCLUDO_OPTIONS: TIncludoOptions = {
   tagInsert: '@@',
   baseDir: '',
 };
+
+export const createFileNameResolver = (baseDir: string) => (fileName: string) =>
+  normalize(join(baseDir, fileName));
