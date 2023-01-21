@@ -1,4 +1,4 @@
-export const defaultValue =
+export const defaultIfNullOrUndefined =
   <T>(defaultVal: T) =>
   (value: T | null | undefined) => {
     if (typeof value === 'undefined') return defaultVal;

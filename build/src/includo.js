@@ -14,7 +14,7 @@ const createIncludoLineCallback = (options) => {
     log(`CREATE includoCallback for tag [${options.tagInsert}] `);
     return (line) => {
         if (tagForInsert.test(line)) {
-            return insertionDispatcher((0, utils_1.defaultValue)('')(tagForInsert.innerText(line)).trim());
+            return insertionDispatcher((0, utils_1.defaultIfNullOrUndefined)('')(tagForInsert.innerText(line)).trim());
         }
         return Promise.resolve(line);
     };

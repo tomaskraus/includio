@@ -1,5 +1,5 @@
 import {logger} from './common';
-import {defaultValue} from '../utils';
+import {defaultIfNullOrUndefined} from '../utils';
 import {from, filter, scan, map} from 'rxjs';
 import {switchTrueFalse} from 'stateful-predicates';
 import {splitIf} from 'split-if';
@@ -11,7 +11,9 @@ const log = logger('includo:markMapProvider');
 const createGetMarkNameFromLine = (tagName: string) => {
   const beginMarkTagInfo = createStartTag(tagName);
   return (line: string): string => {
-    const name = defaultValue('')(beginMarkTagInfo.innerText(line)).trim();
+    const name = defaultIfNullOrUndefined('')(
+      beginMarkTagInfo.innerText(line)
+    ).trim();
     // if (name.length === 0) {
     //   throw new Error('Empty mark name!');
     // }

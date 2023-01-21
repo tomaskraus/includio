@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cacheOneArgFnAsync = exports.defaultValue = void 0;
-const defaultValue = (defaultVal) => (value) => {
+exports.cacheOneArgFnAsync = exports.defaultIfNullOrUndefined = void 0;
+const defaultIfNullOrUndefined = (defaultVal) => (value) => {
     if (typeof value === 'undefined')
         return defaultVal;
     if (value === null)
         return defaultVal;
     return value;
 };
-exports.defaultValue = defaultValue;
+exports.defaultIfNullOrUndefined = defaultIfNullOrUndefined;
 const cacheOneArgFnAsync = (asyncFn) => {
     const values = new Map();
     return async (value) => {

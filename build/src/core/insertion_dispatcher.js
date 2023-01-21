@@ -26,12 +26,12 @@ const createInsertionDispatcher = (options) => {
             return Promise.reject(new Error('empty tag not allowed!'));
         }
         if (ONLY_FILENAME_REGEXP.test(tagContent)) {
-            const matches = (0, utils_1.defaultValue)([''])(tagContent.match(ONLY_FILENAME_REGEXP));
+            const matches = (0, utils_1.defaultIfNullOrUndefined)([''])(tagContent.match(ONLY_FILENAME_REGEXP));
             const fileName = fileNameResolver(matches[1] || matches[2]); //either with or without double quotes
             return (0, file_content_provider_1.fileContentProvider)(fileName);
         }
         if (FILENAME_AND_MARK_REGEXP.test(tagContent)) {
-            const matches = (0, utils_1.defaultValue)([''])(tagContent.match(FILENAME_AND_MARK_REGEXP));
+            const matches = (0, utils_1.defaultIfNullOrUndefined)([''])(tagContent.match(FILENAME_AND_MARK_REGEXP));
             const fileName = fileNameResolver(matches[1] || matches[3]); //either with or without double quotes
             const markName = matches[2] || matches[4];
             return markContentProvider(fileName, markName);

@@ -1,5 +1,5 @@
 import {createStartTag} from '@krausoft/comment-regexp-builder';
-import {defaultValue} from './utils';
+import {defaultIfNullOrUndefined} from './utils';
 import {createAsyncLineMachine} from 'line-transform-machines';
 import type {TAsyncLineCallback} from 'line-transform-machines';
 import {createInsertionDispatcher} from './core/insertion_dispatcher';
@@ -19,7 +19,7 @@ const createIncludoLineCallback = (
   return (line: string): Promise<string> => {
     if (tagForInsert.test(line)) {
       return insertionDispatcher(
-        defaultValue('')(tagForInsert.innerText(line)).trim()
+        defaultIfNullOrUndefined('')(tagForInsert.innerText(line)).trim()
       );
     }
     return Promise.resolve(line);

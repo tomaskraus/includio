@@ -12,7 +12,7 @@ const log = (0, common_1.logger)('includo:markMapProvider');
 const createGetMarkNameFromLine = (tagName) => {
     const beginMarkTagInfo = (0, comment_regexp_builder_1.createStartTag)(tagName);
     return (line) => {
-        const name = (0, utils_1.defaultValue)('')(beginMarkTagInfo.innerText(line)).trim();
+        const name = (0, utils_1.defaultIfNullOrUndefined)('')(beginMarkTagInfo.innerText(line)).trim();
         // if (name.length === 0) {
         //   throw new Error('Empty mark name!');
         // }

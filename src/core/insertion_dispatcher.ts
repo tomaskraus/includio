@@ -1,4 +1,4 @@
-import {defaultValue} from '../utils';
+import {defaultIfNullOrUndefined} from '../utils';
 import {logger, TIncludoOptions, createFileNameResolver} from './common';
 import {fileContentProvider} from './file_content_provider';
 import {createMarkMapProvider} from './mark_map_provider';
@@ -34,14 +34,14 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
       return Promise.reject(new Error('empty tag not allowed!'));
     }
     if (ONLY_FILENAME_REGEXP.test(tagContent)) {
-      const matches = defaultValue([''])(
+      const matches = defaultIfNullOrUndefined([''])(
         tagContent.match(ONLY_FILENAME_REGEXP)
       );
       const fileName = fileNameResolver(matches[1] || matches[2]); //either with or without double quotes
       return fileContentProvider(fileName);
     }
     if (FILENAME_AND_MARK_REGEXP.test(tagContent)) {
-      const matches = defaultValue([''])(
+      const matches = defaultIfNullOrUndefined([''])(
         tagContent.match(FILENAME_AND_MARK_REGEXP)
       );
       const fileName = fileNameResolver(matches[1] || matches[3]); //either with or without double quotes
