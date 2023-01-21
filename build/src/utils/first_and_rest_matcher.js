@@ -29,7 +29,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createFirstAndRestMatcher = void 0;
 const default_value_1 = require("./default_value");
 const createFirstAndRestMatcher = (first) => {
-    const matcherRegexp = new RegExp(`^(\\s*)(${first.source})$|^(\\s*)(${first.source})\\s+(.*)$`);
+    const firstValue = typeof first === 'string' ? first : first.source;
+    const matcherRegexp = new RegExp(`^(\\s*)(${firstValue})$|^(\\s*)(${firstValue})\\s+(.*)$`);
     const defaultMatches = ['', '', '', '', '', '', ''];
     return {
         test: (s) => matcherRegexp.test(s),

@@ -35,10 +35,11 @@ export interface IFirstAndRestMatcher {
 }
 
 export const createFirstAndRestMatcher = (
-  first: RegExp
+  first: RegExp | string
 ): IFirstAndRestMatcher => {
+  const firstValue = typeof first === 'string' ? first : first.source;
   const matcherRegexp = new RegExp(
-    `^(\\s*)(${first.source})$|^(\\s*)(${first.source})\\s+(.*)$`
+    `^(\\s*)(${firstValue})$|^(\\s*)(${firstValue})\\s+(.*)$`
   );
   const defaultMatches = ['', '', '', '', '', '', ''];
   return {

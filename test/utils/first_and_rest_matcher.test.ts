@@ -72,6 +72,22 @@ describe('firstAndRestMatcher', () => {
     expect(matcher.leftPadding(lineIdle)).toEqual('');
   });
 
+  test('create matcher from string', () => {
+    const matcher = createFirstAndRestMatcher('idle');
+
+    const lineRun = '   idle script1 10 20  ';
+    expect(matcher.test(lineRun)).toBeTruthy();
+    expect(matcher.first(lineRun)).toEqual('idle');
+    expect(matcher.rest(lineRun)).toEqual('script1 10 20');
+    expect(matcher.leftPadding(lineRun)).toEqual('   ');
+
+    const lineIdle = '   run script1 10 20';
+    expect(matcher.test(lineIdle)).toBeFalsy();
+    expect(matcher.first(lineIdle)).toEqual('');
+    expect(matcher.rest(lineIdle)).toEqual('');
+    expect(matcher.leftPadding(lineIdle)).toEqual('');
+  });
+
   //   test('matches group construct', () => {
   //
   //     // Returns unexpected results!

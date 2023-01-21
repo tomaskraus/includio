@@ -30,4 +30,4 @@ export interface IFirstAndRestMatcher {
     rest: (s: string) => string;
     leftPadding: (s: string) => string;
 }
-export declare const createFirstAndRestMatcher: (first: RegExp) => IFirstAndRestMatcher;
+export declare const createFirstAndRestMatcher: (first: RegExp | string) => IFirstAndRestMatcher;
