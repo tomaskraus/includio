@@ -45,6 +45,9 @@ beforeEach(() => {
         'source-empty-content-mark.txt': 'text1 \n //< mark1\n//> \ntext2 \n //< mark2 \n m1 line1 \nm1 line2\n//> ',
         'source-mark-without-name.txt': 'text1 \n //< mark1 \n m1 line1 \nm1 line2\n//> \ntext2 //< \n abc\n//<',
         'source-with-no-marks.txt': 'text1 \n \ntext2 ',
+        'dir-for-insert': {
+            'source-with-no-marks.txt': 'text1 \n \ntext2 ',
+        },
     });
     mock_fs_1.default.file();
     output = new mStream.WritableStream();
@@ -101,6 +104,19 @@ describe('error handling', () => {
             expect(e.message).toContain('mark-valid-source-with-no-marks.txt:2'); //file&line info
             expect(e.message).toContain('@@ source-with-no-marks.txt mark1 '); //line
             expect(e.message).toContain('No marks found'); //err
+        }
+    });
+    test('use mark from file that contains no marks. Custom BaseDir', async () => {
+        expect.assertions(4);
+        const p = (0, includo_1.createIncludoProcessor)({ baseDir: 'dir-for-insert' });
+        try {
+            await p('mark-valid-source-with-no-marks.txt', output);
+        }
+        catch (e) {
+            expect(e.message).toContain('mark-valid-source-with-no-marks.txt:2'); //file&line info
+            expect(e.message).toContain('@@ source-with-no-marks.txt mark1 '); //line
+            expect(e.message).toContain('No marks found'); //err
+            expect(e.message).toContain('dir-for-insert/source-with-no-marks.txt'); //contains basedir in file path
         }
     });
     test('invalid mark', async () => {

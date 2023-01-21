@@ -15,11 +15,11 @@ const _MARK_NAME_REGEXP = /[a-zA-z]+[\w\d-]*/;
 const ONLY_FILENAME_REGEXP = new RegExp(`^(${_FILEPATH_CHARS_NO_SPACE_REGEXP.source})$|^"(${_FILEPATH_CHARS_REGEXP.source})"$`);
 const FILENAME_AND_MARK_REGEXP = new RegExp(`^(${_FILEPATH_CHARS_NO_SPACE_REGEXP.source})\\s+(${_MARK_NAME_REGEXP.source})$|^"(${_FILEPATH_CHARS_REGEXP.source})"\\s+(${_MARK_NAME_REGEXP.source})$`);
 const createInsertionDispatcher = (options) => {
-    const fileContentProvider = (0, file_content_provider_1.createFileContentProvider)(options.baseDir);
     const markTagProvider = (0, mark_tag_provider_1.createMarkTagProvider)(options);
-    const markMapProvider = (0, mark_map_provider_1.createMarkMapProvider)(fileContentProvider, markTagProvider);
+    const markMapProvider = (0, mark_map_provider_1.createMarkMapProvider)(file_content_provider_1.fileContentProvider, markTagProvider);
     const markContentProvider = (0, mark_content_provider_1.createMarkContentProvider)(markMapProvider);
-    log('CREATE insertionDispatcher');
+    const fileNameResolver = (0, common_1.createFileNameResolver)(options.baseDir);
+    log(`CREATE insertionDispatcher. BaseDir: [${options.baseDir}]`);
     return async (tagContent) => {
         log(`call on [${tagContent}]`);
         if (tagContent.length === 0) {
@@ -27,12 +27,12 @@ const createInsertionDispatcher = (options) => {
         }
         if (ONLY_FILENAME_REGEXP.test(tagContent)) {
             const matches = (0, utils_1.defaultValue)([''])(tagContent.match(ONLY_FILENAME_REGEXP));
-            const fileName = matches[1] || matches[2]; //either with or without double quotes
-            return fileContentProvider(fileName);
+            const fileName = fileNameResolver(matches[1] || matches[2]); //either with or without double quotes
+            return (0, file_content_provider_1.fileContentProvider)(fileName);
         }
         if (FILENAME_AND_MARK_REGEXP.test(tagContent)) {
             const matches = (0, utils_1.defaultValue)([''])(tagContent.match(FILENAME_AND_MARK_REGEXP));
-            const fileName = matches[1] || matches[3]; //either with or without double quotes
+            const fileName = fileNameResolver(matches[1] || matches[3]); //either with or without double quotes
             const markName = matches[2] || matches[4];
             return markContentProvider(fileName, markName);
         }

@@ -17,3 +17,4 @@ export type TIncludoOptions = {
     baseDir: string;
 };
 export declare const DEFAULT_INCLUDO_OPTIONS: TIncludoOptions;
+export declare const createFileNameResolver: (baseDir: string) => (fileName: string) => string;

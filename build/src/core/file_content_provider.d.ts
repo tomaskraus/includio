@@ -1,1 +1,1 @@
-export declare const createFileContentProvider: (baseDir: string) => (fileName: string) => Promise<string>;
+export declare const fileContentProvider: (fileName: string) => Promise<string>;
