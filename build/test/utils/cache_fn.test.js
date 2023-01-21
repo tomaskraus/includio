@@ -1,17 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const utils_1 = require("../src/utils");
-describe('defaultValue', () => {
-    test('default if value is null', () => {
-        expect((0, utils_1.defaultIfNullOrUndefined)('a')(null)).toEqual('a');
-    });
-    test('default if value is undefined', () => {
-        expect((0, utils_1.defaultIfNullOrUndefined)('a')(undefined)).toEqual('a');
-    });
-    test('value if value is not null nor undefined', () => {
-        expect((0, utils_1.defaultIfNullOrUndefined)('a')('xyz')).toEqual('xyz');
-    });
-});
+const cache_fn_1 = require("../../src/utils/cache_fn");
 describe('cacheOneArgFnAsync', () => {
     let callCount = 0;
     const doubleFnAsync = (x) => {
@@ -20,7 +9,7 @@ describe('cacheOneArgFnAsync', () => {
     };
     test('returns same values as the original fn', async () => {
         callCount = 0;
-        const cachedFn = (0, utils_1.cacheOneArgFnAsync)(doubleFnAsync);
+        const cachedFn = (0, cache_fn_1.cacheOneArgFnAsync)(doubleFnAsync);
         expect(await doubleFnAsync(3)).toEqual(6);
         expect(await cachedFn(3)).toEqual(6);
         expect(await doubleFnAsync(7)).toEqual(14);
@@ -31,7 +20,7 @@ describe('cacheOneArgFnAsync', () => {
     });
     test('repeated cacheFn call with the same argument value returns cached value, does not call its inner function', async () => {
         callCount = 0;
-        const cachedFn = (0, utils_1.cacheOneArgFnAsync)(doubleFnAsync);
+        const cachedFn = (0, cache_fn_1.cacheOneArgFnAsync)(doubleFnAsync);
         expect(callCount).toEqual(0);
         expect(await cachedFn(3)).toEqual(6);
         expect(callCount).toEqual(1);
@@ -45,4 +34,4 @@ describe('cacheOneArgFnAsync', () => {
         expect(callCount).toEqual(2);
     });
 });
-//# sourceMappingURL=utils.test.js.map
+//# sourceMappingURL=cache_fn.test.js.map

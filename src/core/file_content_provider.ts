@@ -1,6 +1,6 @@
 import {readFile} from 'node:fs/promises';
 import {logger} from './common';
-import {cacheOneArgFnAsync} from '../utils';
+import {cacheOneArgFnAsync} from '../utils/cache_fn';
 
 const log = logger('includo:fileContentProvider');
 

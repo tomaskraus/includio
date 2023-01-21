@@ -1,14 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cacheOneArgFnAsync = exports.defaultIfNullOrUndefined = void 0;
-const defaultIfNullOrUndefined = (defaultVal) => (value) => {
-    if (typeof value === 'undefined')
-        return defaultVal;
-    if (value === null)
-        return defaultVal;
-    return value;
-};
-exports.defaultIfNullOrUndefined = defaultIfNullOrUndefined;
+exports.cacheOneArgFnAsync = void 0;
+/**
+ * cache function results, for an asynchronous function
+ *
+ * @param asyncFn original function
+ * @returns function that behaves like the original function, caches its result.
+ */
 const cacheOneArgFnAsync = (asyncFn) => {
     const values = new Map();
     return async (value) => {
@@ -26,4 +24,4 @@ const cacheOneArgFnAsync = (asyncFn) => {
     };
 };
 exports.cacheOneArgFnAsync = cacheOneArgFnAsync;
-//# sourceMappingURL=utils.js.map
+//# sourceMappingURL=cache_fn.js.map

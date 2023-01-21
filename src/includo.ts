@@ -1,5 +1,5 @@
 import {createStartTag} from '@krausoft/comment-regexp-builder';
-import {defaultIfNullOrUndefined} from './utils';
+import {defaultIfNullOrUndefined} from './utils/default_value';
 import {createAsyncLineMachine} from 'line-transform-machines';
 import type {TAsyncLineCallback} from 'line-transform-machines';
 import {createInsertionDispatcher} from './core/insertion_dispatcher';

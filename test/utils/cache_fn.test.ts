@@ -1,18 +1,4 @@
-import {defaultIfNullOrUndefined, cacheOneArgFnAsync} from '../src/utils';
-
-describe('defaultValue', () => {
-  test('default if value is null', () => {
-    expect(defaultIfNullOrUndefined('a')(null)).toEqual('a');
-  });
-
-  test('default if value is undefined', () => {
-    expect(defaultIfNullOrUndefined('a')(undefined)).toEqual('a');
-  });
-
-  test('value if value is not null nor undefined', () => {
-    expect(defaultIfNullOrUndefined('a')('xyz')).toEqual('xyz');
-  });
-});
+import {cacheOneArgFnAsync} from '../../src/utils/cache_fn';
 
 describe('cacheOneArgFnAsync', () => {
   let callCount = 0;

@@ -1,10 +1,10 @@
 import {logger} from './common';
-import {defaultIfNullOrUndefined} from '../utils';
 import {from, filter, scan, map} from 'rxjs';
 import {switchTrueFalse} from 'stateful-predicates';
 import {splitIf} from 'split-if';
 import {createStartTag} from '@krausoft/comment-regexp-builder';
-import {cacheOneArgFnAsync} from '../utils';
+import {defaultIfNullOrUndefined} from '../utils/default_value';
+import {cacheOneArgFnAsync} from '../utils/cache_fn';
 
 const log = logger('includo:markMapProvider');
 

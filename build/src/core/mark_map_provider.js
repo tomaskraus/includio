@@ -2,17 +2,17 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createMarkMapProvider = void 0;
 const common_1 = require("./common");
-const utils_1 = require("../utils");
 const rxjs_1 = require("rxjs");
 const stateful_predicates_1 = require("stateful-predicates");
 const split_if_1 = require("split-if");
 const comment_regexp_builder_1 = require("@krausoft/comment-regexp-builder");
-const utils_2 = require("../utils");
+const default_value_1 = require("../utils/default_value");
+const cache_fn_1 = require("../utils/cache_fn");
 const log = (0, common_1.logger)('includo:markMapProvider');
 const createGetMarkNameFromLine = (tagName) => {
     const beginMarkTagInfo = (0, comment_regexp_builder_1.createStartTag)(tagName);
     return (line) => {
-        const name = (0, utils_1.defaultIfNullOrUndefined)('')(beginMarkTagInfo.innerText(line)).trim();
+        const name = (0, default_value_1.defaultIfNullOrUndefined)('')(beginMarkTagInfo.innerText(line)).trim();
         // if (name.length === 0) {
         //   throw new Error('Empty mark name!');
         // }
@@ -61,7 +61,7 @@ const createMarkMapProvider = (fileContentProvider, markTagProvider) => {
             });
         });
     };
-    return (0, utils_2.cacheOneArgFnAsync)(_getMapFromFile);
+    return (0, cache_fn_1.cacheOneArgFnAsync)(_getMapFromFile);
 };
 exports.createMarkMapProvider = createMarkMapProvider;
 //# sourceMappingURL=mark_map_provider.js.map

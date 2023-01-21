@@ -1,4 +1,4 @@
-import {defaultIfNullOrUndefined} from '../utils';
+import {defaultIfNullOrUndefined} from '../utils/default_value';
 import {logger, TIncludoOptions, createFileNameResolver} from './common';
 import {fileContentProvider} from './file_content_provider';
 import {createMarkMapProvider} from './mark_map_provider';
