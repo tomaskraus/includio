@@ -3,6 +3,8 @@ import {join, normalize} from 'node:path';
 
 export const logger = Debug;
 
+export const MARK_NAME_REGEXP = /[a-zA-z]+[\w\d-]*/;
+
 /**
  * Options for Includo
  */

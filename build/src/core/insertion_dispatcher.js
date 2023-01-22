@@ -11,9 +11,8 @@ const log = (0, common_1.logger)('includo:insertionDispatcher');
 // https://stackoverflow.com/questions/6768779/test-filename-with-regular-expression
 const _FILEPATH_CHARS_REGEXP = /[^<>;,?"*|]+/;
 const _FILEPATH_CHARS_NO_SPACE_REGEXP = /[^<>;,?"*| ]+/;
-const _MARK_NAME_REGEXP = /[a-zA-z]+[\w\d-]*/;
 const ONLY_FILENAME_REGEXP = new RegExp(`^(${_FILEPATH_CHARS_NO_SPACE_REGEXP.source})$|^"(${_FILEPATH_CHARS_REGEXP.source})"$`);
-const FILENAME_AND_MARK_REGEXP = new RegExp(`^(${_FILEPATH_CHARS_NO_SPACE_REGEXP.source})\\s+(${_MARK_NAME_REGEXP.source})$|^"(${_FILEPATH_CHARS_REGEXP.source})"\\s+(${_MARK_NAME_REGEXP.source})$`);
+const FILENAME_AND_MARK_REGEXP = new RegExp(`^(${_FILEPATH_CHARS_NO_SPACE_REGEXP.source})\\s+(${common_1.MARK_NAME_REGEXP.source})$|^"(${_FILEPATH_CHARS_REGEXP.source})"\\s+(${common_1.MARK_NAME_REGEXP.source})$`);
 const createInsertionDispatcher = (options) => {
     const markTagProvider = (0, mark_tag_provider_1.createMarkTagProvider)(options);
     const markMapProvider = (0, mark_map_provider_1.createMarkMapProvider)(file_content_provider_1.fileContentProvider, markTagProvider);

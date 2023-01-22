@@ -1,4 +1,4 @@
-import {logger} from './common';
+import {logger, MARK_NAME_REGEXP} from './common';
 import {from, filter, scan, map} from 'rxjs';
 import {switchTrueFalse} from 'stateful-predicates';
 import {splitIf} from 'split-if';
@@ -13,6 +13,7 @@ export const createMarkMapProvider = (
 ) => {
   log('CREATE markMapProvider');
 
+  const markNameAloneRegexp = new RegExp(`^${MARK_NAME_REGEXP.source}$`);
   const _getMapFromFile = async (
     marksFileName: string
   ): Promise<Map<string, string>> => {
@@ -36,10 +37,16 @@ export const createMarkMapProvider = (
           // group the lines by their tags
           splitIf(s => beginMarkMatcher.test(s)),
           //create a mark record
-          map(lines => ({
-            name: beginMarkMatcher.rest(lines[0]),
-            value: lines.slice(1).join('\n'),
-          })),
+          map(lines => {
+            const name = beginMarkMatcher.rest(lines[0]);
+            if (name.length > 0 && !markNameAloneRegexp.test(name)) {
+              throw new Error(`Invalid mark name [${name}]`);
+            }
+            return {
+              name,
+              value: lines.slice(1).join('\n'),
+            };
+          }),
           //do not allow mark record with an empty name
           filter(markRecord => markRecord.name.length > 0),
           //add mark record to a map

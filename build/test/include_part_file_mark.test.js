@@ -39,11 +39,13 @@ beforeEach(() => {
         'mark-valid-exists-quoted-file.txt': 'Hello, \n@@ "source 1.txt" mark1 \nWorld!\n',
         'mark-valid-nonexistent.txt': 'Hello, \none\n@@ source1.txt nonexistentMark \nWorld!',
         'mark-invalid.txt': 'Hello, \na second\n@@ source1.txt *invalidMark \nWorld!',
+        'mark-valid-source-mark-invalid.txt': 'Hello, \na second\n@@ source-invalid-mark-name.txt mark1 \nWorld!',
         'tag-nonexistent-file-name.txt': 'Hello, \n@@ nonexistentfile.txt mark1 \nWorld!',
         'source1.txt': 'text1 \n //< mark1 \n m1 line1 \nm1 line2\n//> \ntext2',
         'source 1.txt': 'text1 \n //< mark1 \n m1 line1 \nm1 line2\n//> \ntext2',
         'source-empty-content-mark.txt': 'text1 \n //< mark1\n//> \ntext2 \n //< mark2 \n m1 line1 \nm1 line2\n//> ',
         'source-mark-without-name.txt': 'text1 \n //< mark1 \n m1 line1 \nm1 line2\n//> \ntext2 //< \n abc\n//<',
+        'source-invalid-mark-name.txt': 'text1 \n //< mark1 \n m1 line1 \nm1 line2\n//> \ntext2 \n//< inv alid mark \n abc\n//<',
         'source-with-no-marks.txt': 'text1 \n \ntext2 ',
         'dir-for-insert': {
             'source-with-no-marks.txt': 'text1 \n \ntext2 ',
@@ -92,6 +94,19 @@ describe('error handling', () => {
             expect(e.message).toContain('mark-valid-nonexistent.txt:3'); //file&line info
             expect(e.message).toContain('@@ source1.txt nonexistentMark '); //line
             expect(e.message).toContain('[nonexistentMark] not found'); //err
+        }
+    });
+    test('invalid mark name (contains forbidden characters)', async () => {
+        expect.assertions(4);
+        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        try {
+            await p('mark-valid-source-mark-invalid.txt', output);
+        }
+        catch (e) {
+            expect(e.message).toContain('mark-valid-source-mark-invalid.txt:3'); //file&line info
+            expect(e.message).toContain('@@ source-invalid-mark-name.txt mark1 '); //line
+            expect(e.message).toContain('Invalid mark name'); //err
+            expect(e.message).toContain('[inv alid mark]'); //err
         }
     });
     test('use mark from file that contains no marks', async () => {
