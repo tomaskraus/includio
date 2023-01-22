@@ -55,7 +55,6 @@
     "typescript": "~4.9.3"
   },
   "dependencies": {
-    "@krausoft/comment-regexp-builder": "^1.0.0",
     "@types/readline-transform": "^1.0.1",
     "debug": "^4.3.4",
     "line-transform-machines": "github:tomaskraus/line-transform-machines",

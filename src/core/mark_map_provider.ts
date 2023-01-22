@@ -2,24 +2,10 @@ import {logger} from './common';
 import {from, filter, scan, map} from 'rxjs';
 import {switchTrueFalse} from 'stateful-predicates';
 import {splitIf} from 'split-if';
-import {createStartTag} from '@krausoft/comment-regexp-builder';
-import {defaultIfNullOrUndefined} from '../utils/default_value';
 import {cacheOneArgFnAsync} from '../utils/cache_fn';
+import {createFirstAndRestMatcher} from '../utils/first_and_rest_matcher';
 
 const log = logger('includo:markMapProvider');
-
-const createGetMarkNameFromLine = (tagName: string) => {
-  const beginMarkTagInfo = createStartTag(tagName);
-  return (line: string): string => {
-    const name = defaultIfNullOrUndefined('')(
-      beginMarkTagInfo.innerText(line)
-    ).trim();
-    // if (name.length === 0) {
-    //   throw new Error('Empty mark name!');
-    // }
-    return name;
-  };
-};
 
 export const createMarkMapProvider = (
   fileContentProvider: (filename: string) => Promise<string>,
@@ -32,9 +18,8 @@ export const createMarkMapProvider = (
   ): Promise<Map<string, string>> => {
     log(`creating mark map from [${marksFileName}]`);
     const [beginMarkStr, endMarkStr] = markTagProvider(marksFileName);
-    const beginMarkTagger = createStartTag(beginMarkStr);
-    const endMarkTagger = createStartTag(endMarkStr); //We want use createStartTag, because endMarkStr must start at the beginning of line
-    const getMarkNameFromLine = createGetMarkNameFromLine(beginMarkStr);
+    const beginMarkMatcher = createFirstAndRestMatcher(beginMarkStr);
+    const endMarkMatcher = createFirstAndRestMatcher(endMarkStr);
 
     const fileContent = await fileContentProvider(marksFileName);
     const marks = new Map<string, string>();
@@ -44,15 +29,15 @@ export const createMarkMapProvider = (
           filter(
             // select only lines enclosed by beginMarkTag and endMarkTag. Include line with beginMarkTag
             switchTrueFalse(
-              s => beginMarkTagger.test(s),
-              s => endMarkTagger.test(s)
+              s => beginMarkMatcher.test(s),
+              s => endMarkMatcher.test(s)
             )
           ),
           // group the lines by their tags
-          splitIf(s => beginMarkTagger.test(s)),
+          splitIf(s => beginMarkMatcher.test(s)),
           //create a mark record
           map(lines => ({
-            name: getMarkNameFromLine(lines[0]),
+            name: beginMarkMatcher.rest(lines[0]),
             value: lines.slice(1).join('\n'),
           })),
           //do not allow mark record with an empty name
