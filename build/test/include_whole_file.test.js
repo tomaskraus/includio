@@ -41,6 +41,7 @@ beforeEach(() => {
         'tag-valid-file-name-in-double-quotes.txt': 'Hello, \n@@ "source1.txt" \nWorld!\n',
         'tag-invalid-file-name.txt': 'Hello, \n@@ ab*cd \nWorld!',
         'tag-nonexistent-file-name.txt': 'Hello, \n@@ nonexistentfile.txt \nWorld!',
+        'unknown-cmd-name.txt': 'Hello, \n@@ source1.txt unknownCmd:  \nWorld!\n',
         'source1.txt': '-- text insert --\n-- text line2 --\n',
         'dir-for-insert': {
             'source1.txt': '-- dir text insert --\n-- dir text line2 --\n',
@@ -80,6 +81,19 @@ describe('normal ops', () => {
     });
 });
 describe('error handling', () => {
+    test('unknown command name', async () => {
+        expect.assertions(4);
+        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        try {
+            await p('unknown-cmd-name.txt', output);
+        }
+        catch (e) {
+            expect(e.message).toContain('unknown-cmd-name.txt:2'); //file&line info
+            expect(e.message).toContain('@@ source1.txt unknownCmd:  '); //line
+            expect(e.message).toContain('Unknown command name'); //err
+            expect(e.message).toContain('[unknownCmd:]'); //err
+        }
+    });
     test('Invalid file name for insertion (with invalid characters in file name)', async () => {
         expect.assertions(3);
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);

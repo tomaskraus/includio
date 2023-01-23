@@ -14,7 +14,7 @@ const createInsertionDispatcher = (options) => {
     const FILEPATH_QUOTED_REGEXP = /"[^<>;,?"*|]+"/;
     const fileNameMatcher = (0, first_and_rest_matcher_1.createFirstAndRestMatcher)(FILEPATH_REGEXP);
     const fileNameQuotedMatcher = (0, first_and_rest_matcher_1.createFirstAndRestMatcher)(FILEPATH_QUOTED_REGEXP);
-    const restOfLineDispatcher = createRestOfLineDispatcher(options);
+    const commandDispatcher = createCommandDispatcher(options);
     log(`CREATE insertionDispatcher. BaseDir: [${options.baseDir}]`);
     return async (tagContent) => {
         log(`call on [${tagContent}]`);
@@ -22,34 +22,34 @@ const createInsertionDispatcher = (options) => {
             return Promise.reject(new Error('empty tag not allowed!'));
         }
         if (fileNameMatcher.test(tagContent)) {
-            return restOfLineDispatcher(fileNameMatcher.first(tagContent), fileNameMatcher.rest(tagContent));
+            return commandDispatcher(fileNameMatcher.first(tagContent), fileNameMatcher.rest(tagContent));
         }
         if (fileNameQuotedMatcher.test(tagContent)) {
             //remove quotes
             const fileNameWithoutQuotes = fileNameQuotedMatcher
                 .first(tagContent)
                 .slice(1, -1);
-            return restOfLineDispatcher(fileNameWithoutQuotes, fileNameQuotedMatcher.rest(tagContent));
+            return commandDispatcher(fileNameWithoutQuotes, fileNameQuotedMatcher.rest(tagContent));
         }
         return Promise.reject(new Error(`Invalid tag content: [${tagContent}]`));
     };
 };
 exports.createInsertionDispatcher = createInsertionDispatcher;
-const createRestOfLineDispatcher = (options) => {
+const createCommandDispatcher = (options) => {
     const fileNameResolver = (0, common_1.createFileNameResolver)(options.baseDir);
     const markTagProvider = (0, mark_tag_provider_1.createMarkTagProvider)(options);
     const markMapProvider = (0, mark_map_provider_1.createMarkMapProvider)(file_content_provider_1.fileContentProvider, markTagProvider);
     const markContentProvider = (0, mark_content_provider_1.createMarkContentProvider)(markMapProvider, common_1.MARK_NAME_REGEXP);
+    const markCmdMatcher = (0, first_and_rest_matcher_1.createFirstAndRestMatcher)(/mark:/);
     return (fileName, restOfLine) => {
         const resolvedFileName = fileNameResolver(fileName);
         if (restOfLine === '') {
             return (0, file_content_provider_1.fileContentProvider)(resolvedFileName);
         }
-        if (common_1.MARK_NAME_REGEXP.test(restOfLine)) {
-            return markContentProvider(resolvedFileName, restOfLine);
+        if (markCmdMatcher.test(restOfLine)) {
+            return markContentProvider(resolvedFileName, markCmdMatcher.rest(restOfLine));
         }
-        // return Promise.reject(new Error(`Invalid tag content: [${restOfLine}]`));
-        return Promise.reject(new Error(`Invalid mark name: [${restOfLine}]`));
+        return Promise.reject(new Error(`Unknown command name: [${restOfLine}]`));
     };
 };
 //# sourceMappingURL=insertion_dispatcher.js.map

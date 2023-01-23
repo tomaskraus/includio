@@ -26,15 +26,15 @@ That line which contains the `@@ help.txt`, tells `Includo` to insert the `help.
 
 ## API
 
-@@ snippets.ts txt
+@@ snippets.ts mark: txt
 
 ```ts
-@@ shared.ts import-includo
+@@ shared.ts mark: import-includo
 
-@@ snippets.ts code
+@@ snippets.ts mark: code
 ```
 
 ### API usage
 ```ts
-@@ shared.ts import-includo
+@@ shared.ts mark: import-includo
 ```

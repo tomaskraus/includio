@@ -9,23 +9,25 @@ let output: stream.Writable;
 
 beforeEach(() => {
   mock({
-    'mark-valid-exists.txt': 'Hello, \n@@ source1.txt mark1 \nWorld!\n',
+    'mark-valid-exists.txt': 'Hello, \n@@ source1.txt mark: mark1 \nWorld!\n',
     'mark-valid-exists-empty-content.txt':
-      'Hello, \n@@ source-empty-content-mark.txt mark1 \nWorld!\n',
+      'Hello, \n@@ source-empty-content-mark.txt mark: mark1 \nWorld!\n',
+    'mark-empty.txt': 'Hello, \n@@ source1.txt mark:  \nWorld!\n',
     'mark-valid-exists-source-with-empty-mark-name.txt':
-      'Hello, \n@@ source-mark-without-name.txt mark1 \nWorld!\n',
+      'Hello, \n@@ source-mark-without-name.txt mark: mark1 \nWorld!\n',
     'mark-valid-source-with-no-marks.txt':
-      'Hello, \n@@ source-with-no-marks.txt mark1 \nWorld!\n',
+      'Hello, \n@@ source-with-no-marks.txt mark: mark1 \nWorld!\n',
     'mark-valid-exists-quoted-file.txt':
-      'Hello, \n@@ "source 1.txt" mark1 \nWorld!\n',
+      'Hello, \n@@ "source 1.txt" mark: mark1 \nWorld!\n',
     'mark-valid-nonexistent.txt':
-      'Hello, \none\n@@ source1.txt nonexistentMark \nWorld!',
+      'Hello, \none\n@@ source1.txt mark: nonexistentMark \nWorld!',
     'mark-invalid.txt':
-      'Hello, \na second\n@@ source1.txt *invalidMark \nWorld!',
+      'Hello, \na second\n@@ source1.txt mark: *invalidMark \nWorld!',
     'mark-valid-source-mark-invalid.txt':
-      'Hello, \na second\n@@ source-invalid-mark-name.txt mark1 \nWorld!',
+      'Hello, \na second\n@@ source-invalid-mark-name.txt mark: mark1 \nWorld!',
     'tag-nonexistent-file-name.txt':
-      'Hello, \n@@ nonexistentfile.txt mark1 \nWorld!',
+      'Hello, \n@@ nonexistentfile.txt mark: mark1 \nWorld!',
+
     'source1.txt': 'text1 \n //< mark1 \n m1 line1 \nm1 line2\n//> \ntext2',
     'source 1.txt': 'text1 \n //< mark1 \n m1 line1 \nm1 line2\n//> \ntext2',
     'source-empty-content-mark.txt':
@@ -99,8 +101,22 @@ describe('error handling', () => {
       await p('mark-valid-nonexistent.txt', output);
     } catch (e) {
       expect((e as Error).message).toContain('mark-valid-nonexistent.txt:3'); //file&line info
-      expect((e as Error).message).toContain('@@ source1.txt nonexistentMark '); //line
+      expect((e as Error).message).toContain(
+        '@@ source1.txt mark: nonexistentMark '
+      ); //line
       expect((e as Error).message).toContain('[nonexistentMark] not found'); //err
+    }
+  });
+
+  test('empty mark name', async () => {
+    expect.assertions(3);
+    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    try {
+      await p('mark-empty.txt', output);
+    } catch (e) {
+      expect((e as Error).message).toContain('mark-empty.txt:2'); //file&line info
+      expect((e as Error).message).toContain('@@ source1.txt mark:  '); //line
+      expect((e as Error).message).toContain('Invalid mark name'); //err
     }
   });
 
@@ -114,7 +130,7 @@ describe('error handling', () => {
         'mark-valid-source-mark-invalid.txt:3'
       ); //file&line info
       expect((e as Error).message).toContain(
-        '@@ source-invalid-mark-name.txt mark1 '
+        '@@ source-invalid-mark-name.txt mark: mark1 '
       ); //line
       expect((e as Error).message).toContain('Invalid mark name'); //err
       expect((e as Error).message).toContain('[inv alid mark]'); //err
@@ -131,7 +147,7 @@ describe('error handling', () => {
         'mark-valid-source-with-no-marks.txt:2'
       ); //file&line info
       expect((e as Error).message).toContain(
-        '@@ source-with-no-marks.txt mark1 '
+        '@@ source-with-no-marks.txt mark: mark1 '
       ); //line
       expect((e as Error).message).toContain('No marks found'); //err
     }
@@ -147,7 +163,7 @@ describe('error handling', () => {
         'mark-valid-source-with-no-marks.txt:2'
       ); //file&line info
       expect((e as Error).message).toContain(
-        '@@ source-with-no-marks.txt mark1 '
+        '@@ source-with-no-marks.txt mark: mark1 '
       ); //line
       expect((e as Error).message).toContain('No marks found'); //err
       expect((e as Error).message).toContain(
@@ -163,7 +179,9 @@ describe('error handling', () => {
       await p('mark-invalid.txt', output);
     } catch (e) {
       expect((e as Error).message).toContain('mark-invalid.txt:3'); //file&line info
-      expect((e as Error).message).toContain('@@ source1.txt *invalidMark '); //line
+      expect((e as Error).message).toContain(
+        '@@ source1.txt mark: *invalidMark '
+      ); //line
       expect((e as Error).message).toContain('Invalid mark name'); //err
     }
   });

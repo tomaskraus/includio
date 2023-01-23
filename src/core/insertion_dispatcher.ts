@@ -21,7 +21,7 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
     FILEPATH_QUOTED_REGEXP
   );
 
-  const restOfLineDispatcher = createRestOfLineDispatcher(options);
+  const commandDispatcher = createCommandDispatcher(options);
 
   log(`CREATE insertionDispatcher. BaseDir: [${options.baseDir}]`);
   return async (tagContent: string): Promise<string> => {
@@ -31,7 +31,7 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
     }
 
     if (fileNameMatcher.test(tagContent)) {
-      return restOfLineDispatcher(
+      return commandDispatcher(
         fileNameMatcher.first(tagContent),
         fileNameMatcher.rest(tagContent)
       );
@@ -41,7 +41,7 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
       const fileNameWithoutQuotes = fileNameQuotedMatcher
         .first(tagContent)
         .slice(1, -1);
-      return restOfLineDispatcher(
+      return commandDispatcher(
         fileNameWithoutQuotes,
         fileNameQuotedMatcher.rest(tagContent)
       );
@@ -51,7 +51,7 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
   };
 };
 
-const createRestOfLineDispatcher = (options: TIncludoOptions) => {
+const createCommandDispatcher = (options: TIncludoOptions) => {
   const fileNameResolver = createFileNameResolver(options.baseDir);
   const markTagProvider = createMarkTagProvider(options);
   const markMapProvider = createMarkMapProvider(
@@ -63,15 +63,19 @@ const createRestOfLineDispatcher = (options: TIncludoOptions) => {
     MARK_NAME_REGEXP
   );
 
+  const markCmdMatcher = createFirstAndRestMatcher(/mark:/);
+
   return (fileName: string, restOfLine: string): Promise<string> => {
     const resolvedFileName = fileNameResolver(fileName);
     if (restOfLine === '') {
       return fileContentProvider(resolvedFileName);
     }
-    if (MARK_NAME_REGEXP.test(restOfLine)) {
-      return markContentProvider(resolvedFileName, restOfLine);
+    if (markCmdMatcher.test(restOfLine)) {
+      return markContentProvider(
+        resolvedFileName,
+        markCmdMatcher.rest(restOfLine)
+      );
     }
-    // return Promise.reject(new Error(`Invalid tag content: [${restOfLine}]`));
-    return Promise.reject(new Error(`Invalid mark name: [${restOfLine}]`));
+    return Promise.reject(new Error(`Unknown command name: [${restOfLine}]`));
   };
 };
