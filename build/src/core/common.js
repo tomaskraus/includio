@@ -7,7 +7,7 @@ exports.createFileNameResolver = exports.DEFAULT_INCLUDO_OPTIONS = exports.MARK_
 const debug_1 = __importDefault(require("debug"));
 const node_path_1 = require("node:path");
 exports.appLog = (0, debug_1.default)('includo');
-exports.MARK_NAME_REGEXP = /[a-zA-z]+[\w\d-]*/;
+exports.MARK_NAME_REGEXP = /^[a-zA-z]+[\w\d-]*$/;
 exports.DEFAULT_INCLUDO_OPTIONS = {
     tagInsert: '@@',
     baseDir: '',

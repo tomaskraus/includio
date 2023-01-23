@@ -13,7 +13,6 @@ export const createMarkMapProvider = (
 ) => {
   log('CREATE markMapProvider');
 
-  const markNameAloneRegexp = new RegExp(`^${MARK_NAME_REGEXP.source}$`);
   const _getMapFromFile = async (
     marksFileName: string
   ): Promise<Map<string, string>> => {
@@ -39,7 +38,7 @@ export const createMarkMapProvider = (
           //create a mark record
           map(lines => {
             const name = beginMarkMatcher.rest(lines[0]);
-            if (name.length > 0 && !markNameAloneRegexp.test(name)) {
+            if (name.length > 0 && !MARK_NAME_REGEXP.test(name)) {
               throw new Error(`Invalid mark name [${name}]`);
             }
             return {

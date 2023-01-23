@@ -10,7 +10,6 @@ const first_and_rest_matcher_1 = require("../utils/first_and_rest_matcher");
 const log = common_1.appLog.extend('markMapProvider');
 const createMarkMapProvider = (fileContentProvider, markTagProvider) => {
     log('CREATE markMapProvider');
-    const markNameAloneRegexp = new RegExp(`^${common_1.MARK_NAME_REGEXP.source}$`);
     const _getMapFromFile = async (marksFileName) => {
         log(`creating mark map from [${marksFileName}]`);
         const [beginMarkStr, endMarkStr] = markTagProvider(marksFileName);
@@ -28,7 +27,7 @@ const createMarkMapProvider = (fileContentProvider, markTagProvider) => {
             //create a mark record
             (0, rxjs_1.map)(lines => {
                 const name = beginMarkMatcher.rest(lines[0]);
-                if (name.length > 0 && !markNameAloneRegexp.test(name)) {
+                if (name.length > 0 && !common_1.MARK_NAME_REGEXP.test(name)) {
                     throw new Error(`Invalid mark name [${name}]`);
                 }
                 return {

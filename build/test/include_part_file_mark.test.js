@@ -134,7 +134,7 @@ describe('error handling', () => {
             expect(e.message).toContain('dir-for-insert/source-with-no-marks.txt'); //contains basedir in file path
         }
     });
-    test('invalid mark', async () => {
+    test('invalid mark name in input file', async () => {
         expect.assertions(3);
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         try {
@@ -143,7 +143,7 @@ describe('error handling', () => {
         catch (e) {
             expect(e.message).toContain('mark-invalid.txt:3'); //file&line info
             expect(e.message).toContain('@@ source1.txt *invalidMark '); //line
-            expect(e.message).toContain('Invalid tag content'); //err
+            expect(e.message).toContain('Invalid mark name'); //err
         }
     });
     test('Non-existent file for insertion', async () => {

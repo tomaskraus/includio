@@ -156,7 +156,7 @@ describe('error handling', () => {
     }
   });
 
-  test('invalid mark', async () => {
+  test('invalid mark name in input file', async () => {
     expect.assertions(3);
     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
     try {
@@ -164,7 +164,7 @@ describe('error handling', () => {
     } catch (e) {
       expect((e as Error).message).toContain('mark-invalid.txt:3'); //file&line info
       expect((e as Error).message).toContain('@@ source1.txt *invalidMark '); //line
-      expect((e as Error).message).toContain('Invalid tag content'); //err
+      expect((e as Error).message).toContain('Invalid mark name'); //err
     }
   });
 
