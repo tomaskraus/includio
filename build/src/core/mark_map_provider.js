@@ -7,7 +7,7 @@ const stateful_predicates_1 = require("stateful-predicates");
 const split_if_1 = require("split-if");
 const cache_fn_1 = require("../utils/cache_fn");
 const first_and_rest_matcher_1 = require("../utils/first_and_rest_matcher");
-const log = (0, common_1.logger)('includo:markMapProvider');
+const log = common_1.appLog.extend('markMapProvider');
 const createMarkMapProvider = (fileContentProvider, markTagProvider) => {
     log('CREATE markMapProvider');
     const markNameAloneRegexp = new RegExp(`^${common_1.MARK_NAME_REGEXP.source}$`);

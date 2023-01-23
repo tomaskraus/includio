@@ -7,7 +7,7 @@ const file_content_provider_1 = require("./file_content_provider");
 const mark_map_provider_1 = require("./mark_map_provider");
 const mark_content_provider_1 = require("./mark_content_provider");
 const mark_tag_provider_1 = require("./mark_tag_provider");
-const log = (0, common_1.logger)('includo:insertionDispatcher');
+const log = common_1.appLog.extend('insertionDispatcher');
 // https://stackoverflow.com/questions/6768779/test-filename-with-regular-expression
 const _FILEPATH_CHARS_REGEXP = /[^<>;,?"*|]+/;
 const _FILEPATH_CHARS_NO_SPACE_REGEXP = /[^<>;,?"*| ]+/;

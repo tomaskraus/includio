@@ -6,7 +6,7 @@ const insertion_dispatcher_1 = require("./core/insertion_dispatcher");
 const common_1 = require("./core/common");
 Object.defineProperty(exports, "DEFAULT_INCLUDO_OPTIONS", { enumerable: true, get: function () { return common_1.DEFAULT_INCLUDO_OPTIONS; } });
 const first_and_rest_matcher_1 = require("./utils/first_and_rest_matcher");
-const log = (0, common_1.logger)('includo:includo');
+const log = common_1.appLog.extend('includo');
 const createIncludoLineCallback = (options) => {
     const insertionTagMatcher = (0, first_and_rest_matcher_1.createFirstAndRestMatcher)(options.tagInsert);
     const insertionDispatcher = (0, insertion_dispatcher_1.createInsertionDispatcher)(options);

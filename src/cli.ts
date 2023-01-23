@@ -1,9 +1,9 @@
 import {createIncludoProcessor} from './includo';
-import {logger} from './core/common';
+import {appLog} from './core/common';
 
 import {stdin, stdout} from 'node:process';
 
-const log = logger('includo:CLI');
+const log = appLog.extend('CLI');
 
 createIncludoProcessor({baseDir: 'assets'})(stdin, stdout)
   .then(result => {

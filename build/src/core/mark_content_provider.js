@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createMarkContentProvider = void 0;
 const common_1 = require("./common");
-const log = (0, common_1.logger)('includo:markContentProvider');
+const log = common_1.appLog.extend('markContentProvider');
 const createMarkContentProvider = (markMapProvider) => {
     log('CREATE markContentProvider');
     return async (fileName, markName) => {

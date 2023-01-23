@@ -1,6 +1,6 @@
-import {logger} from './common';
+import {appLog} from './common';
 
-const log = logger('includo:markContentProvider');
+const log = appLog.extend('markContentProvider');
 
 export const createMarkContentProvider = (
   markMapProvider: (marksFileName: string) => Promise<Map<string, string>>

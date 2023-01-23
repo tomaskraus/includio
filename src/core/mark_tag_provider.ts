@@ -1,6 +1,6 @@
-import {TIncludoOptions, logger} from './common';
+import {TIncludoOptions, appLog} from './common';
 
-const log = logger('includo:markTagProvider');
+const log = appLog.extend('markTagProvider');
 
 export type TMarkTag = [string, string];
 

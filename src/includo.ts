@@ -1,11 +1,11 @@
 import {createAsyncLineMachine} from 'line-transform-machines';
 import type {TAsyncLineCallback} from 'line-transform-machines';
 import {createInsertionDispatcher} from './core/insertion_dispatcher';
-import {DEFAULT_INCLUDO_OPTIONS, logger} from './core/common';
+import {DEFAULT_INCLUDO_OPTIONS, appLog} from './core/common';
 import type {TIncludoOptions} from './core/common';
 import {createFirstAndRestMatcher} from './utils/first_and_rest_matcher';
 
-const log = logger('includo:includo');
+const log = appLog.extend('includo');
 
 export {DEFAULT_INCLUDO_OPTIONS};
 

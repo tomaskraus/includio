@@ -1,6 +1,6 @@
 import {defaultIfNullOrUndefined} from '../utils/default_value';
 import {
-  logger,
+  appLog,
   MARK_NAME_REGEXP,
   TIncludoOptions,
   createFileNameResolver,
@@ -10,7 +10,7 @@ import {createMarkMapProvider} from './mark_map_provider';
 import {createMarkContentProvider} from './mark_content_provider';
 import {createMarkTagProvider} from './mark_tag_provider';
 
-const log = logger('includo:insertionDispatcher');
+const log = appLog.extend('insertionDispatcher');
 
 // https://stackoverflow.com/questions/6768779/test-filename-with-regular-expression
 const _FILEPATH_CHARS_REGEXP = /[^<>;,?"*|]+/;

@@ -1,7 +1,7 @@
 import Debug from 'debug';
 import {join, normalize} from 'node:path';
 
-export const logger = Debug;
+export const appLog = Debug('includo');
 
 export const MARK_NAME_REGEXP = /[a-zA-z]+[\w\d-]*/;
 

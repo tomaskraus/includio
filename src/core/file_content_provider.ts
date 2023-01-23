@@ -1,8 +1,8 @@
 import {readFile} from 'node:fs/promises';
-import {logger} from './common';
+import {appLog} from './common';
 import {cacheOneArgFnAsync} from '../utils/cache_fn';
 
-const log = logger('includo:fileContentProvider');
+const log = appLog.extend('fileContentProvider');
 
 export const fileContentProvider = cacheOneArgFnAsync(
   async (fileName: string) => {

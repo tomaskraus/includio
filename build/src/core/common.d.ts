@@ -1,8 +1,5 @@
 import Debug from 'debug';
-export declare const logger: Debug.Debug & {
-    debug: Debug.Debug;
-    default: Debug.Debug;
-};
+export declare const appLog: Debug.Debugger;
 export declare const MARK_NAME_REGEXP: RegExp;
 /**
  * Options for Includo

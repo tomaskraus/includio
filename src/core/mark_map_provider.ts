@@ -1,11 +1,11 @@
-import {logger, MARK_NAME_REGEXP} from './common';
+import {appLog, MARK_NAME_REGEXP} from './common';
 import {from, filter, scan, map} from 'rxjs';
 import {switchTrueFalse} from 'stateful-predicates';
 import {splitIf} from 'split-if';
 import {cacheOneArgFnAsync} from '../utils/cache_fn';
 import {createFirstAndRestMatcher} from '../utils/first_and_rest_matcher';
 
-const log = logger('includo:markMapProvider');
+const log = appLog.extend('markMapProvider');
 
 export const createMarkMapProvider = (
   fileContentProvider: (filename: string) => Promise<string>,
