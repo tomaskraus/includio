@@ -2,7 +2,7 @@
 /**
  * partTagProvider
  *
- * for a file name, returns a pair [opening, closing] parts fot that file type.
+ * for a file name, returns a part tag string fot that file type.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createPartTagProvider = void 0;
