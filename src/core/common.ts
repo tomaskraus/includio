@@ -1,3 +1,7 @@
+/**
+ * shared functions & types for the Includo app
+ */
+
 import Debug from 'debug';
 import {join, normalize} from 'node:path';
 

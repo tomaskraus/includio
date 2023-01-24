@@ -1,4 +1,9 @@
 "use strict";
+/**
+ * MarkMapProvider
+ *
+ * for a file, extract its marks contents to a map
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createMarkMapProvider = void 0;
 const common_1 = require("./common");
@@ -8,7 +13,7 @@ const split_if_1 = require("split-if");
 const cache_fn_1 = require("../utils/cache_fn");
 const first_and_rest_matcher_1 = require("../utils/first_and_rest_matcher");
 const log = common_1.appLog.extend('markMapProvider');
-const createMarkMapProvider = (fileContentProvider, markTagProvider) => {
+const createMarkMapProvider = (fileContentProvider, markTagProvider, markNameRegexp) => {
     log('CREATE markMapProvider');
     const _getMapFromFile = async (marksFileName) => {
         log(`creating mark map from [${marksFileName}]`);
@@ -27,7 +32,7 @@ const createMarkMapProvider = (fileContentProvider, markTagProvider) => {
             //create a mark record
             (0, rxjs_1.map)(lines => {
                 const name = beginMarkMatcher.rest(lines[0]);
-                if (name.length > 0 && !common_1.MARK_NAME_REGEXP.test(name)) {
+                if (name.length > 0 && !markNameRegexp.test(name)) {
                     throw new Error(`Invalid mark name [${name}]`);
                 }
                 return {

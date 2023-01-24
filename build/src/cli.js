@@ -1,4 +1,7 @@
 "use strict";
+/**
+ * Includo command line app
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 const includo_1 = require("./includo");
 const common_1 = require("./core/common");

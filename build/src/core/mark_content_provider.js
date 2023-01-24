@@ -1,6 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createMarkContentProvider = void 0;
+/**
+ * MarkContentProvider
+ *
+ * for a fileName and markName, returns content of a markName key for that file
+ */
 const common_1 = require("./common");
 const log = common_1.appLog.extend('markContentProvider');
 const createMarkContentProvider = (markMapProvider, markNameRegexp) => {

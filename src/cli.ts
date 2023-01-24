@@ -1,3 +1,7 @@
+/**
+ * Includo command line app
+ */
+
 import {createIncludoProcessor} from './includo';
 import {appLog} from './core/common';
 

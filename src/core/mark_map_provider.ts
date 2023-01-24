@@ -1,4 +1,10 @@
-import {appLog, MARK_NAME_REGEXP} from './common';
+/**
+ * MarkMapProvider
+ *
+ * for a file, extract its marks contents to a map
+ */
+
+import {appLog} from './common';
 import {from, filter, scan, map} from 'rxjs';
 import {switchTrueFalse} from 'stateful-predicates';
 import {splitIf} from 'split-if';
@@ -9,7 +15,8 @@ const log = appLog.extend('markMapProvider');
 
 export const createMarkMapProvider = (
   fileContentProvider: (filename: string) => Promise<string>,
-  markTagProvider: (filename: string) => [string, string]
+  markTagProvider: (filename: string) => [string, string],
+  markNameRegexp: RegExp
 ) => {
   log('CREATE markMapProvider');
 
@@ -38,7 +45,7 @@ export const createMarkMapProvider = (
           //create a mark record
           map(lines => {
             const name = beginMarkMatcher.rest(lines[0]);
-            if (name.length > 0 && !MARK_NAME_REGEXP.test(name)) {
+            if (name.length > 0 && !markNameRegexp.test(name)) {
               throw new Error(`Invalid mark name [${name}]`);
             }
             return {

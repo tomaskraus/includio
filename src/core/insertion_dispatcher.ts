@@ -1,3 +1,10 @@
+/**
+ * InsertionDispatcher
+ *
+ * gets an input line,
+ * returns a string content that depends on a command on that input line
+ */
+
 import {
   appLog,
   MARK_NAME_REGEXP,
@@ -20,7 +27,6 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
   const fileNameQuotedMatcher = createFirstAndRestMatcher(
     FILEPATH_QUOTED_REGEXP
   );
-
   const commandDispatcher = createCommandDispatcher(options);
 
   log(`CREATE insertionDispatcher. BaseDir: [${options.baseDir}]`);
@@ -52,17 +58,17 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
 };
 
 const createCommandDispatcher = (options: TIncludoOptions) => {
-  const fileNameResolver = createFileNameResolver(options.baseDir);
-  const markTagProvider = createMarkTagProvider(options);
   const markMapProvider = createMarkMapProvider(
     fileContentProvider,
-    markTagProvider
+    createMarkTagProvider(options),
+    MARK_NAME_REGEXP
   );
   const markContentProvider = createMarkContentProvider(
     markMapProvider,
     MARK_NAME_REGEXP
   );
 
+  const fileNameResolver = createFileNameResolver(options.baseDir);
   const markCmdMatcher = createFirstAndRestMatcher(/mark:/);
 
   return (fileName: string, restOfLine: string): Promise<string> => {

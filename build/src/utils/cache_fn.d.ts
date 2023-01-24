@@ -1,5 +1,5 @@
 /**
- * cache function results, for an asynchronous function
+ * caches function results, for an asynchronous function
  *
  * @param asyncFn original function
  * @returns function that behaves like the original function, caches its result.

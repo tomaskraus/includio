@@ -1,4 +1,10 @@
 "use strict";
+/**
+ * InsertionDispatcher
+ *
+ * gets an input line,
+ * returns a string content that depends on a command on that input line
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createInsertionDispatcher = void 0;
 const common_1 = require("./common");
@@ -36,10 +42,9 @@ const createInsertionDispatcher = (options) => {
 };
 exports.createInsertionDispatcher = createInsertionDispatcher;
 const createCommandDispatcher = (options) => {
-    const fileNameResolver = (0, common_1.createFileNameResolver)(options.baseDir);
-    const markTagProvider = (0, mark_tag_provider_1.createMarkTagProvider)(options);
-    const markMapProvider = (0, mark_map_provider_1.createMarkMapProvider)(file_content_provider_1.fileContentProvider, markTagProvider);
+    const markMapProvider = (0, mark_map_provider_1.createMarkMapProvider)(file_content_provider_1.fileContentProvider, (0, mark_tag_provider_1.createMarkTagProvider)(options), common_1.MARK_NAME_REGEXP);
     const markContentProvider = (0, mark_content_provider_1.createMarkContentProvider)(markMapProvider, common_1.MARK_NAME_REGEXP);
+    const fileNameResolver = (0, common_1.createFileNameResolver)(options.baseDir);
     const markCmdMatcher = (0, first_and_rest_matcher_1.createFirstAndRestMatcher)(/mark:/);
     return (fileName, restOfLine) => {
         const resolvedFileName = fileNameResolver(fileName);

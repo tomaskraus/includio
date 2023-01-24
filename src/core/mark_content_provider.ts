@@ -1,3 +1,8 @@
+/**
+ * MarkContentProvider
+ *
+ * for a fileName and markName, returns content of a markName key for that file
+ */
 import {appLog} from './common';
 
 const log = appLog.extend('markContentProvider');

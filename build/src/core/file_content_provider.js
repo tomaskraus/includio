@@ -1,4 +1,7 @@
 "use strict";
+/**
+ * loads a text file
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.fileContentProvider = void 0;
 const promises_1 = require("node:fs/promises");

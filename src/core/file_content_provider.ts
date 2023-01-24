@@ -1,3 +1,7 @@
+/**
+ * loads a text file
+ */
+
 import {readFile} from 'node:fs/promises';
 import {appLog} from './common';
 import {cacheOneArgFnAsync} from '../utils/cache_fn';
