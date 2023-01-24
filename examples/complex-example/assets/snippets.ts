@@ -1,7 +1,7 @@
 /*
 //< txt
     Create includo engine this way:
-//>
+//<
 */
 
 import {createIncludoProcessor} from '../../../src/includo';
@@ -14,10 +14,10 @@ createIncludoProcessor()(stdin, stdout)
     console.log(`lines read: ${result.lineNumber}`);
   })
   .catch(err => console.error(err));
-//>
+//<
 
 //< HU
-//>
+//<
 
 //<
-//>
+//<

@@ -55,19 +55,9 @@ Missing required arguments: f, d
 ## API
 
     Create includo engine this way:
-//>
-*/
-
-import {createIncludoProcessor} from '../../../src/includo';
-
 
 ```ts
 import {createIncludoProcessor} from 'includo';
-//>
-*/
-
-console.log('this code runs');
-
 
 import {stdin, stdout} from 'node:process';
 
@@ -76,16 +66,9 @@ createIncludoProcessor()(stdin, stdout)
     console.log(`lines read: ${result.lineNumber}`);
   })
   .catch(err => console.error(err));
-//>
-
 ```
 
 ### API usage
 ```ts
 import {createIncludoProcessor} from 'includo';
-//>
-*/
-
-console.log('this code runs');
-
 ```
