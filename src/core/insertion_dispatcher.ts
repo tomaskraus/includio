@@ -15,7 +15,7 @@ import {fileContentProvider} from './file_content_provider';
 import {createMarkMapProvider} from './mark_map_provider';
 import {createMarkContentProvider} from './mark_content_provider';
 import {createMarkTagProvider} from './mark_tag_provider';
-import {createFirstAndRestMatcher} from '../utils/first_and_rest_matcher';
+import {createHeadTailMatcher} from '../utils/head_tail_matcher';
 
 const log = appLog.extend('insertionDispatcher');
 
@@ -23,10 +23,8 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
   // https://stackoverflow.com/questions/6768779/test-filename-with-regular-expression
   const FILEPATH_REGEXP = /[^<>;,?"*| ]+/;
   const FILEPATH_QUOTED_REGEXP = /"[^<>;,?"*|]+"/;
-  const fileNameMatcher = createFirstAndRestMatcher(FILEPATH_REGEXP);
-  const fileNameQuotedMatcher = createFirstAndRestMatcher(
-    FILEPATH_QUOTED_REGEXP
-  );
+  const fileNameMatcher = createHeadTailMatcher(FILEPATH_REGEXP);
+  const fileNameQuotedMatcher = createHeadTailMatcher(FILEPATH_QUOTED_REGEXP);
   const commandDispatcher = createCommandDispatcher(options);
 
   log(`CREATE insertionDispatcher. BaseDir: [${options.baseDir}]`);
@@ -38,18 +36,18 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
 
     if (fileNameMatcher.test(tagContent)) {
       return commandDispatcher(
-        fileNameMatcher.first(tagContent),
-        fileNameMatcher.rest(tagContent)
+        fileNameMatcher.head(tagContent),
+        fileNameMatcher.tail(tagContent)
       );
     }
     if (fileNameQuotedMatcher.test(tagContent)) {
       //remove quotes
       const fileNameWithoutQuotes = fileNameQuotedMatcher
-        .first(tagContent)
+        .head(tagContent)
         .slice(1, -1);
       return commandDispatcher(
         fileNameWithoutQuotes,
-        fileNameQuotedMatcher.rest(tagContent)
+        fileNameQuotedMatcher.tail(tagContent)
       );
     }
 
@@ -69,7 +67,7 @@ const createCommandDispatcher = (options: TIncludoOptions) => {
   );
 
   const fileNameResolver = createFileNameResolver(options.baseDir);
-  const markCmdMatcher = createFirstAndRestMatcher(/mark:/);
+  const markCmdMatcher = createHeadTailMatcher(/mark:/);
 
   return (fileName: string, restOfLine: string): Promise<string> => {
     const resolvedFileName = fileNameResolver(fileName);
@@ -79,7 +77,7 @@ const createCommandDispatcher = (options: TIncludoOptions) => {
     if (markCmdMatcher.test(restOfLine)) {
       return markContentProvider(
         resolvedFileName,
-        markCmdMatcher.rest(restOfLine)
+        markCmdMatcher.tail(restOfLine)
       );
     }
     return Promise.reject(new Error(`Unknown command name: [${restOfLine}]`));

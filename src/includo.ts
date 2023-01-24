@@ -15,7 +15,7 @@ import type {TAsyncLineCallback} from 'line-transform-machines';
 import {createInsertionDispatcher} from './core/insertion_dispatcher';
 import {DEFAULT_INCLUDO_OPTIONS, appLog} from './core/common';
 import type {TIncludoOptions} from './core/common';
-import {createFirstAndRestMatcher} from './utils/first_and_rest_matcher';
+import {createHeadTailMatcher} from './utils/head_tail_matcher';
 
 const log = appLog.extend('processor');
 
@@ -24,13 +24,13 @@ export {DEFAULT_INCLUDO_OPTIONS};
 const createIncludoLineCallback = (
   options: TIncludoOptions
 ): TAsyncLineCallback => {
-  const insertionTagMatcher = createFirstAndRestMatcher(options.tagInsert);
+  const insertionTagMatcher = createHeadTailMatcher(options.tagInsert);
   const insertionDispatcher = createInsertionDispatcher(options);
   log(`CREATE includoCallback for tag [${options.tagInsert}] `);
 
   return (line: string): Promise<string> => {
     if (insertionTagMatcher.test(line)) {
-      return insertionDispatcher(insertionTagMatcher.rest(line));
+      return insertionDispatcher(insertionTagMatcher.tail(line));
     }
     return Promise.resolve(line);
   };

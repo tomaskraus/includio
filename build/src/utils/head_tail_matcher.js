@@ -1,57 +1,57 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createFirstAndRestMatcher = void 0;
+exports.createHeadTailMatcher = void 0;
 const default_value_1 = require("./default_value");
 /**
  * RegExp special helper
  * For a given line, provides functions to recognize its three parts:
- * '(padding)(first)(rest)'
+ * '(padding)(head)(tail)'
  * where:
  *  - (padding) consists of white characters
- *  - (first) is customizable (RegExp/String argument)
- *  - (rest) is the rest of the line till its end, trimmed
+ *  - (head) is customizable (RegExp/String argument)
+ *  - (tail) is the rest of the line till its end, trimmed
  *
  *
  * @example
    ```ts
-    const runStopMatcher = createFirstAndRestMatcher(/run|stop/);
+    const runStopMatcher = createHeadTailMatcher(/run|stop/);
 
     runStopMatcher.test('  run script1 10 20 ') === true;
-    runStopMatcher.first('  run script1 10 20 ') === 'run';
-    runStopMatcher.rest('  run script1 10 20 ') === 'script1 10 20';
+    runStopMatcher.head('  run script1 10 20 ') === 'run';
+    runStopMatcher.tail('  run script1 10 20 ') === 'script1 10 20';
     runStopMatcher.leftPadding('  run script1 10 20 ') === '  ';
 
     runStopMatcher.test('stop') === true;
-    runStopMatcher.first('stop') === 'stop';
-    runStopMatcher.rest('stop') === '';
+    runStopMatcher.head('stop') === 'stop';
+    runStopMatcher.tail('stop') === '';
     runStopMatcher.leftPadding('stop') === '';
 
     runStopMatcher.test(' something else ') === false;
-    runStopMatcher.first(' something else ') === '';
-    runStopMatcher.rest(' something else ') === '';
-    runStopMatcher.leftPadding(' something else ') === '';every
+    runStopMatcher.head(' something else ') === '';
+    runStopMatcher.tail(' something else ') === '';
+    runStopMatcher.leftPadding(' something else ') === '';
     ```
  *
  *
- * (padding), (first) and (rest) are safe: return always a string, never null or undefined
+ * (padding), (head) and (tail) are safe: return always a string, never null or undefined
  *
  * Tip: use ^ at the start of the regexp argument, to prevent FirstAndRestMatcher to recognize lines starting with white character(s)
  *
  * Limitations:
- * Do not use group construct in the (first) RegExp parameter. FirstAndRestMatcher may return unexpected results.
+ * Do not use group construct in the (head) RegExp parameter. FirstAndRestMatcher may return unexpected results.
  *
  */
-const createFirstAndRestMatcher = (first) => {
-    const firstValue = typeof first === 'string' ? first : first.source;
-    const matcherRegexp = new RegExp(`^(\\s*)(${firstValue})$|^(\\s*)(${firstValue})\\s+(.*)$`);
+const createHeadTailMatcher = (head) => {
+    const headValue = typeof head === 'string' ? head : head.source;
+    const matcherRegexp = new RegExp(`^(\\s*)(${headValue})$|^(\\s*)(${headValue})\\s+(.*)$`);
     const defaultMatches = ['', '', '', '', '', '', ''];
     return {
         test: (s) => matcherRegexp.test(s),
-        first: (s) => {
+        head: (s) => {
             const matches = (0, default_value_1.defaultIfNullOrUndefined)(defaultMatches)(s.match(matcherRegexp));
             return (0, default_value_1.defaultIfNullOrUndefined)('')(matches[2] || matches[4]).trim();
         },
-        rest: (s) => {
+        tail: (s) => {
             const matches = (0, default_value_1.defaultIfNullOrUndefined)(defaultMatches)(s.match(matcherRegexp));
             return (0, default_value_1.defaultIfNullOrUndefined)('')(matches[5]).trim();
         },
@@ -61,5 +61,5 @@ const createFirstAndRestMatcher = (first) => {
         },
     };
 };
-exports.createFirstAndRestMatcher = createFirstAndRestMatcher;
-//# sourceMappingURL=first_and_rest_matcher.js.map
+exports.createHeadTailMatcher = createHeadTailMatcher;
+//# sourceMappingURL=head_tail_matcher.js.map

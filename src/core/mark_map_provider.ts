@@ -9,7 +9,7 @@ import {from, filter, scan, map} from 'rxjs';
 import {switchTrueFalse} from 'stateful-predicates';
 import {splitIf} from 'split-if';
 import {cacheOneArgFnAsync} from '../utils/cache_fn';
-import {createFirstAndRestMatcher} from '../utils/first_and_rest_matcher';
+import {createHeadTailMatcher} from '../utils/head_tail_matcher';
 
 const log = appLog.extend('markMapProvider');
 
@@ -25,8 +25,8 @@ export const createMarkMapProvider = (
   ): Promise<Map<string, string>> => {
     log(`creating mark map from [${marksFileName}]`);
     const [beginMarkStr, endMarkStr] = markTagProvider(marksFileName);
-    const beginMarkMatcher = createFirstAndRestMatcher(beginMarkStr);
-    const endMarkMatcher = createFirstAndRestMatcher(endMarkStr);
+    const beginMarkMatcher = createHeadTailMatcher(beginMarkStr);
+    const endMarkMatcher = createHeadTailMatcher(endMarkStr);
 
     const fileContent = await fileContentProvider(marksFileName);
     const marks = new Map<string, string>();
@@ -44,7 +44,7 @@ export const createMarkMapProvider = (
           splitIf(s => beginMarkMatcher.test(s)),
           //create a mark record
           map(lines => {
-            const name = beginMarkMatcher.rest(lines[0]);
+            const name = beginMarkMatcher.tail(lines[0]);
             if (name.length > 0 && !markNameRegexp.test(name)) {
               throw new Error(`Invalid mark name [${name}]`);
             }

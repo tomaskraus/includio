@@ -11,15 +11,15 @@ const rxjs_1 = require("rxjs");
 const stateful_predicates_1 = require("stateful-predicates");
 const split_if_1 = require("split-if");
 const cache_fn_1 = require("../utils/cache_fn");
-const first_and_rest_matcher_1 = require("../utils/first_and_rest_matcher");
+const head_tail_matcher_1 = require("../utils/head_tail_matcher");
 const log = common_1.appLog.extend('markMapProvider');
 const createMarkMapProvider = (fileContentProvider, markTagProvider, markNameRegexp) => {
     log('CREATE markMapProvider');
     const _getMapFromFile = async (marksFileName) => {
         log(`creating mark map from [${marksFileName}]`);
         const [beginMarkStr, endMarkStr] = markTagProvider(marksFileName);
-        const beginMarkMatcher = (0, first_and_rest_matcher_1.createFirstAndRestMatcher)(beginMarkStr);
-        const endMarkMatcher = (0, first_and_rest_matcher_1.createFirstAndRestMatcher)(endMarkStr);
+        const beginMarkMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)(beginMarkStr);
+        const endMarkMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)(endMarkStr);
         const fileContent = await fileContentProvider(marksFileName);
         const marks = new Map();
         return new Promise((resolve, reject) => {
@@ -31,7 +31,7 @@ const createMarkMapProvider = (fileContentProvider, markTagProvider, markNameReg
             (0, split_if_1.splitIf)(s => beginMarkMatcher.test(s)), 
             //create a mark record
             (0, rxjs_1.map)(lines => {
-                const name = beginMarkMatcher.rest(lines[0]);
+                const name = beginMarkMatcher.tail(lines[0]);
                 if (name.length > 0 && !markNameRegexp.test(name)) {
                     throw new Error(`Invalid mark name [${name}]`);
                 }
