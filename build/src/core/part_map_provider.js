@@ -16,18 +16,18 @@ const createPartMapProvider = (fileContentProvider, partTagProvider, partNameReg
     log('CREATE partMapProvider');
     const _getMapFromFile = async (partsFileName) => {
         log(`creating part map from [${partsFileName}]`);
-        const beginpartStr = partTagProvider(partsFileName)[0];
-        const beginpartMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)(beginpartStr);
+        const partTagStr = partTagProvider(partsFileName);
+        const partTagMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)(partTagStr);
         const fileContent = await fileContentProvider(partsFileName);
         const parts = new Map();
         return new Promise((resolve, reject) => {
             (0, rxjs_1.from)(fileContent.split('\n'))
                 .pipe(
             // split the lines by their part tags
-            (0, split_if_1.splitIf)(s => beginpartMatcher.test(s)), 
+            (0, split_if_1.splitIf)(s => partTagMatcher.test(s)), 
             //create a part record
             (0, rxjs_1.map)(lines => {
-                const name = beginpartMatcher.tail(lines[0]);
+                const name = partTagMatcher.tail(lines[0]);
                 if (name.length > 0 && !partNameRegexp.test(name)) {
                     throw new Error(`Invalid part name [${name}]`);
                 }

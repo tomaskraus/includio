@@ -14,7 +14,7 @@ const log = appLog.extend('partMapProvider');
 
 export const createPartMapProvider = (
   fileContentProvider: (filename: string) => Promise<string>,
-  partTagProvider: (filename: string) => [string, string],
+  partTagProvider: (filename: string) => string,
   partNameRegexp: RegExp
 ) => {
   log('CREATE partMapProvider');
@@ -23,8 +23,8 @@ export const createPartMapProvider = (
     partsFileName: string
   ): Promise<Map<string, string>> => {
     log(`creating part map from [${partsFileName}]`);
-    const beginpartStr = partTagProvider(partsFileName)[0];
-    const beginpartMatcher = createHeadTailMatcher(beginpartStr);
+    const partTagStr = partTagProvider(partsFileName);
+    const partTagMatcher = createHeadTailMatcher(partTagStr);
 
     const fileContent = await fileContentProvider(partsFileName);
     const parts = new Map<string, string>();
@@ -32,10 +32,10 @@ export const createPartMapProvider = (
       from(fileContent.split('\n'))
         .pipe(
           // split the lines by their part tags
-          splitIf(s => beginpartMatcher.test(s)),
+          splitIf(s => partTagMatcher.test(s)),
           //create a part record
           map(lines => {
-            const name = beginpartMatcher.tail(lines[0]);
+            const name = partTagMatcher.tail(lines[0]);
             if (name.length > 0 && !partNameRegexp.test(name)) {
               throw new Error(`Invalid part name [${name}]`);
             }
