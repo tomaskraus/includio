@@ -12,9 +12,9 @@ import {
   createFileNameResolver,
 } from './common';
 import {fileContentProvider} from './file_content_provider';
-import {createMarkMapProvider} from './mark_map_provider';
-import {createMarkContentProvider} from './mark_content_provider';
-import {createMarkTagProvider} from './mark_tag_provider';
+import {createPartMapProvider} from './part_map_provider';
+import {createPartContentProvider} from './part_content_provider';
+import {createPartTagProvider} from './part_tag_provider';
 import {createHeadTailMatcher} from '../utils/head_tail_matcher';
 
 const log = appLog.extend('insertionDispatcher');
@@ -56,28 +56,28 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
 };
 
 const createCommandDispatcher = (options: TIncludoOptions) => {
-  const markMapProvider = createMarkMapProvider(
+  const partMapProvider = createPartMapProvider(
     fileContentProvider,
-    createMarkTagProvider(options),
+    createPartTagProvider(options),
     MARK_NAME_REGEXP
   );
-  const markContentProvider = createMarkContentProvider(
-    markMapProvider,
+  const partContentProvider = createPartContentProvider(
+    partMapProvider,
     MARK_NAME_REGEXP
   );
 
   const fileNameResolver = createFileNameResolver(options.baseDir);
-  const markCmdMatcher = createHeadTailMatcher(/mark:/);
+  const partCmdMatcher = createHeadTailMatcher(/part:/);
 
   return (fileName: string, restOfLine: string): Promise<string> => {
     const resolvedFileName = fileNameResolver(fileName);
     if (restOfLine === '') {
       return fileContentProvider(resolvedFileName);
     }
-    if (markCmdMatcher.test(restOfLine)) {
-      return markContentProvider(
+    if (partCmdMatcher.test(restOfLine)) {
+      return partContentProvider(
         resolvedFileName,
-        markCmdMatcher.tail(restOfLine)
+        partCmdMatcher.tail(restOfLine)
       );
     }
     return Promise.reject(new Error(`Unknown command name: [${restOfLine}]`));

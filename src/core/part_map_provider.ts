@@ -1,0 +1,70 @@
+/**
+ * partMapProvider
+ *
+ * for a file, extract its parts contents to a map
+ */
+
+import {appLog} from './common';
+import {from, filter, scan, map} from 'rxjs';
+import {splitIf} from 'split-if';
+import {cacheOneArgFnAsync} from '../utils/cache_fn';
+import {createHeadTailMatcher} from '../utils/head_tail_matcher';
+
+const log = appLog.extend('partMapProvider');
+
+export const createPartMapProvider = (
+  fileContentProvider: (filename: string) => Promise<string>,
+  partTagProvider: (filename: string) => [string, string],
+  partNameRegexp: RegExp
+) => {
+  log('CREATE partMapProvider');
+
+  const _getMapFromFile = async (
+    partsFileName: string
+  ): Promise<Map<string, string>> => {
+    log(`creating part map from [${partsFileName}]`);
+    const beginpartStr = partTagProvider(partsFileName)[0];
+    const beginpartMatcher = createHeadTailMatcher(beginpartStr);
+
+    const fileContent = await fileContentProvider(partsFileName);
+    const parts = new Map<string, string>();
+    return new Promise((resolve, reject) => {
+      from(fileContent.split('\n'))
+        .pipe(
+          // split the lines by their part tags
+          splitIf(s => beginpartMatcher.test(s)),
+          //create a part record
+          map(lines => {
+            const name = beginpartMatcher.tail(lines[0]);
+            if (name.length > 0 && !partNameRegexp.test(name)) {
+              throw new Error(`Invalid part name [${name}]`);
+            }
+            return {
+              name,
+              value: lines.slice(1).join('\n'),
+            };
+          }),
+          //do not allow part record with an empty name
+          filter(partRecord => partRecord.name.length > 0),
+          //add part record to a map
+          scan((acc, partRecord) => {
+            log(`CREATE part [${partsFileName}][${partRecord.name}]`);
+            return acc.set(partRecord.name, partRecord.value);
+          }, parts)
+        )
+        .subscribe({
+          error: err => {
+            reject(err);
+          },
+          complete: () => {
+            if (parts.size === 0) {
+              reject(new Error(`No parts found in [${partsFileName}]`));
+            }
+            resolve(parts);
+          },
+        });
+    });
+  };
+
+  return cacheOneArgFnAsync(_getMapFromFile);
+};

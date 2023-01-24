@@ -9,9 +9,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createInsertionDispatcher = void 0;
 const common_1 = require("./common");
 const file_content_provider_1 = require("./file_content_provider");
-const mark_map_provider_1 = require("./mark_map_provider");
-const mark_content_provider_1 = require("./mark_content_provider");
-const mark_tag_provider_1 = require("./mark_tag_provider");
+const part_map_provider_1 = require("./part_map_provider");
+const part_content_provider_1 = require("./part_content_provider");
+const part_tag_provider_1 = require("./part_tag_provider");
 const head_tail_matcher_1 = require("../utils/head_tail_matcher");
 const log = common_1.appLog.extend('insertionDispatcher');
 const createInsertionDispatcher = (options) => {
@@ -42,17 +42,17 @@ const createInsertionDispatcher = (options) => {
 };
 exports.createInsertionDispatcher = createInsertionDispatcher;
 const createCommandDispatcher = (options) => {
-    const markMapProvider = (0, mark_map_provider_1.createMarkMapProvider)(file_content_provider_1.fileContentProvider, (0, mark_tag_provider_1.createMarkTagProvider)(options), common_1.MARK_NAME_REGEXP);
-    const markContentProvider = (0, mark_content_provider_1.createMarkContentProvider)(markMapProvider, common_1.MARK_NAME_REGEXP);
+    const partMapProvider = (0, part_map_provider_1.createPartMapProvider)(file_content_provider_1.fileContentProvider, (0, part_tag_provider_1.createPartTagProvider)(options), common_1.MARK_NAME_REGEXP);
+    const partContentProvider = (0, part_content_provider_1.createPartContentProvider)(partMapProvider, common_1.MARK_NAME_REGEXP);
     const fileNameResolver = (0, common_1.createFileNameResolver)(options.baseDir);
-    const markCmdMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)(/mark:/);
+    const partCmdMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)(/part:/);
     return (fileName, restOfLine) => {
         const resolvedFileName = fileNameResolver(fileName);
         if (restOfLine === '') {
             return (0, file_content_provider_1.fileContentProvider)(resolvedFileName);
         }
-        if (markCmdMatcher.test(restOfLine)) {
-            return markContentProvider(resolvedFileName, markCmdMatcher.tail(restOfLine));
+        if (partCmdMatcher.test(restOfLine)) {
+            return partContentProvider(resolvedFileName, partCmdMatcher.tail(restOfLine));
         }
         return Promise.reject(new Error(`Unknown command name: [${restOfLine}]`));
     };
