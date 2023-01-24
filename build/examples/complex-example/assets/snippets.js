@@ -2,7 +2,7 @@
 /*
 //< txt
     Create includo engine this way:
-//>
+//<
 */
 Object.defineProperty(exports, "__esModule", { value: true });
 const includo_1 = require("../../../src/includo");
@@ -13,9 +13,9 @@ const node_process_1 = require("node:process");
     console.log(`lines read: ${result.lineNumber}`);
 })
     .catch(err => console.error(err));
-//>
-//< HU
-//>
 //<
-//>
+//< HU
+//<
+//<
+//<
 //# sourceMappingURL=snippets.js.map
