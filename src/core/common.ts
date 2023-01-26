@@ -20,13 +20,14 @@ export type TIncludoOptions = {
   /**
    * A directory where to look for files for insertion
    */
-  baseDir: string;
+  sourceDir: string;
 };
 
 export const DEFAULT_INCLUDO_OPTIONS: TIncludoOptions = {
   tagInsert: '@@',
-  baseDir: '',
+  sourceDir: '',
 };
 
-export const createFileNameResolver = (baseDir: string) => (fileName: string) =>
-  normalize(join(baseDir, fileName));
+export const createFileNameResolver =
+  (sourceDir: string) => (fileName: string) =>
+    normalize(join(sourceDir, fileName));

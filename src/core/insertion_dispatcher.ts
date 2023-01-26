@@ -27,7 +27,7 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
   const fileNameQuotedMatcher = createHeadTailMatcher(FILEPATH_QUOTED_REGEXP);
   const commandDispatcher = createCommandDispatcher(options);
 
-  log(`CREATE insertionDispatcher. BaseDir: [${options.baseDir}]`);
+  log(`CREATE insertionDispatcher. BaseDir: [${options.sourceDir}]`);
   return async (tagContent: string): Promise<string> => {
     log(`call on [${tagContent}]`);
     if (tagContent.length === 0) {
@@ -66,7 +66,7 @@ const createCommandDispatcher = (options: TIncludoOptions) => {
     MARK_NAME_REGEXP
   );
 
-  const fileNameResolver = createFileNameResolver(options.baseDir);
+  const fileNameResolver = createFileNameResolver(options.sourceDir);
   const partCmdMatcher = createHeadTailMatcher(/part:/);
 
   return (fileName: string, restOfLine: string): Promise<string> => {

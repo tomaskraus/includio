@@ -155,7 +155,7 @@ describe('error handling', () => {
 
   test('use part from file that contains no parts. Custom BaseDir', async () => {
     expect.assertions(4);
-    const p = createIncludoProcessor({baseDir: 'dir-for-insert'});
+    const p = createIncludoProcessor({sourceDir: 'dir-for-insert'});
     try {
       await p('part-valid-source-with-no-parts.txt', output);
     } catch (e) {
@@ -168,7 +168,7 @@ describe('error handling', () => {
       expect((e as Error).message).toContain('No parts found'); //err
       expect((e as Error).message).toContain(
         'dir-for-insert/source-with-no-parts.txt'
-      ); //contains basedir in file path
+      ); //contains sourceDir in file path
     }
   });
 
@@ -198,9 +198,9 @@ describe('error handling', () => {
     }
   });
 
-  test('Non-existent baseDir', async () => {
+  test('Non-existent sourceDir', async () => {
     expect.assertions(4);
-    const p = createIncludoProcessor({baseDir: 'abc'});
+    const p = createIncludoProcessor({sourceDir: 'abc'});
     try {
       await p('part-valid-exists.txt', output);
     } catch (e) {
