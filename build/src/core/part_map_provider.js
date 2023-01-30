@@ -18,10 +18,10 @@ const createPartMapProvider = (fileContentProvider, partTagProvider, partNameReg
         log(`creating part map from [${partsFileName}]`);
         const partTagStr = partTagProvider(partsFileName);
         const partTagMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)(partTagStr);
-        const fileContent = await fileContentProvider(partsFileName);
+        const lines = await fileContentProvider(partsFileName);
         const parts = new Map();
         return new Promise((resolve, reject) => {
-            (0, rxjs_1.from)(fileContent.split('\n'))
+            (0, rxjs_1.from)(lines)
                 .pipe(
             // split the lines by their part tags
             (0, split_if_1.splitIf)(s => partTagMatcher.test(s)), 
@@ -33,7 +33,7 @@ const createPartMapProvider = (fileContentProvider, partTagProvider, partNameReg
                 }
                 return {
                     name,
-                    value: lines.slice(1).join('\n'),
+                    value: lines.slice(1),
                 };
             }), 
             //do not allow part record with an empty name

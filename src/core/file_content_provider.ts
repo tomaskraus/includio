@@ -11,7 +11,8 @@ const log = appLog.extend('fileContentProvider');
 export const fileContentProvider = cacheOneArgFnAsync(
   async (fileName: string) => {
     log(`LOAD file content [${fileName}]`);
-    const content = await readFile(fileName, {encoding: 'utf-8'});
-    return content;
+    return readFile(fileName, {encoding: 'utf-8'}).then(lines =>
+      lines.split('\n')
+    );
   }
 );

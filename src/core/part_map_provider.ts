@@ -13,7 +13,7 @@ import {createHeadTailMatcher} from '../utils/head_tail_matcher';
 const log = appLog.extend('partMapProvider');
 
 export const createPartMapProvider = (
-  fileContentProvider: (filename: string) => Promise<string>,
+  fileContentProvider: (filename: string) => Promise<string[]>,
   partTagProvider: (filename: string) => string,
   partNameRegexp: RegExp
 ) => {
@@ -21,15 +21,15 @@ export const createPartMapProvider = (
 
   const _getMapFromFile = async (
     partsFileName: string
-  ): Promise<Map<string, string>> => {
+  ): Promise<Map<string, string[]>> => {
     log(`creating part map from [${partsFileName}]`);
     const partTagStr = partTagProvider(partsFileName);
     const partTagMatcher = createHeadTailMatcher(partTagStr);
 
-    const fileContent = await fileContentProvider(partsFileName);
-    const parts = new Map<string, string>();
+    const lines = await fileContentProvider(partsFileName);
+    const parts = new Map<string, string[]>();
     return new Promise((resolve, reject) => {
-      from(fileContent.split('\n'))
+      from(lines)
         .pipe(
           // split the lines by their part tags
           splitIf(s => partTagMatcher.test(s)),
@@ -41,7 +41,7 @@ export const createPartMapProvider = (
             }
             return {
               name,
-              value: lines.slice(1).join('\n'),
+              value: lines.slice(1),
             };
           }),
           //do not allow part record with an empty name

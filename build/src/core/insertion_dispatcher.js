@@ -28,14 +28,14 @@ const createInsertionDispatcher = (options) => {
             return Promise.reject(new Error('empty tag not allowed!'));
         }
         if (fileNameMatcher.test(tagContent)) {
-            return commandDispatcher(fileNameMatcher.head(tagContent), fileNameMatcher.tail(tagContent));
+            return commandDispatcher(fileNameMatcher.head(tagContent), fileNameMatcher.tail(tagContent)).then(lines => lines.join('\n'));
         }
         if (fileNameQuotedMatcher.test(tagContent)) {
             //remove quotes
             const fileNameWithoutQuotes = fileNameQuotedMatcher
                 .head(tagContent)
                 .slice(1, -1);
-            return commandDispatcher(fileNameWithoutQuotes, fileNameQuotedMatcher.tail(tagContent));
+            return commandDispatcher(fileNameWithoutQuotes, fileNameQuotedMatcher.tail(tagContent)).then(lines => lines.join('\n'));
         }
         return Promise.reject(new Error(`Invalid tag content: [${tagContent}]`));
     };
@@ -46,10 +46,10 @@ const createCommandDispatcher = (options) => {
     const partContentProvider = (0, part_content_provider_1.createPartContentProvider)(partMapProvider, common_1.MARK_NAME_REGEXP);
     const fileNameResolver = (0, common_1.createFileNameResolver)(options.resourceDir);
     const partCmdMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)(/part:/);
-    return (fileName, restOfLine) => {
+    return async (fileName, restOfLine) => {
         const resolvedFileName = fileNameResolver(fileName);
         if (restOfLine === '') {
-            return (0, file_content_provider_1.fileContentProvider)(resolvedFileName);
+            return await (0, file_content_provider_1.fileContentProvider)(resolvedFileName);
         }
         if (partCmdMatcher.test(restOfLine)) {
             return partContentProvider(resolvedFileName, partCmdMatcher.tail(restOfLine));

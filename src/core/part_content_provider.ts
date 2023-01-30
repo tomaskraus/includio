@@ -8,12 +8,12 @@ import {appLog} from './common';
 const log = appLog.extend('partContentProvider');
 
 export const createPartContentProvider = (
-  partMapProvider: (partsFileName: string) => Promise<Map<string, string>>,
+  partMapProvider: (partsFileName: string) => Promise<Map<string, string[]>>,
   partNameRegexp: RegExp
 ) => {
   log('CREATE partContentProvider');
 
-  return async (fileName: string, partName: string): Promise<string> => {
+  return async (fileName: string, partName: string): Promise<string[]> => {
     if (partNameRegexp.test(partName) === false) {
       return Promise.reject(new Error(`Invalid part name: [${partName}]`));
     }

@@ -38,7 +38,7 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
       return commandDispatcher(
         fileNameMatcher.head(tagContent),
         fileNameMatcher.tail(tagContent)
-      );
+      ).then(lines => lines.join('\n'));
     }
     if (fileNameQuotedMatcher.test(tagContent)) {
       //remove quotes
@@ -48,7 +48,7 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
       return commandDispatcher(
         fileNameWithoutQuotes,
         fileNameQuotedMatcher.tail(tagContent)
-      );
+      ).then(lines => lines.join('\n'));
     }
 
     return Promise.reject(new Error(`Invalid tag content: [${tagContent}]`));
@@ -69,10 +69,10 @@ const createCommandDispatcher = (options: TIncludoOptions) => {
   const fileNameResolver = createFileNameResolver(options.resourceDir);
   const partCmdMatcher = createHeadTailMatcher(/part:/);
 
-  return (fileName: string, restOfLine: string): Promise<string> => {
+  return async (fileName: string, restOfLine: string): Promise<string[]> => {
     const resolvedFileName = fileNameResolver(fileName);
     if (restOfLine === '') {
-      return fileContentProvider(resolvedFileName);
+      return await fileContentProvider(resolvedFileName);
     }
     if (partCmdMatcher.test(restOfLine)) {
       return partContentProvider(

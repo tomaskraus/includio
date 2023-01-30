@@ -1,1 +1,1 @@
-export declare const createPartContentProvider: (partMapProvider: (partsFileName: string) => Promise<Map<string, string>>, partNameRegexp: RegExp) => (fileName: string, partName: string) => Promise<string>;
+export declare const createPartContentProvider: (partMapProvider: (partsFileName: string) => Promise<Map<string, string[]>>, partNameRegexp: RegExp) => (fileName: string, partName: string) => Promise<string[]>;
