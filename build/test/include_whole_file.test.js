@@ -81,7 +81,7 @@ describe('normal ops', () => {
     });
 });
 describe('error handling', () => {
-    test('unknown command name', async () => {
+    test('Invalid file name format', async () => {
         expect.assertions(4);
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         try {
@@ -90,8 +90,8 @@ describe('error handling', () => {
         catch (e) {
             expect(e.message).toContain('unknown-cmd-name.txt:2'); //file&line info
             expect(e.message).toContain('@@ source1.txt unknownCmd:  '); //line
-            expect(e.message).toContain('Unknown command name'); //err
-            expect(e.message).toContain('[unknownCmd:]'); //err
+            expect(e.message).toContain('Invalid file name format'); //err
+            expect(e.message).toContain('unknownCmd:'); //err
         }
     });
     test('Invalid file name for insertion (with invalid characters in file name)', async () => {

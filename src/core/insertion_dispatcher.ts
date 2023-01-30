@@ -20,42 +20,45 @@ import {createHeadTailMatcher} from '../utils/head_tail_matcher';
 const log = appLog.extend('insertionDispatcher');
 
 export const createInsertionDispatcher = (options: TIncludoOptions) => {
-  // https://stackoverflow.com/questions/6768779/test-filename-with-regular-expression
-  const FILEPATH_REGEXP = /[^<>;,?"*| ]+/;
-  const FILEPATH_QUOTED_REGEXP = /"[^<>;,?"*|]+"/;
-  const fileNameMatcher = createHeadTailMatcher(FILEPATH_REGEXP);
-  const fileNameQuotedMatcher = createHeadTailMatcher(FILEPATH_QUOTED_REGEXP);
-  const commandDispatcher = createCommandDispatcher(options);
-
   log(`CREATE insertionDispatcher. BaseDir: [${options.resourceDir}]`);
+
+  const getLines = createGetLines(options);
+
   return async (tagContent: string): Promise<string> => {
     log(`call on [${tagContent}]`);
     if (tagContent.length === 0) {
       return Promise.reject(new Error('empty tag not allowed!'));
     }
 
-    if (fileNameMatcher.test(tagContent)) {
-      return commandDispatcher(
-        fileNameMatcher.head(tagContent),
-        fileNameMatcher.tail(tagContent)
-      ).then(lines => lines.join('\n'));
-    }
-    if (fileNameQuotedMatcher.test(tagContent)) {
-      //remove quotes
-      const fileNameWithoutQuotes = fileNameQuotedMatcher
-        .head(tagContent)
-        .slice(1, -1);
-      return commandDispatcher(
-        fileNameWithoutQuotes,
-        fileNameQuotedMatcher.tail(tagContent)
-      ).then(lines => lines.join('\n'));
-    }
-
-    return Promise.reject(new Error(`Invalid tag content: [${tagContent}]`));
+    const lines = await getLines(tagContent);
+    return lines.join('\n');
   };
 };
 
-const createCommandDispatcher = (options: TIncludoOptions) => {
+const createParseFileName = () => {
+  // https://stackoverflow.com/questions/6768779/test-filename-with-regular-expression
+  const FILEPATH_REGEXP = /[^<>;,?"*| ]+/;
+  const FILEPATH_QUOTED_REGEXP = /"[^<>;,?"*|]+"/;
+  const fileNameMatcher = createHeadTailMatcher(FILEPATH_REGEXP);
+  const fileNameQuotedMatcher = createHeadTailMatcher(FILEPATH_QUOTED_REGEXP);
+
+  return (line: string): string => {
+    if (fileNameMatcher.test(line) && fileNameMatcher.tail(line) === '') {
+      return fileNameMatcher.head(line);
+    }
+    if (
+      fileNameQuotedMatcher.test(line) &&
+      fileNameQuotedMatcher.tail(line) === ''
+    ) {
+      //remove quotes
+      return fileNameQuotedMatcher.head(line).slice(1, -1);
+    }
+    throw new Error(`Invalid file name format: [${line}]
+    File name contains spaces. Enclose such a file name in quotes.`);
+  };
+};
+
+const createGetLines = (options: TIncludoOptions) => {
   const partMapProvider = createPartMapProvider(
     fileContentProvider,
     createPartTagProvider(options),
@@ -65,21 +68,19 @@ const createCommandDispatcher = (options: TIncludoOptions) => {
     partMapProvider,
     MARK_NAME_REGEXP
   );
-
   const fileNameResolver = createFileNameResolver(options.resourceDir);
-  const partCmdMatcher = createHeadTailMatcher(/part:/);
+  const parseFileName = createParseFileName();
 
-  return async (fileName: string, restOfLine: string): Promise<string[]> => {
-    const resolvedFileName = fileNameResolver(fileName);
-    if (restOfLine === '') {
-      return await fileContentProvider(resolvedFileName);
+  return async (tagContent: string): Promise<string[]> => {
+    const tokens = tagContent.split('part:');
+    const fileName = fileNameResolver(parseFileName(tokens[0]));
+
+    if (tokens.length === 1) {
+      return fileContentProvider(fileName);
     }
-    if (partCmdMatcher.test(restOfLine)) {
-      return partContentProvider(
-        resolvedFileName,
-        partCmdMatcher.tail(restOfLine)
-      );
+    if (tokens.length === 2) {
+      return partContentProvider(fileName, tokens[1].trim());
     }
-    return Promise.reject(new Error(`Unknown command name: [${restOfLine}]`));
+    throw new Error(`Invalid format: [${tagContent}]`);
   };
 };
