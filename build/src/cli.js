@@ -10,6 +10,9 @@ const node_process_1 = require("node:process");
 const default_value_1 = require("./utils/default_value");
 const log = common_1.appLog.extend('CLI');
 commander_1.program
+    .name('includo')
+    .description('Inserts files (or their parts) into a text file.')
+    .version((0, default_value_1.defaultIfNullOrUndefined)('-')(process.env.npm_package_version))
     .option('-i --inputFile <string>')
     .option('-o --outputFile <string>')
     .option('-s --sourceDir <string>');

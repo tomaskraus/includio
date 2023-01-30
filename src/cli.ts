@@ -13,6 +13,9 @@ import {defaultIfNullOrUndefined} from './utils/default_value';
 const log = appLog.extend('CLI');
 
 program
+  .name('includo')
+  .description('Inserts files (or their parts) into a text file.')
+  .version(defaultIfNullOrUndefined('-')(process.env.npm_package_version))
   .option('-i --inputFile <string>')
   .option('-o --outputFile <string>')
   .option('-s --sourceDir <string>');
