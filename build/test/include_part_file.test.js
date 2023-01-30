@@ -135,7 +135,7 @@ describe('error handling', () => {
             expect(e.message).toContain('No parts found'); //err
         }
     });
-    test('use part from file that contains no parts. Custom BaseDir', async () => {
+    test('use part from file that contains no parts. Custom resourceDir', async () => {
         expect.assertions(4);
         const p = (0, includo_1.createIncludoProcessor)({ resourceDir: 'dir-for-insert' });
         try {

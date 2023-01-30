@@ -15,7 +15,7 @@ const part_tag_provider_1 = require("./part_tag_provider");
 const head_tail_matcher_1 = require("../utils/head_tail_matcher");
 const log = common_1.appLog.extend('insertionDispatcher');
 const createInsertionDispatcher = (options) => {
-    log(`CREATE insertionDispatcher. BaseDir: [${options.resourceDir}]`);
+    log(`CREATE insertionDispatcher. resourceDir: [${options.resourceDir}]`);
     const getLines = createGetLines(options);
     return async (tagContent) => {
         log(`call on [${tagContent}]`);

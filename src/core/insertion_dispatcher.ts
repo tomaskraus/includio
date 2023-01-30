@@ -20,7 +20,7 @@ import {createHeadTailMatcher} from '../utils/head_tail_matcher';
 const log = appLog.extend('insertionDispatcher');
 
 export const createInsertionDispatcher = (options: TIncludoOptions) => {
-  log(`CREATE insertionDispatcher. BaseDir: [${options.resourceDir}]`);
+  log(`CREATE insertionDispatcher. resourceDir: [${options.resourceDir}]`);
 
   const getLines = createGetLines(options);
 

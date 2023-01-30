@@ -155,7 +155,7 @@ describe('error handling', () => {
     }
   });
 
-  test('use part from file that contains no parts. Custom BaseDir', async () => {
+  test('use part from file that contains no parts. Custom resourceDir', async () => {
     expect.assertions(4);
     const p = createIncludoProcessor({resourceDir: 'dir-for-insert'});
     try {
