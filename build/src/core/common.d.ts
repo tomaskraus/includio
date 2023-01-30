@@ -15,7 +15,7 @@ export type TIncludoOptions = {
     /**
      * A directory where to look for files for insertion
      */
-    sourceDir: string;
+    resourceDir: string;
 };
 export declare const DEFAULT_INCLUDO_OPTIONS: TIncludoOptions;
-export declare const createFileNameResolver: (sourceDir: string) => (fileName: string) => string;
+export declare const createFileNameResolver: (resourceDir: string) => (fileName: string) => string;

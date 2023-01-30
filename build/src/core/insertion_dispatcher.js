@@ -21,7 +21,7 @@ const createInsertionDispatcher = (options) => {
     const fileNameMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)(FILEPATH_REGEXP);
     const fileNameQuotedMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)(FILEPATH_QUOTED_REGEXP);
     const commandDispatcher = createCommandDispatcher(options);
-    log(`CREATE insertionDispatcher. BaseDir: [${options.sourceDir}]`);
+    log(`CREATE insertionDispatcher. BaseDir: [${options.resourceDir}]`);
     return async (tagContent) => {
         log(`call on [${tagContent}]`);
         if (tagContent.length === 0) {
@@ -44,7 +44,7 @@ exports.createInsertionDispatcher = createInsertionDispatcher;
 const createCommandDispatcher = (options) => {
     const partMapProvider = (0, part_map_provider_1.createPartMapProvider)(file_content_provider_1.fileContentProvider, (0, part_tag_provider_1.createPartTagProvider)(options), common_1.MARK_NAME_REGEXP);
     const partContentProvider = (0, part_content_provider_1.createPartContentProvider)(partMapProvider, common_1.MARK_NAME_REGEXP);
-    const fileNameResolver = (0, common_1.createFileNameResolver)(options.sourceDir);
+    const fileNameResolver = (0, common_1.createFileNameResolver)(options.resourceDir);
     const partCmdMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)(/part:/);
     return (fileName, restOfLine) => {
         const resolvedFileName = fileNameResolver(fileName);

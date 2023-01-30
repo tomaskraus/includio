@@ -13,8 +13,8 @@ exports.appLog = (0, debug_1.default)('includo');
 exports.MARK_NAME_REGEXP = /^[a-zA-z]+[\w\d-]*$/;
 exports.DEFAULT_INCLUDO_OPTIONS = {
     tagInsert: '@@',
-    sourceDir: '',
+    resourceDir: '',
 };
-const createFileNameResolver = (sourceDir) => (fileName) => (0, node_path_1.normalize)((0, node_path_1.join)(sourceDir, fileName));
+const createFileNameResolver = (resourceDir) => (fileName) => (0, node_path_1.normalize)((0, node_path_1.join)(resourceDir, fileName));
 exports.createFileNameResolver = createFileNameResolver;
 //# sourceMappingURL=common.js.map

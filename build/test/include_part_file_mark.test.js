@@ -136,7 +136,7 @@ describe('error handling', () => {
     });
     test('use part from file that contains no parts. Custom BaseDir', async () => {
         expect.assertions(4);
-        const p = (0, includo_1.createIncludoProcessor)({ sourceDir: 'dir-for-insert' });
+        const p = (0, includo_1.createIncludoProcessor)({ resourceDir: 'dir-for-insert' });
         try {
             await p('part-valid-source-with-no-parts.txt', output);
         }
@@ -144,7 +144,7 @@ describe('error handling', () => {
             expect(e.message).toContain('part-valid-source-with-no-parts.txt:2'); //file&line info
             expect(e.message).toContain('@@ source-with-no-parts.txt part: part1 '); //line
             expect(e.message).toContain('No parts found'); //err
-            expect(e.message).toContain('dir-for-insert/source-with-no-parts.txt'); //contains sourceDir in file path
+            expect(e.message).toContain('dir-for-insert/source-with-no-parts.txt'); //contains resourceDir in file path
         }
     });
     test('invalid part name in input file', async () => {
@@ -171,9 +171,9 @@ describe('error handling', () => {
             expect(e.message).toContain('ENOENT'); //err
         }
     });
-    test('Non-existent sourceDir', async () => {
+    test('Non-existent resourceDir', async () => {
         expect.assertions(4);
-        const p = (0, includo_1.createIncludoProcessor)({ sourceDir: 'abc' });
+        const p = (0, includo_1.createIncludoProcessor)({ resourceDir: 'abc' });
         try {
             await p('part-valid-exists.txt', output);
         }

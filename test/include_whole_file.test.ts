@@ -47,8 +47,8 @@ describe('normal ops', () => {
     );
   });
 
-  test('input with valid file name tag, using non-empty sourceDir', async () => {
-    const p = createIncludoProcessor({sourceDir: 'dir-for-insert'});
+  test('input with valid file name tag, using non-empty resourceDir', async () => {
+    const p = createIncludoProcessor({resourceDir: 'dir-for-insert'});
 
     const res = await p('tag-valid-file-name.txt', output);
     expect(res.lineNumber).toEqual(4);
@@ -116,9 +116,9 @@ describe('error handling', () => {
     }
   });
 
-  test('Non-existent file for insertion, in existent sourceDir', async () => {
+  test('Non-existent file for insertion, in existent resourceDir', async () => {
     expect.assertions(4);
-    const p = createIncludoProcessor({sourceDir: 'dir-for-insert'});
+    const p = createIncludoProcessor({resourceDir: 'dir-for-insert'});
     try {
       await p('tag-nonexistent-file-name.txt', output);
     } catch (e) {
@@ -127,13 +127,13 @@ describe('error handling', () => {
       expect((e as Error).message).toContain('ENOENT'); //err
       expect((e as Error).message).toContain(
         'dir-for-insert/nonexistentfile.txt'
-      ); //contains sourceDir in file path
+      ); //contains resourceDir in file path
     }
   });
 
-  test('Non-existent sourceDir', async () => {
+  test('Non-existent resourceDir', async () => {
     expect.assertions(4);
-    const p = createIncludoProcessor({sourceDir: 'abc'});
+    const p = createIncludoProcessor({resourceDir: 'abc'});
     try {
       await p('tag-valid-file-name.txt', output);
     } catch (e) {

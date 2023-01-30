@@ -61,8 +61,8 @@ describe('normal ops', () => {
         expect(res.lineNumber).toEqual(4);
         expect(output.toString()).toEqual('Hello, \n-- text insert --\n-- text line2 --\n\nWorld!\n');
     });
-    test('input with valid file name tag, using non-empty sourceDir', async () => {
-        const p = (0, includo_1.createIncludoProcessor)({ sourceDir: 'dir-for-insert' });
+    test('input with valid file name tag, using non-empty resourceDir', async () => {
+        const p = (0, includo_1.createIncludoProcessor)({ resourceDir: 'dir-for-insert' });
         const res = await p('tag-valid-file-name.txt', output);
         expect(res.lineNumber).toEqual(4);
         expect(output.toString()).toEqual('Hello, \n-- dir text insert --\n-- dir text line2 --\n\nWorld!\n');
@@ -118,9 +118,9 @@ describe('error handling', () => {
             expect(e.message).toContain('ENOENT'); //err
         }
     });
-    test('Non-existent file for insertion, in existent sourceDir', async () => {
+    test('Non-existent file for insertion, in existent resourceDir', async () => {
         expect.assertions(4);
-        const p = (0, includo_1.createIncludoProcessor)({ sourceDir: 'dir-for-insert' });
+        const p = (0, includo_1.createIncludoProcessor)({ resourceDir: 'dir-for-insert' });
         try {
             await p('tag-nonexistent-file-name.txt', output);
         }
@@ -128,12 +128,12 @@ describe('error handling', () => {
             expect(e.message).toContain('tag-nonexistent-file-name.txt:2'); //file&line info
             expect(e.message).toContain('@@ nonexistentfile.txt '); //line
             expect(e.message).toContain('ENOENT'); //err
-            expect(e.message).toContain('dir-for-insert/nonexistentfile.txt'); //contains sourceDir in file path
+            expect(e.message).toContain('dir-for-insert/nonexistentfile.txt'); //contains resourceDir in file path
         }
     });
-    test('Non-existent sourceDir', async () => {
+    test('Non-existent resourceDir', async () => {
         expect.assertions(4);
-        const p = (0, includo_1.createIncludoProcessor)({ sourceDir: 'abc' });
+        const p = (0, includo_1.createIncludoProcessor)({ resourceDir: 'abc' });
         try {
             await p('tag-valid-file-name.txt', output);
         }
