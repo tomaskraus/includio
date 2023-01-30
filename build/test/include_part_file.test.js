@@ -32,16 +32,16 @@ const mStream = __importStar(require("memory-streams"));
 let output;
 beforeEach(() => {
     (0, mock_fs_1.default)({
-        'part-valid-exists.txt': 'Hello, \n@@ source1.txt part: part1 \nWorld!\n',
-        'part-valid-exists-empty-content.txt': 'Hello, \n@@ source-empty-content-part.txt part: part1 \nWorld!\n',
-        'part-empty.txt': 'Hello, \n@@ source1.txt part:  \nWorld!\n',
-        'part-valid-exists-source-with-empty-part-name.txt': 'Hello, \n@@ source-part-without-name.txt part: part1 \nWorld!\n',
-        'part-valid-source-with-no-parts.txt': 'Hello, \n@@ source-with-no-parts.txt part: part1 \nWorld!\n',
-        'part-valid-exists-quoted-file.txt': 'Hello, \n@@ "source 1.txt" part: part1 \nWorld!\n',
-        'part-valid-nonexistent.txt': 'Hello, \none\n@@ source1.txt part: nonexistentpart \nWorld!',
-        'part-invalid.txt': 'Hello, \na second\n@@ source1.txt part: *invalidpart \nWorld!',
-        'part-valid-source-part-invalid.txt': 'Hello, \na second\n@@ source-invalid-part-name.txt part: part1 \nWorld!',
-        'tag-nonexistent-file-name.txt': 'Hello, \n@@ nonexistentfile.txt part: part1 \nWorld!',
+        'part-valid-exists.txt': 'Hello, \n@@ source1.txt : part1 \nWorld!\n',
+        'part-valid-exists-empty-content.txt': 'Hello, \n@@ source-empty-content-part.txt : part1 \nWorld!\n',
+        'part-empty.txt': 'Hello, \n@@ source1.txt :  \nWorld!\n',
+        'part-valid-exists-source-with-empty-part-name.txt': 'Hello, \n@@ source-part-without-name.txt : part1 \nWorld!\n',
+        'part-valid-source-with-no-parts.txt': 'Hello, \n@@ source-with-no-parts.txt : part1 \nWorld!\n',
+        'part-valid-exists-quoted-file.txt': 'Hello, \n@@ "source 1.txt" : part1 \nWorld!\n',
+        'part-valid-nonexistent.txt': 'Hello, \none\n@@ source1.txt : nonexistentpart \nWorld!',
+        'part-invalid.txt': 'Hello, \na second\n@@ source1.txt : *invalidpart \nWorld!',
+        'part-valid-source-part-invalid.txt': 'Hello, \na second\n@@ source-invalid-part-name.txt : part1 \nWorld!',
+        'tag-nonexistent-file-name.txt': 'Hello, \n@@ nonexistentfile.txt : part1 \nWorld!',
         'source1.txt': 'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2',
         'source 1.txt': 'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2',
         'source-empty-content-part.txt': 'text1 \n //< part1\n//< \ntext2 \n //< part2 \n m1 line1 \nm1 line2\n//< ',
@@ -93,7 +93,7 @@ describe('error handling', () => {
         }
         catch (e) {
             expect(e.message).toContain('part-valid-nonexistent.txt:3'); //file&line info
-            expect(e.message).toContain('@@ source1.txt part: nonexistentpart '); //line
+            expect(e.message).toContain('@@ source1.txt : nonexistentpart '); //line
             expect(e.message).toContain('[nonexistentpart] not found'); //err
         }
     });
@@ -105,7 +105,7 @@ describe('error handling', () => {
         }
         catch (e) {
             expect(e.message).toContain('part-empty.txt:2'); //file&line info
-            expect(e.message).toContain('@@ source1.txt part:  '); //line
+            expect(e.message).toContain('@@ source1.txt :  '); //line
             expect(e.message).toContain('Invalid part name'); //err
         }
     });
@@ -117,7 +117,7 @@ describe('error handling', () => {
         }
         catch (e) {
             expect(e.message).toContain('part-valid-source-part-invalid.txt:3'); //file&line info
-            expect(e.message).toContain('@@ source-invalid-part-name.txt part: part1 '); //line
+            expect(e.message).toContain('@@ source-invalid-part-name.txt : part1 '); //line
             expect(e.message).toContain('Invalid part name'); //err
             expect(e.message).toContain('[inv alid part]'); //err
         }
@@ -130,7 +130,7 @@ describe('error handling', () => {
         }
         catch (e) {
             expect(e.message).toContain('part-valid-source-with-no-parts.txt:2'); //file&line info
-            expect(e.message).toContain('@@ source-with-no-parts.txt part: part1 '); //line
+            expect(e.message).toContain('@@ source-with-no-parts.txt : part1 '); //line
             expect(e.message).toContain('No parts found'); //err
         }
     });
@@ -142,7 +142,7 @@ describe('error handling', () => {
         }
         catch (e) {
             expect(e.message).toContain('part-valid-source-with-no-parts.txt:2'); //file&line info
-            expect(e.message).toContain('@@ source-with-no-parts.txt part: part1 '); //line
+            expect(e.message).toContain('@@ source-with-no-parts.txt : part1 '); //line
             expect(e.message).toContain('No parts found'); //err
             expect(e.message).toContain('dir-for-insert/source-with-no-parts.txt'); //contains resourceDir in file path
         }
@@ -155,7 +155,7 @@ describe('error handling', () => {
         }
         catch (e) {
             expect(e.message).toContain('part-invalid.txt:3'); //file&line info
-            expect(e.message).toContain('@@ source1.txt part: *invalidpart '); //line
+            expect(e.message).toContain('@@ source1.txt : *invalidpart '); //line
             expect(e.message).toContain('Invalid part name'); //err
         }
     });

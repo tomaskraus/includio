@@ -9,24 +9,24 @@ let output: stream.Writable;
 
 beforeEach(() => {
   mock({
-    'part-valid-exists.txt': 'Hello, \n@@ source1.txt part: part1 \nWorld!\n',
+    'part-valid-exists.txt': 'Hello, \n@@ source1.txt : part1 \nWorld!\n',
     'part-valid-exists-empty-content.txt':
-      'Hello, \n@@ source-empty-content-part.txt part: part1 \nWorld!\n',
-    'part-empty.txt': 'Hello, \n@@ source1.txt part:  \nWorld!\n',
+      'Hello, \n@@ source-empty-content-part.txt : part1 \nWorld!\n',
+    'part-empty.txt': 'Hello, \n@@ source1.txt :  \nWorld!\n',
     'part-valid-exists-source-with-empty-part-name.txt':
-      'Hello, \n@@ source-part-without-name.txt part: part1 \nWorld!\n',
+      'Hello, \n@@ source-part-without-name.txt : part1 \nWorld!\n',
     'part-valid-source-with-no-parts.txt':
-      'Hello, \n@@ source-with-no-parts.txt part: part1 \nWorld!\n',
+      'Hello, \n@@ source-with-no-parts.txt : part1 \nWorld!\n',
     'part-valid-exists-quoted-file.txt':
-      'Hello, \n@@ "source 1.txt" part: part1 \nWorld!\n',
+      'Hello, \n@@ "source 1.txt" : part1 \nWorld!\n',
     'part-valid-nonexistent.txt':
-      'Hello, \none\n@@ source1.txt part: nonexistentpart \nWorld!',
+      'Hello, \none\n@@ source1.txt : nonexistentpart \nWorld!',
     'part-invalid.txt':
-      'Hello, \na second\n@@ source1.txt part: *invalidpart \nWorld!',
+      'Hello, \na second\n@@ source1.txt : *invalidpart \nWorld!',
     'part-valid-source-part-invalid.txt':
-      'Hello, \na second\n@@ source-invalid-part-name.txt part: part1 \nWorld!',
+      'Hello, \na second\n@@ source-invalid-part-name.txt : part1 \nWorld!',
     'tag-nonexistent-file-name.txt':
-      'Hello, \n@@ nonexistentfile.txt part: part1 \nWorld!',
+      'Hello, \n@@ nonexistentfile.txt : part1 \nWorld!',
 
     'source1.txt': 'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2',
     'source 1.txt': 'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2',
@@ -102,7 +102,7 @@ describe('error handling', () => {
     } catch (e) {
       expect((e as Error).message).toContain('part-valid-nonexistent.txt:3'); //file&line info
       expect((e as Error).message).toContain(
-        '@@ source1.txt part: nonexistentpart '
+        '@@ source1.txt : nonexistentpart '
       ); //line
       expect((e as Error).message).toContain('[nonexistentpart] not found'); //err
     }
@@ -115,7 +115,7 @@ describe('error handling', () => {
       await p('part-empty.txt', output);
     } catch (e) {
       expect((e as Error).message).toContain('part-empty.txt:2'); //file&line info
-      expect((e as Error).message).toContain('@@ source1.txt part:  '); //line
+      expect((e as Error).message).toContain('@@ source1.txt :  '); //line
       expect((e as Error).message).toContain('Invalid part name'); //err
     }
   });
@@ -130,7 +130,7 @@ describe('error handling', () => {
         'part-valid-source-part-invalid.txt:3'
       ); //file&line info
       expect((e as Error).message).toContain(
-        '@@ source-invalid-part-name.txt part: part1 '
+        '@@ source-invalid-part-name.txt : part1 '
       ); //line
       expect((e as Error).message).toContain('Invalid part name'); //err
       expect((e as Error).message).toContain('[inv alid part]'); //err
@@ -147,7 +147,7 @@ describe('error handling', () => {
         'part-valid-source-with-no-parts.txt:2'
       ); //file&line info
       expect((e as Error).message).toContain(
-        '@@ source-with-no-parts.txt part: part1 '
+        '@@ source-with-no-parts.txt : part1 '
       ); //line
       expect((e as Error).message).toContain('No parts found'); //err
     }
@@ -163,7 +163,7 @@ describe('error handling', () => {
         'part-valid-source-with-no-parts.txt:2'
       ); //file&line info
       expect((e as Error).message).toContain(
-        '@@ source-with-no-parts.txt part: part1 '
+        '@@ source-with-no-parts.txt : part1 '
       ); //line
       expect((e as Error).message).toContain('No parts found'); //err
       expect((e as Error).message).toContain(
@@ -179,9 +179,7 @@ describe('error handling', () => {
       await p('part-invalid.txt', output);
     } catch (e) {
       expect((e as Error).message).toContain('part-invalid.txt:3'); //file&line info
-      expect((e as Error).message).toContain(
-        '@@ source1.txt part: *invalidpart '
-      ); //line
+      expect((e as Error).message).toContain('@@ source1.txt : *invalidpart '); //line
       expect((e as Error).message).toContain('Invalid part name'); //err
     }
   });

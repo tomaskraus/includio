@@ -52,7 +52,7 @@ const createGetLines = (options) => {
     const fileNameResolver = (0, common_1.createFileNameResolver)(options.resourceDir);
     const parseFileName = createParseFileName();
     return async (tagContent) => {
-        const tokens = tagContent.split('part:');
+        const tokens = tagContent.split(':');
         const fileName = fileNameResolver(parseFileName(tokens[0]));
         if (tokens.length === 1) {
             return (0, file_content_provider_1.fileContentProvider)(fileName);

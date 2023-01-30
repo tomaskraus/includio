@@ -72,7 +72,7 @@ const createGetLines = (options: TIncludoOptions) => {
   const parseFileName = createParseFileName();
 
   return async (tagContent: string): Promise<string[]> => {
-    const tokens = tagContent.split('part:');
+    const tokens = tagContent.split(':');
     const fileName = fileNameResolver(parseFileName(tokens[0]));
 
     if (tokens.length === 1) {
