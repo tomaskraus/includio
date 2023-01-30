@@ -60,7 +60,7 @@ const createGetLines = (options) => {
         if (tokens.length === 2) {
             return partContentProvider(fileName, tokens[1].trim());
         }
-        throw new Error(`Invalid format: [${tagContent}]`);
+        throw new Error(`Only one part allowed: [${tagContent}]`);
     };
 };
 //# sourceMappingURL=insertion_dispatcher.js.map

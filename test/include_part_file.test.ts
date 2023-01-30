@@ -13,6 +13,8 @@ beforeEach(() => {
     'part-valid-exists-empty-content.txt':
       'Hello, \n@@ source-empty-content-part.txt : part1 \nWorld!\n',
     'part-empty.txt': 'Hello, \n@@ source1.txt :  \nWorld!\n',
+    'part-more-at-once.txt':
+      'Hello, \n@@ source1.txt : part1 : part2 \nWorld!\n',
     'part-valid-exists-source-with-empty-part-name.txt':
       'Hello, \n@@ source-part-without-name.txt : part1 \nWorld!\n',
     'part-valid-source-with-no-parts.txt':
@@ -181,6 +183,18 @@ describe('error handling', () => {
       expect((e as Error).message).toContain('part-invalid.txt:3'); //file&line info
       expect((e as Error).message).toContain('@@ source1.txt : *invalidpart '); //line
       expect((e as Error).message).toContain('Invalid part name'); //err
+    }
+  });
+
+  test('more parts at once', async () => {
+    expect.assertions(3);
+    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    try {
+      await p('part-more-at-once.txt', output);
+    } catch (e) {
+      expect((e as Error).message).toContain('part-more-at-once.txt:2'); //file&line info
+      expect((e as Error).message).toContain('@@ source1.txt : part1 : part2'); //line
+      expect((e as Error).message).toContain('Only one part allowed'); //err
     }
   });
 
