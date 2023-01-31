@@ -28,6 +28,9 @@ describe('IntegerValidator', () => {
     });
 });
 describe('IntegerValidator - errors', () => {
+    test('no value', () => {
+        expect(() => validateIntMinMinus1Max10('')).toThrow('no integer value found');
+    });
     test('float value', () => {
         expect(() => validateIntMinMinus1Max10(' 5.1')).toThrow('not an integer');
     });

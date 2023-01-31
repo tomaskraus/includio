@@ -30,6 +30,9 @@ const createIntegerValidator = (minValue = Number.MIN_SAFE_INTEGER, maxValue = N
  * @returns Function that parses an integer value from string.
  */
 (str, errorMessageBeginning) => {
+    if (str.length === 0) {
+        throw createErrorObj('no integer value found', errorMessageBeginning);
+    }
     if (/\./.test(str)) {
         throw createErrorObj(`value [${str}] is not an integer`, errorMessageBeginning);
     }

@@ -32,6 +32,10 @@ export const createIntegerValidator =
    * @returns Function that parses an integer value from string.
    */
   (str: string, errorMessageBeginning?: string) => {
+    if (str.length === 0) {
+      throw createErrorObj('no integer value found', errorMessageBeginning);
+    }
+
     if (/\./.test(str)) {
       throw createErrorObj(
         `value [${str}] is not an integer`,
