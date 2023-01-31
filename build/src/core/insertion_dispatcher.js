@@ -17,16 +17,20 @@ const log = common_1.appLog.extend('insertionDispatcher');
 const createInsertionDispatcher = (options) => {
     log(`CREATE insertionDispatcher. resourceDir: [${options.resourceDir}]`);
     const getLines = createGetLines(options);
+    const pipeDispatcher = createPipeDispatcher(common_1.COMMAND_NAME_REGEXP);
     return async (tagContent) => {
         log(`call on [${tagContent}]`);
         if (tagContent.length === 0) {
             return Promise.reject(new Error('empty tag not allowed!'));
         }
-        const lines = await getLines(tagContent);
-        return lines.join('\n');
+        const [contentSelectorStr, ...commandLines] = tagContent.split('|');
+        const sourceLines = await getLines(contentSelectorStr);
+        const result = pipeDispatcher(commandLines, sourceLines);
+        return result.join('\n');
     };
 };
 exports.createInsertionDispatcher = createInsertionDispatcher;
+//---------------------------------------------------------------------------------------
 const createParseFileName = () => {
     // https://stackoverflow.com/questions/6768779/test-filename-with-regular-expression
     const FILEPATH_REGEXP = /[^<>;,?"*| ]+/;
@@ -62,5 +66,31 @@ const createGetLines = (options) => {
         }
         throw new Error(`Only one part allowed: [${tagContent}]`);
     };
+};
+const createPipeDispatcher = (cmdNameRegexp) => {
+    const cmdNameMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)(cmdNameRegexp);
+    const pipeDispatcher = (cmdLines, previousResult) => {
+        if (cmdLines.length === 0) {
+            return previousResult;
+        }
+        else {
+            const [currentCmdLine, ...tail] = cmdLines;
+            const sanitizedCurrentCmdLine = currentCmdLine.trim();
+            if (sanitizedCurrentCmdLine === '') {
+                throw new Error('Empty command in pipe');
+            }
+            if (cmdNameMatcher.test(sanitizedCurrentCmdLine)) {
+                const cmdName = cmdNameMatcher.head(sanitizedCurrentCmdLine);
+                const cmdArgs = cmdNameMatcher.tail(sanitizedCurrentCmdLine).split(',');
+                const currentResult = commandDispatcher(previousResult, cmdName, cmdArgs);
+                return pipeDispatcher(tail, currentResult);
+            }
+            throw new Error(`Invalid command name [${sanitizedCurrentCmdLine}]`);
+        }
+    };
+    return pipeDispatcher;
+};
+const commandDispatcher = (input, commandName, commandArguments) => {
+    return input;
 };
 //# sourceMappingURL=insertion_dispatcher.js.map

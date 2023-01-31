@@ -8,6 +8,7 @@
 import {
   appLog,
   MARK_NAME_REGEXP,
+  COMMAND_NAME_REGEXP,
   TIncludoOptions,
   createFileNameResolver,
 } from './common';
@@ -23,6 +24,7 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
   log(`CREATE insertionDispatcher. resourceDir: [${options.resourceDir}]`);
 
   const getLines = createGetLines(options);
+  const pipeDispatcher = createPipeDispatcher(COMMAND_NAME_REGEXP);
 
   return async (tagContent: string): Promise<string> => {
     log(`call on [${tagContent}]`);
@@ -30,10 +32,15 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
       return Promise.reject(new Error('empty tag not allowed!'));
     }
 
-    const lines = await getLines(tagContent);
-    return lines.join('\n');
+    const [contentSelectorStr, ...commandLines] = tagContent.split('|');
+    const sourceLines = await getLines(contentSelectorStr);
+
+    const result = pipeDispatcher(commandLines, sourceLines);
+    return result.join('\n');
   };
 };
+
+//---------------------------------------------------------------------------------------
 
 const createParseFileName = () => {
   // https://stackoverflow.com/questions/6768779/test-filename-with-regular-expression
@@ -83,4 +90,44 @@ const createGetLines = (options: TIncludoOptions) => {
     }
     throw new Error(`Only one part allowed: [${tagContent}]`);
   };
+};
+
+const createPipeDispatcher = (cmdNameRegexp: RegExp) => {
+  const cmdNameMatcher = createHeadTailMatcher(cmdNameRegexp);
+
+  const pipeDispatcher = (
+    cmdLines: string[],
+    previousResult: string[]
+  ): string[] => {
+    if (cmdLines.length === 0) {
+      return previousResult;
+    } else {
+      const [currentCmdLine, ...tail] = cmdLines;
+      const sanitizedCurrentCmdLine = currentCmdLine.trim();
+      if (sanitizedCurrentCmdLine === '') {
+        throw new Error('Empty command in pipe');
+      }
+      if (cmdNameMatcher.test(sanitizedCurrentCmdLine)) {
+        const cmdName = cmdNameMatcher.head(sanitizedCurrentCmdLine);
+        const cmdArgs = cmdNameMatcher.tail(sanitizedCurrentCmdLine).split(',');
+        const currentResult = commandDispatcher(
+          previousResult,
+          cmdName,
+          cmdArgs
+        );
+        return pipeDispatcher(tail, currentResult);
+      }
+      throw new Error(`Invalid command name [${sanitizedCurrentCmdLine}]`);
+    }
+  };
+
+  return pipeDispatcher;
+};
+
+const commandDispatcher = (
+  input: string[],
+  commandName: string,
+  commandArguments: string[]
+): string[] => {
+  return input;
 };
