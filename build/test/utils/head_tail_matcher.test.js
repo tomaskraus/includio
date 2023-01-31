@@ -41,6 +41,13 @@ describe('HeadTailMatcher', () => {
         expect(matcher.tail(line)).toEqual('');
         expect(matcher.leftPadding(line)).toEqual(' ');
     });
+    test('matches an empty tail & trailing spaces', () => {
+        const line = '  run  ';
+        expect(matcher.test(line)).toBeTruthy();
+        expect(matcher.head(line)).toEqual('run');
+        expect(matcher.tail(line)).toEqual('');
+        expect(matcher.leftPadding(line)).toEqual('  ');
+    });
     test('matches alternate construct', () => {
         const matcher = (0, head_tail_matcher_1.createHeadTailMatcher)(/run|stop/);
         const lineRun = ' run script1 10 20';

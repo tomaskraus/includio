@@ -50,6 +50,14 @@ describe('HeadTailMatcher', () => {
     expect(matcher.leftPadding(line)).toEqual(' ');
   });
 
+  test('matches an empty tail & trailing spaces', () => {
+    const line = '  run  ';
+    expect(matcher.test(line)).toBeTruthy();
+    expect(matcher.head(line)).toEqual('run');
+    expect(matcher.tail(line)).toEqual('');
+    expect(matcher.leftPadding(line)).toEqual('  ');
+  });
+
   test('matches alternate construct', () => {
     const matcher = createHeadTailMatcher(/run|stop/);
 
