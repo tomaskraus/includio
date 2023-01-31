@@ -7,7 +7,7 @@
 
 import {
   appLog,
-  MARK_NAME_REGEXP,
+  PART_NAME_REGEXP,
   COMMAND_NAME_REGEXP,
   TIncludoOptions,
   createFileNameResolver,
@@ -69,11 +69,11 @@ const createGetLines = (options: TIncludoOptions) => {
   const partMapProvider = createPartMapProvider(
     fileContentProvider,
     createPartTagProvider(options),
-    MARK_NAME_REGEXP
+    PART_NAME_REGEXP
   );
   const partContentProvider = createPartContentProvider(
     partMapProvider,
-    MARK_NAME_REGEXP
+    PART_NAME_REGEXP
   );
   const fileNameResolver = createFileNameResolver(options.resourceDir);
   const parseFileName = createParseFileName();

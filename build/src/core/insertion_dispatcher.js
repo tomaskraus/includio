@@ -51,8 +51,8 @@ const createParseFileName = () => {
     };
 };
 const createGetLines = (options) => {
-    const partMapProvider = (0, part_map_provider_1.createPartMapProvider)(file_content_provider_1.fileContentProvider, (0, part_tag_provider_1.createPartTagProvider)(options), common_1.MARK_NAME_REGEXP);
-    const partContentProvider = (0, part_content_provider_1.createPartContentProvider)(partMapProvider, common_1.MARK_NAME_REGEXP);
+    const partMapProvider = (0, part_map_provider_1.createPartMapProvider)(file_content_provider_1.fileContentProvider, (0, part_tag_provider_1.createPartTagProvider)(options), common_1.PART_NAME_REGEXP);
+    const partContentProvider = (0, part_content_provider_1.createPartContentProvider)(partMapProvider, common_1.PART_NAME_REGEXP);
     const fileNameResolver = (0, common_1.createFileNameResolver)(options.resourceDir);
     const parseFileName = createParseFileName();
     return async (tagContent) => {

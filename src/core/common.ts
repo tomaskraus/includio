@@ -7,8 +7,9 @@ import {join, normalize} from 'node:path';
 
 export const appLog = Debug('includo');
 
-export const MARK_NAME_REGEXP = /^[a-zA-z]+[\w\d-]*$/;
-export const COMMAND_NAME_REGEXP = /^[a-zA-z]+[\w\d_]*$/;
+export const VAR_NAME_REGEXP = /^[a-zA-z]+[\w\d]*$/;
+export const PART_NAME_REGEXP = VAR_NAME_REGEXP;
+export const COMMAND_NAME_REGEXP = VAR_NAME_REGEXP;
 
 /**
  * Options for Includo
