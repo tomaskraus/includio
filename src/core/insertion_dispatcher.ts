@@ -11,6 +11,7 @@ import {
   COMMAND_NAME_REGEXP,
   TIncludoOptions,
   createFileNameResolver,
+  parseFileName,
 } from './common';
 import {fileContentProvider} from './file_content_provider';
 import {createPartMapProvider} from './part_map_provider';
@@ -42,29 +43,6 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
 
 //---------------------------------------------------------------------------------------
 
-const createParseFileName = () => {
-  // https://stackoverflow.com/questions/6768779/test-filename-with-regular-expression
-  const FILEPATH_REGEXP = /[^<>;,?"*| ]+/;
-  const FILEPATH_QUOTED_REGEXP = /"[^<>;,?"*|]+"/;
-  const fileNameMatcher = createHeadTailMatcher(FILEPATH_REGEXP);
-  const fileNameQuotedMatcher = createHeadTailMatcher(FILEPATH_QUOTED_REGEXP);
-
-  return (line: string): string => {
-    if (fileNameMatcher.test(line) && fileNameMatcher.tail(line) === '') {
-      return fileNameMatcher.head(line);
-    }
-    if (
-      fileNameQuotedMatcher.test(line) &&
-      fileNameQuotedMatcher.tail(line) === ''
-    ) {
-      //remove quotes
-      return fileNameQuotedMatcher.head(line).slice(1, -1);
-    }
-    throw new Error(`Invalid file name format: [${line}]
-    File name contains spaces. Enclose such a file name in quotes.`);
-  };
-};
-
 const createGetLines = (options: TIncludoOptions) => {
   const partMapProvider = createPartMapProvider(
     fileContentProvider,
@@ -76,7 +54,6 @@ const createGetLines = (options: TIncludoOptions) => {
     PART_NAME_REGEXP
   );
   const fileNameResolver = createFileNameResolver(options.resourceDir);
-  const parseFileName = createParseFileName();
 
   return async (tagContent: string): Promise<string[]> => {
     const tokens = tagContent.split(':');

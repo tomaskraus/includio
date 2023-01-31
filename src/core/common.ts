@@ -33,3 +33,24 @@ export const DEFAULT_INCLUDO_OPTIONS: TIncludoOptions = {
 export const createFileNameResolver =
   (resourceDir: string) => (fileName: string) =>
     normalize(join(resourceDir, fileName));
+
+const createParseFileName = () => {
+  // https://stackoverflow.com/questions/6768779/test-filename-with-regular-expression
+  const FILEPATH_REGEXP = /^[^<>;,?"*| ]+$/;
+  const FILEPATH_QUOTED_REGEXP = /^"[^<>;,?"*|]+"$/;
+
+  return (line: string): string => {
+    const sanitizedLine = line.trim();
+    if (FILEPATH_REGEXP.test(sanitizedLine)) {
+      return sanitizedLine;
+    }
+    if (FILEPATH_QUOTED_REGEXP.test(sanitizedLine)) {
+      //remove quotes
+      return sanitizedLine.slice(1, -1);
+    }
+    throw new Error(`Invalid file name format: [${line}]
+        File name contains spaces. Enclose such a file name in quotes.`);
+  };
+};
+
+export const parseFileName = createParseFileName();
