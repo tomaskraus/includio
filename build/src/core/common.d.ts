@@ -3,8 +3,8 @@
  */
 import Debug from 'debug';
 export declare const appLog: Debug.Debugger;
-export declare const VAR_NAME_REGEXP: RegExp;
 export declare const PART_NAME_REGEXP: RegExp;
+export declare const VAR_NAME_REGEXP: RegExp;
 export declare const COMMAND_NAME_REGEXP: RegExp;
 /**
  * Options for Includo

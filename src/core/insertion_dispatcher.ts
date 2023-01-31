@@ -18,6 +18,7 @@ import {createPartMapProvider} from './part_map_provider';
 import {createPartContentProvider} from './part_content_provider';
 import {createPartTagProvider} from './part_tag_provider';
 import {createHeadTailMatcher} from '../utils/head_tail_matcher';
+import {cmdFirst} from './commands';
 
 const log = appLog.extend('insertionDispatcher');
 
@@ -88,13 +89,13 @@ const createPipeDispatcher = (cmdNameRegexp: RegExp) => {
         const cmdName = cmdNameMatcher.head(sanitizedCurrentCmdLine);
         const cmdArgs = cmdNameMatcher.tail(sanitizedCurrentCmdLine).split(',');
         const currentResult = commandDispatcher(
-          previousResult,
           cmdName,
-          cmdArgs
+          cmdArgs,
+          previousResult
         );
         return pipeDispatcher(tail, currentResult);
       }
-      throw new Error(`Invalid command name [${sanitizedCurrentCmdLine}]`);
+      throw new Error(`Invalid command name: [${sanitizedCurrentCmdLine}]`);
     }
   };
 
@@ -102,9 +103,13 @@ const createPipeDispatcher = (cmdNameRegexp: RegExp) => {
 };
 
 const commandDispatcher = (
-  input: string[],
   commandName: string,
-  commandArguments: string[]
+  commandArguments: string[],
+  input: string[]
 ): string[] => {
-  return input;
+  if (commandName === 'first') {
+    return cmdFirst(input, commandArguments);
+  }
+
+  throw new Error(`Unknown command: [${commandName}]`);
 };

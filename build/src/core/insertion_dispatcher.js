@@ -13,6 +13,7 @@ const part_map_provider_1 = require("./part_map_provider");
 const part_content_provider_1 = require("./part_content_provider");
 const part_tag_provider_1 = require("./part_tag_provider");
 const head_tail_matcher_1 = require("../utils/head_tail_matcher");
+const commands_1 = require("./commands");
 const log = common_1.appLog.extend('insertionDispatcher');
 const createInsertionDispatcher = (options) => {
     log(`CREATE insertionDispatcher. resourceDir: [${options.resourceDir}]`);
@@ -62,15 +63,18 @@ const createPipeDispatcher = (cmdNameRegexp) => {
             if (cmdNameMatcher.test(sanitizedCurrentCmdLine)) {
                 const cmdName = cmdNameMatcher.head(sanitizedCurrentCmdLine);
                 const cmdArgs = cmdNameMatcher.tail(sanitizedCurrentCmdLine).split(',');
-                const currentResult = commandDispatcher(previousResult, cmdName, cmdArgs);
+                const currentResult = commandDispatcher(cmdName, cmdArgs, previousResult);
                 return pipeDispatcher(tail, currentResult);
             }
-            throw new Error(`Invalid command name [${sanitizedCurrentCmdLine}]`);
+            throw new Error(`Invalid command name: [${sanitizedCurrentCmdLine}]`);
         }
     };
     return pipeDispatcher;
 };
-const commandDispatcher = (input, commandName, commandArguments) => {
-    return input;
+const commandDispatcher = (commandName, commandArguments, input) => {
+    if (commandName === 'first') {
+        return (0, commands_1.cmdFirst)(input, commandArguments);
+    }
+    throw new Error(`Unknown command: [${commandName}]`);
 };
 //# sourceMappingURL=insertion_dispatcher.js.map
