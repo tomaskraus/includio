@@ -1,5 +1,5 @@
 /**
- * Default value hepler written in a functional style.
+ * Default value helper written in a functional style.
  *
  * @param defaultVal a default value
  * @returns a one argument function that returns defaultVal, if the argument's value is null or undefined
