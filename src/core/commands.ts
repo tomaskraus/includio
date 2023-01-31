@@ -9,13 +9,16 @@
  * Insertion commands can be pipelined.
  */
 
+import {createIntegerValidator} from '../utils/integer_validator';
+
 export type TIncludoCommand = (lines: string[], args: string[]) => string[];
 
+const positiveIntegerValidator = createIntegerValidator(1);
+
 export const cmdFirst: TIncludoCommand = (lines: string[], args: string[]) => {
-  if (args.length === 0 || args[0] === '') {
-    throw new Error(
-      'Positive integer argument required\n' + 'Example: first 3'
-    );
-  }
-  return lines.slice(0, 3);
+  const maxLineCount = positiveIntegerValidator(
+    args[0],
+    'first <maxLineCount: number>'
+  );
+  return lines.slice(0, maxLineCount);
 };

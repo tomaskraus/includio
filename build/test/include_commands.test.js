@@ -32,7 +32,7 @@ const mStream = __importStar(require("memory-streams"));
 let output;
 beforeEach(() => {
     (0, mock_fs_1.default)({
-        'first-cmd-view-more.txt': 'Hello, \n@@ source1.txt : part1 | first 3 \nWorld!\n',
+        'first-cmd-view-more.txt': 'Hello, \n@@ source1.txt : part1 | first 4 \nWorld!\n',
         'first-cmd-view-less.txt': 'Hello, \n@@ source1.txt | first 3 \n our\n World!\n',
         'first-cmd-view-exact.txt': 'Hello, \n@@ source1.txt : part1 | first 2 \nWorld!\n',
         'first-cmd-no-args.txt': 'Hello, \n@@ source1.txt : part1 | first \nWorld!\n',
@@ -62,8 +62,13 @@ describe('command: first', () => {
         await p('first-cmd-view-less.txt', output);
         expect(output.toString()).toEqual('Hello, \ntext1 \n //< part1 \n m1 line1 \n our\n World!\n');
     });
+    test('view exactly the line count what provided', async () => {
+        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        await p('first-cmd-view-exact.txt', output);
+        expect(output.toString()).toEqual('Hello, \n m1 line1 \nm1 line2\nWorld!\n');
+    });
     test('no args', async () => {
-        expect.assertions(3);
+        expect.assertions(4);
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         try {
             await p('first-cmd-no-args.txt', output);
@@ -71,7 +76,8 @@ describe('command: first', () => {
         catch (e) {
             expect(e.message).toContain('first-cmd-no-args.txt:2'); //file&line info
             expect(e.message).toContain('@@ source1.txt : part1 | first'); //line
-            expect(e.message).toContain('argument required'); //err
+            expect(e.message).toContain('no integer value found'); //err
+            expect(e.message).toContain('first <maxLineCount: number>'); //err
         }
     });
 });

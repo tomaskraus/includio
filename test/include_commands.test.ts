@@ -10,7 +10,7 @@ let output: stream.Writable;
 beforeEach(() => {
   mock({
     'first-cmd-view-more.txt':
-      'Hello, \n@@ source1.txt : part1 | first 3 \nWorld!\n',
+      'Hello, \n@@ source1.txt : part1 | first 4 \nWorld!\n',
     'first-cmd-view-less.txt':
       'Hello, \n@@ source1.txt | first 3 \n our\n World!\n',
     'first-cmd-view-exact.txt':
@@ -59,15 +59,25 @@ describe('command: first', () => {
     );
   });
 
+  test('view exactly the line count what provided', async () => {
+    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+
+    await p('first-cmd-view-exact.txt', output);
+    expect(output.toString()).toEqual(
+      'Hello, \n m1 line1 \nm1 line2\nWorld!\n'
+    );
+  });
+
   test('no args', async () => {
-    expect.assertions(3);
+    expect.assertions(4);
     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
     try {
       await p('first-cmd-no-args.txt', output);
     } catch (e) {
       expect((e as Error).message).toContain('first-cmd-no-args.txt:2'); //file&line info
       expect((e as Error).message).toContain('@@ source1.txt : part1 | first'); //line
-      expect((e as Error).message).toContain('argument required'); //err
+      expect((e as Error).message).toContain('no integer value found'); //err
+      expect((e as Error).message).toContain('first <maxLineCount: number>'); //err
     }
   });
 });

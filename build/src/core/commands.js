@@ -11,11 +11,11 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cmdFirst = void 0;
+const integer_validator_1 = require("../utils/integer_validator");
+const positiveIntegerValidator = (0, integer_validator_1.createIntegerValidator)(1);
 const cmdFirst = (lines, args) => {
-    if (args.length === 0 || args[0] === '') {
-        throw new Error('Positive integer argument required\n' + 'Example: first 3');
-    }
-    return lines.slice(0, 3);
+    const maxLineCount = positiveIntegerValidator(args[0], 'first <maxLineCount: number>');
+    return lines.slice(0, maxLineCount);
 };
 exports.cmdFirst = cmdFirst;
 //# sourceMappingURL=commands.js.map
