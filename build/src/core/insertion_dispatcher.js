@@ -17,7 +17,7 @@ const commands_1 = require("./commands");
 const log = common_1.appLog.extend('insertionDispatcher');
 const createInsertionDispatcher = (options) => {
     log(`CREATE insertionDispatcher. resourceDir: [${options.resourceDir}]`);
-    const getLines = createGetLines(options);
+    const getLines = createGetLines(options, common_1.PART_NAME_REGEXP);
     const pipeDispatcher = createPipeDispatcher(common_1.COMMAND_NAME_REGEXP);
     return async (tagContent) => {
         log(`call on [${tagContent}]`);
@@ -32,9 +32,9 @@ const createInsertionDispatcher = (options) => {
 };
 exports.createInsertionDispatcher = createInsertionDispatcher;
 //---------------------------------------------------------------------------------------
-const createGetLines = (options) => {
-    const partMapProvider = (0, part_map_provider_1.createPartMapProvider)(file_content_provider_1.fileContentProvider, (0, part_tag_provider_1.createPartTagProvider)(options), common_1.PART_NAME_REGEXP);
-    const partContentProvider = (0, part_content_provider_1.createPartContentProvider)(partMapProvider, common_1.PART_NAME_REGEXP);
+const createGetLines = (options, partNameRegexp) => {
+    const partMapProvider = (0, part_map_provider_1.createPartMapProvider)(file_content_provider_1.fileContentProvider, (0, part_tag_provider_1.createPartTagProvider)(options), partNameRegexp);
+    const partContentProvider = (0, part_content_provider_1.createPartContentProvider)(partMapProvider, partNameRegexp);
     const fileNameResolver = (0, common_1.createFileNameResolver)(options.resourceDir);
     return async (tagContent) => {
         const tokens = tagContent.split(':');

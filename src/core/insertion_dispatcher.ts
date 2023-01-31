@@ -25,7 +25,7 @@ const log = appLog.extend('insertionDispatcher');
 export const createInsertionDispatcher = (options: TIncludoOptions) => {
   log(`CREATE insertionDispatcher. resourceDir: [${options.resourceDir}]`);
 
-  const getLines = createGetLines(options);
+  const getLines = createGetLines(options, PART_NAME_REGEXP);
   const pipeDispatcher = createPipeDispatcher(COMMAND_NAME_REGEXP);
 
   return async (tagContent: string): Promise<string> => {
@@ -44,15 +44,15 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
 
 //---------------------------------------------------------------------------------------
 
-const createGetLines = (options: TIncludoOptions) => {
+const createGetLines = (options: TIncludoOptions, partNameRegexp: RegExp) => {
   const partMapProvider = createPartMapProvider(
     fileContentProvider,
     createPartTagProvider(options),
-    PART_NAME_REGEXP
+    partNameRegexp
   );
   const partContentProvider = createPartContentProvider(
     partMapProvider,
-    PART_NAME_REGEXP
+    partNameRegexp
   );
   const fileNameResolver = createFileNameResolver(options.resourceDir);
 
