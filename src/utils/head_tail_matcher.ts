@@ -2,6 +2,7 @@ import {defaultIfNullOrUndefined} from './default_value';
 
 export interface IHeadTailMatcher {
   test: (s: string) => boolean;
+  headTail: (s: string) => [string, string];
   head: (s: string) => string;
   tail: (s: string) => string;
   leftPadding: (s: string) => string;
@@ -22,16 +23,19 @@ export interface IHeadTailMatcher {
     const runStopMatcher = createHeadTailMatcher(/run|stop/);
 
     runStopMatcher.test('  run script1 10 20 ') === true;
+    runStopMatcher.headTail('  run script1 10 20 ') === ['run', 'script1 10 20'];
     runStopMatcher.head('  run script1 10 20 ') === 'run';
     runStopMatcher.tail('  run script1 10 20 ') === 'script1 10 20';
     runStopMatcher.leftPadding('  run script1 10 20 ') === '  ';
 
     runStopMatcher.test('stop') === true;
+    runStopMatcher.headTail('stop') === ['stop', ''];
     runStopMatcher.head('stop') === 'stop';
     runStopMatcher.tail('stop') === '';
     runStopMatcher.leftPadding('stop') === '';
 
     runStopMatcher.test(' something else ') === false;
+    runStopMatcher.headTail(' something else ') === ['', ''];
     runStopMatcher.head(' something else ') === '';
     runStopMatcher.tail(' something else ') === '';
     runStopMatcher.leftPadding(' something else ') === '';
@@ -53,26 +57,23 @@ export const createHeadTailMatcher = (
   const matcherRegexp = new RegExp(
     `^(\\s*)(${headValue})$|^(\\s*)(${headValue})\\s+(.*)$`
   );
-  const defaultMatches = ['', '', '', '', '', '', ''];
+  const safeMatches = defaultIfNullOrUndefined(['', '', '', '', '', '', '']);
+  const emptyIfNullOrUndef = defaultIfNullOrUndefined('');
+  const headTail = (s: string): [string, string] => {
+    const matches = safeMatches(s.match(matcherRegexp));
+    return [
+      emptyIfNullOrUndef(matches[2] || matches[4]).trim(),
+      emptyIfNullOrUndef(matches[5]).trim(),
+    ];
+  };
   return {
     test: (s: string) => matcherRegexp.test(s),
-    head: (s: string) => {
-      const matches = defaultIfNullOrUndefined(defaultMatches)(
-        s.match(matcherRegexp)
-      );
-      return defaultIfNullOrUndefined('')(matches[2] || matches[4]).trim();
-    },
-    tail: (s: string) => {
-      const matches = defaultIfNullOrUndefined(defaultMatches)(
-        s.match(matcherRegexp)
-      );
-      return defaultIfNullOrUndefined('')(matches[5]).trim();
-    },
+    headTail,
+    head: (s: string) => headTail(s)[0],
+    tail: (s: string) => headTail(s)[1],
     leftPadding: (s: string) => {
-      const matches = defaultIfNullOrUndefined(defaultMatches)(
-        s.match(matcherRegexp)
-      );
-      return defaultIfNullOrUndefined('')(matches[1] || matches[3]);
+      const matches = safeMatches(s.match(matcherRegexp));
+      return emptyIfNullOrUndef(matches[1] || matches[3]);
     },
   };
 };

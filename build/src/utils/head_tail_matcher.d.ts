@@ -1,5 +1,6 @@
 export interface IHeadTailMatcher {
     test: (s: string) => boolean;
+    headTail: (s: string) => [string, string];
     head: (s: string) => string;
     tail: (s: string) => string;
     leftPadding: (s: string) => string;
@@ -19,16 +20,19 @@ export interface IHeadTailMatcher {
     const runStopMatcher = createHeadTailMatcher(/run|stop/);
 
     runStopMatcher.test('  run script1 10 20 ') === true;
+    runStopMatcher.headTail('  run script1 10 20 ') === ['run', 'script1 10 20'];
     runStopMatcher.head('  run script1 10 20 ') === 'run';
     runStopMatcher.tail('  run script1 10 20 ') === 'script1 10 20';
     runStopMatcher.leftPadding('  run script1 10 20 ') === '  ';
 
     runStopMatcher.test('stop') === true;
+    runStopMatcher.headTail('stop') === ['stop', ''];
     runStopMatcher.head('stop') === 'stop';
     runStopMatcher.tail('stop') === '';
     runStopMatcher.leftPadding('stop') === '';
 
     runStopMatcher.test(' something else ') === false;
+    runStopMatcher.headTail(' something else ') === ['', ''];
     runStopMatcher.head(' something else ') === '';
     runStopMatcher.tail(' something else ') === '';
     runStopMatcher.leftPadding(' something else ') === '';
