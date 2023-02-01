@@ -46,8 +46,6 @@ createIncludoProcessor({
 })(
   defaultIfNullOrUndefined<string | stream.Readable>(stdin)(options.inputFile),
   defaultIfNullOrUndefined<string | stream.Writable>(stdout)(options.outputFile)
-)
-  .then(result => {
-    log(`lines read: ${result.lineNumber}`);
-  })
-  .catch(err => console.error(err));
+).then(result => {
+  log(`lines read: ${result.lineNumber}`);
+});

@@ -26,9 +26,7 @@ commander_1.program.parse();
 const options = commander_1.program.opts();
 (0, includo_1.createIncludoProcessor)({
     resourceDir: (0, default_value_1.defaultIfNullOrUndefined)('')(options.resourceDir),
-})((0, default_value_1.defaultIfNullOrUndefined)(node_process_1.stdin)(options.inputFile), (0, default_value_1.defaultIfNullOrUndefined)(node_process_1.stdout)(options.outputFile))
-    .then(result => {
+})((0, default_value_1.defaultIfNullOrUndefined)(node_process_1.stdin)(options.inputFile), (0, default_value_1.defaultIfNullOrUndefined)(node_process_1.stdout)(options.outputFile)).then(result => {
     log(`lines read: ${result.lineNumber}`);
-})
-    .catch(err => console.error(err));
+});
 //# sourceMappingURL=cli.js.map
