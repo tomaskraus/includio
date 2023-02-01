@@ -1,0 +1,20 @@
+there are some parts for fun:
+
+//< part1
+@@ include.txt
+//<
+
+//< part2
+@@ include.txt
+@@ include.txt
+//<
+
+one more...
+
+//< part3
+@@ include.txt
+@@ include.txt
+@@ include.txt
+//<
+
+and that's all...

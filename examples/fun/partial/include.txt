@@ -1,0 +1,5 @@
+@@ parts.txt : part1
+@@ parts.txt : part3
+@@ parts.txt : part2 | first 100
+@@ parts.txt : part1 | first 20
+@@ parts.txt : part3

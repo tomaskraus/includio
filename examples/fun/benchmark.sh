@@ -4,4 +4,6 @@ echo "running slow-fun..."
 time . slow-fun.sh $destDir/slow-fun-result.txt
 echo "running fast-fun..."
 time . fast-fun.sh $destDir/fast-fun-result.txt
+echo "running complex-fun..."
+time . complex-fun.sh $destDir/complex-fun-result.txt
 echo "Result files are in $destDir"
