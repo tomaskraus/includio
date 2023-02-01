@@ -14,7 +14,7 @@ exports.cmdFirst = void 0;
 const integer_validator_1 = require("../utils/integer_validator");
 const positiveIntegerValidator = (0, integer_validator_1.createIntegerValidator)(1);
 const cmdFirst = (lines, args) => {
-    const maxLineCount = positiveIntegerValidator(args[0], 'first <maxLineCount: number>');
+    const maxLineCount = positiveIntegerValidator(args[0], 'first <number>');
     const content = lines.slice(0, maxLineCount);
     if (maxLineCount < lines.length) {
         return [...content, '...'];

@@ -16,10 +16,7 @@ export type TIncludoCommand = (lines: string[], args: string[]) => string[];
 const positiveIntegerValidator = createIntegerValidator(1);
 
 export const cmdFirst: TIncludoCommand = (lines: string[], args: string[]) => {
-  const maxLineCount = positiveIntegerValidator(
-    args[0],
-    'first <maxLineCount: number>'
-  );
+  const maxLineCount = positiveIntegerValidator(args[0], 'first <number>');
   const content = lines.slice(0, maxLineCount);
   if (maxLineCount < lines.length) {
     return [...content, '...'];

@@ -77,7 +77,7 @@ describe('command: first', () => {
             expect(e.message).toContain('first-cmd-no-args.txt:2'); //file&line info
             expect(e.message).toContain('@@ source1.txt : part1 | first'); //line
             expect(e.message).toContain('no integer value found'); //err
-            expect(e.message).toContain('first <maxLineCount: number>'); //err
+            expect(e.message).toContain('first <number>'); //err
         }
     });
 });
