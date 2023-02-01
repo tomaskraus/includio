@@ -20,7 +20,7 @@ Options:
                              used.
   -h, --help                 display help for command
 
-  Example:
+  Example: 
   includo -i README.template.md -o README.md -r assets
 
 ```
