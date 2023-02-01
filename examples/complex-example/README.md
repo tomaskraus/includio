@@ -5,20 +5,23 @@ A simple file(part) includer tool.
 ### CLI usage:
 
 ```sh
-Usage: node_modules/.bin/preprocess -f <source> -d <destination> [--option
-<argument>]...
+Usage: includo [options]
+
+Inserts files (or their parts) into a text file.
 
 Options:
-  -h, --help      Show help                                            [boolean]
-  -f, --srcFile   The source file to be processed            [string] [required]
-  -d, --destFile  The file to be output after processing     [string] [required]
-  -c, --context   Context JSON object that includes variables found in the
-                  source                                                [string]
-  -t, --type      Type of file to process             [string] [default: "html"]
-  -v, --version   Show version number                                  [boolean]
+  -V, --version              output the version number
+  -i --inputFile <string>    File other files will be inserted into.
+                             If not specified, standard input will be used.
+  -o --outputFile <string>   File where to output the result.
+                             If not specified, standard output will be used.
+  -r --resourceDir <string>  Directory where to include files from.
+                             If not specified, current working dir (.) will be
+                             used.
+  -h, --help                 display help for command
 
-Missing required arguments: f, d
-[31mPlease provide both source (-f) and destination (-d) arguments to run this tool[39m
+  Example:
+  includo -i README.template.md -o README.md -r assets
 
 ```
 
@@ -35,21 +38,10 @@ For example, a template file for the content you are reading now, looks like:
 That line which contains the `@@ help.txt`, tells `Includo` to insert the `help.txt` file. Which looks like:
 
 ```
-Usage: node_modules/.bin/preprocess -f <source> -d <destination> [--option
-<argument>]...
+Usage: includo [options]
 
-Options:
-  -h, --help      Show help                                            [boolean]
-  -f, --srcFile   The source file to be processed            [string] [required]
-  -d, --destFile  The file to be output after processing     [string] [required]
-  -c, --context   Context JSON object that includes variables found in the
-                  source                                                [string]
-  -t, --type      Type of file to process             [string] [default: "html"]
-  -v, --version   Show version number                                  [boolean]
-
-Missing required arguments: f, d
-[31mPlease provide both source (-f) and destination (-d) arguments to run this tool[39m
-
+Inserts files (or their parts) into a text file.
+...
 ```
 
 ## API
@@ -69,6 +61,7 @@ createIncludoProcessor()(stdin, stdout)
 ```
 
 ### API usage
+
 ```ts
 import {createIncludoProcessor} from 'includo';
 ```
