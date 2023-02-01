@@ -9,14 +9,18 @@ let output: stream.Writable;
 
 beforeEach(() => {
   mock({
+    'first-cmd-more-args.txt':
+      'Hello, \n@@ source1.txt : part1 | first 1, 2 \nWorld!\n',
+
+    'first-cmd-chaining.txt':
+      'Hello, \n@@ source1.txt : part1 | first 2 | first 1 \nWorld!\n',
+
     'first-cmd-view-more.txt':
       'Hello, \n@@ source1.txt : part1 | first 4 \nWorld!\n',
     'first-cmd-view-less.txt':
       'Hello, \n@@ source1.txt | first 3 \n our\n World!\n',
     'first-cmd-view-exact.txt':
       'Hello, \n@@ source1.txt : part1 | first 2 \nWorld!\n',
-    'first-cmd-more-args.txt':
-      'Hello, \n@@ source1.txt : part1 | first 1, 2 \nWorld!\n',
 
     'first-cmd-no-args.txt':
       'Hello, \n@@ source1.txt : part1 | first \nWorld!\n',
@@ -46,6 +50,22 @@ afterEach(() => {
   mock.restore();
 });
 
+describe('command: common behavior', () => {
+  test('accepts more arguments than necessary', async () => {
+    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+
+    await p('first-cmd-more-args.txt', output);
+    expect(output.toString()).toEqual('Hello, \n m1 line1 \n...\nWorld!\n');
+  });
+
+  test('supports command chaining via pipeline', async () => {
+    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+
+    await p('first-cmd-chaining.txt', output);
+    expect(output.toString()).toEqual('Hello, \n m1 line1 \n...\nWorld!\n');
+  });
+});
+
 describe('command: first', () => {
   test('view more than provided', async () => {
     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
@@ -72,13 +92,6 @@ describe('command: first', () => {
     expect(output.toString()).toEqual(
       'Hello, \n m1 line1 \nm1 line2\nWorld!\n'
     );
-  });
-
-  test('more arguments', async () => {
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
-
-    await p('first-cmd-more-args.txt', output);
-    expect(output.toString()).toEqual('Hello, \n m1 line1 \n...\nWorld!\n');
   });
 });
 
