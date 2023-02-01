@@ -20,5 +20,9 @@ export const cmdFirst: TIncludoCommand = (lines: string[], args: string[]) => {
     args[0],
     'first <maxLineCount: number>'
   );
-  return lines.slice(0, maxLineCount);
+  const content = lines.slice(0, maxLineCount);
+  if (maxLineCount < lines.length) {
+    return [...content, '...'];
+  }
+  return content;
 };

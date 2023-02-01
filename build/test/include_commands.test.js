@@ -60,7 +60,7 @@ describe('command: first', () => {
     test('view less than provided', async () => {
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         await p('first-cmd-view-less.txt', output);
-        expect(output.toString()).toEqual('Hello, \ntext1 \n //< part1 \n m1 line1 \n our\n World!\n');
+        expect(output.toString()).toEqual('Hello, \ntext1 \n //< part1 \n m1 line1 \n...\n our\n World!\n');
     });
     test('view exactly the line count what provided', async () => {
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);

@@ -55,7 +55,7 @@ describe('command: first', () => {
 
     await p('first-cmd-view-less.txt', output);
     expect(output.toString()).toEqual(
-      'Hello, \ntext1 \n //< part1 \n m1 line1 \n our\n World!\n'
+      'Hello, \ntext1 \n //< part1 \n m1 line1 \n...\n our\n World!\n'
     );
   });
 
