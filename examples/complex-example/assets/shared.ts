@@ -1,5 +1,5 @@
 /*
-//< import-includo
+//< import_includo
 import {createIncludoProcessor} from 'includo';
 //<
 */

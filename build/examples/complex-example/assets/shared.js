@@ -1,6 +1,6 @@
 "use strict";
 /*
-//< import-includo
+//< import_includo
 import {createIncludoProcessor} from 'includo';
 //<
 */

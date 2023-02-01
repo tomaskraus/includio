@@ -21,7 +21,7 @@ For example, a template file for the content you are reading now, looks like:
 That line which contains the `@@ help.txt`, tells `Includo` to insert the `help.txt` file. Which looks like:
 
 ```
-@@ help.txt
+@@ help.txt | first 3
 ```
 
 ## API
@@ -29,12 +29,13 @@ That line which contains the `@@ help.txt`, tells `Includo` to insert the `help.
 @@ snippets.ts : txt
 
 ```ts
-@@ shared.ts : import-includo
+@@ shared.ts : import_includo
 
 @@ snippets.ts : code
 ```
 
 ### API usage
+
 ```ts
-@@ shared.ts : import-includo
+@@ shared.ts : import_includo
 ```
