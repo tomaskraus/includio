@@ -107,6 +107,9 @@ const commandDispatcher = (
   commandArguments: string[],
   input: string[]
 ): string[] => {
+  log(
+    `processing command [${commandName}] with arguments [${commandArguments}]`
+  );
   if (commandName === 'first') {
     return cmdFirst(input, commandArguments);
   }

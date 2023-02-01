@@ -72,6 +72,7 @@ const createPipeDispatcher = (cmdNameRegexp) => {
     return pipeDispatcher;
 };
 const commandDispatcher = (commandName, commandArguments, input) => {
+    log(`processing command [${commandName}] with arguments [${commandArguments}]`);
     if (commandName === 'first') {
         return (0, commands_1.cmdFirst)(input, commandArguments);
     }
