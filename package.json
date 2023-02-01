@@ -61,7 +61,6 @@
     "line-transform-machines": "github:tomaskraus/line-transform-machines",
     "readline-transform": "^1.0.0",
     "rxjs": "^7.8.0",
-    "split-if": "^1.0.3",
-    "stateful-predicates": "^1.0.2"
+    "split-if": "^1.0.3"
   }
 }
