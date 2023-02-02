@@ -11,9 +11,11 @@ const rxjs_1 = require("rxjs");
 const split_if_1 = require("split-if");
 const cache_fn_1 = require("../utils/cache_fn");
 const head_tail_matcher_1 = require("../utils/head_tail_matcher");
+const word_matcher_1 = require("../utils/word_matcher");
 const log = common_1.appLog.extend('partMapProvider');
 const createPartMapProvider = (fileContentProvider, partTagProvider, partNameRegexp) => {
     log('CREATE partMapProvider');
+    const partNameMatcher = (0, word_matcher_1.createWordMatcher)(partNameRegexp);
     const _getMapFromFile = async (partsFileName) => {
         log(`creating part map from [${partsFileName}]`);
         const partTagStr = partTagProvider(partsFileName);
@@ -28,7 +30,7 @@ const createPartMapProvider = (fileContentProvider, partTagProvider, partNameReg
             //create a part record
             (0, rxjs_1.map)(lines => {
                 const name = partTagMatcher.tail(lines[0]);
-                if (name.length > 0 && !partNameRegexp.test(name)) {
+                if (name.length > 0 && !partNameMatcher.test(name)) {
                     throw new Error(`Invalid part name: (${name})`);
                 }
                 return {

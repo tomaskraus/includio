@@ -43,7 +43,7 @@ const createGetLines = (options, partNameRegexp) => {
             return (0, file_content_provider_1.fileContentProvider)(fileName);
         }
         if (tokens.length === 2) {
-            return partContentProvider(fileName, tokens[1].trim());
+            return partContentProvider(fileName, tokens[1]);
         }
         throw new Error(`Only one part allowed: (${tagContent})`);
     };

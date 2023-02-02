@@ -3,6 +3,7 @@
  *
  * for a fileName and partName, returns content of a partName key for that file
  */
+import {createWordMatcher} from '../utils/word_matcher';
 import {appLog} from './common';
 
 const log = appLog.extend('partContentProvider');
@@ -13,17 +14,19 @@ export const createPartContentProvider = (
 ) => {
   log('CREATE partContentProvider');
 
+  const partNameMatcher = createWordMatcher(partNameRegexp);
   return async (fileName: string, partName: string): Promise<string[]> => {
-    if (partNameRegexp.test(partName) === false) {
+    if (partNameMatcher.test(partName) === false) {
       return Promise.reject(new Error(`Invalid part name: (${partName})`));
     }
+    const parsedPartName = partNameMatcher.word(partName);
     log(`getting part map for file [${fileName}]`);
     const partsMap = await partMapProvider(fileName);
-    log(`looking for part [${partName}]`);
-    const resultStr = partsMap.get(partName);
+    log(`looking for part [${parsedPartName}]`);
+    const resultStr = partsMap.get(parsedPartName);
     if (typeof resultStr === 'undefined') {
       return Promise.reject(
-        new Error(`part (${partName}) not found in (${fileName})`)
+        new Error(`part (${parsedPartName}) not found in (${fileName})`)
       );
     }
     return Promise.resolve(resultStr);

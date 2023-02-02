@@ -9,6 +9,7 @@ import {from, filter, scan, map} from 'rxjs';
 import {splitIf} from 'split-if';
 import {cacheOneArgFnAsync} from '../utils/cache_fn';
 import {createHeadTailMatcher} from '../utils/head_tail_matcher';
+import {createWordMatcher} from '../utils/word_matcher';
 
 const log = appLog.extend('partMapProvider');
 
@@ -19,6 +20,7 @@ export const createPartMapProvider = (
 ) => {
   log('CREATE partMapProvider');
 
+  const partNameMatcher = createWordMatcher(partNameRegexp);
   const _getMapFromFile = async (
     partsFileName: string
   ): Promise<Map<string, string[]>> => {
@@ -36,7 +38,7 @@ export const createPartMapProvider = (
           //create a part record
           map(lines => {
             const name = partTagMatcher.tail(lines[0]);
-            if (name.length > 0 && !partNameRegexp.test(name)) {
+            if (name.length > 0 && !partNameMatcher.test(name)) {
               throw new Error(`Invalid part name: (${name})`);
             }
             return {
