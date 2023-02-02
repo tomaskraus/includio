@@ -6,7 +6,7 @@
  * Writes the result to the output (file/stream).
  */
 import { TFileLineContext, TFileProcessor } from 'line-transform-machines';
-import { DEFAULT_INCLUDO_OPTIONS } from './core/common';
-import type { TIncludoOptions } from './core/common';
+import { DEFAULT_INCLUDO_OPTIONS } from './common';
+import type { TIncludoOptions } from './common';
 export { DEFAULT_INCLUDO_OPTIONS };
 export declare const createIncludoProcessor: (options?: Partial<TIncludoOptions>) => TFileProcessor<TFileLineContext>;

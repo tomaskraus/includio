@@ -27,7 +27,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mock_fs_1 = __importDefault(require("mock-fs"));
-const includo_1 = require("../src/includo");
+const includo_1 = require("../src/core/includo");
 const mStream = __importStar(require("memory-streams"));
 const line_transform_machines_1 = require("line-transform-machines");
 // import * as fs from 'fs';

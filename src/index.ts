@@ -1,1 +1,1 @@
-export {createIncludoProcessor, DEFAULT_INCLUDO_OPTIONS} from './includo';
+export {createIncludoProcessor, DEFAULT_INCLUDO_OPTIONS} from './core/includo';

@@ -9,10 +9,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createIncludoProcessor = exports.DEFAULT_INCLUDO_OPTIONS = void 0;
 const line_transform_machines_1 = require("line-transform-machines");
-const insertion_dispatcher_1 = require("./core/insertion_dispatcher");
-const common_1 = require("./core/common");
+const insertion_dispatcher_1 = require("./insertion_dispatcher");
+const common_1 = require("./common");
 Object.defineProperty(exports, "DEFAULT_INCLUDO_OPTIONS", { enumerable: true, get: function () { return common_1.DEFAULT_INCLUDO_OPTIONS; } });
-const head_tail_matcher_1 = require("./utils/head_tail_matcher");
+const head_tail_matcher_1 = require("../utils/head_tail_matcher");
 const log = common_1.appLog.extend('processor');
 const createIncludoLineCallback = (options) => {
     const insertionTagMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)(options.tagInsert);

@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Includo command line app
  */
 const commander_1 = require("commander");
-const includo_1 = require("./includo");
+const includo_1 = require("./core/includo");
 const common_1 = require("./core/common");
 const node_process_1 = require("node:process");
 const log = common_1.appLog.extend('CLI');

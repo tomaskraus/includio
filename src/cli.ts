@@ -3,7 +3,7 @@
  */
 import {program} from 'commander';
 
-import {createIncludoProcessor} from './includo';
+import {createIncludoProcessor} from './core/includo';
 import {appLog} from './core/common';
 
 import {stdin, stdout} from 'node:process';
