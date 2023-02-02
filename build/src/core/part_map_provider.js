@@ -31,7 +31,7 @@ const createPartMapProvider = (fileContentProvider, partTagProvider, partNameReg
             (0, rxjs_1.map)(lines => {
                 const name = partTagMatcher.tail(lines[0]);
                 if (name.length > 0 && !partNameMatcher.test(name)) {
-                    throw new Error(`Invalid part name: (${name})`);
+                    throw new Error(`Create part: invalid value: (${name})`);
                 }
                 return {
                     name,

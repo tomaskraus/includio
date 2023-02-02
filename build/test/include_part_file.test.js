@@ -106,10 +106,10 @@ describe('error handling', () => {
         }
         catch (e) {
             expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);
-            expect(e.message).toContain('Invalid part name'); //err
+            expect(e.message).toContain('invalid value'); //err
         }
     });
-    test('invalid part name (contains forbidden characters)', async () => {
+    test('invalid part name in resource file (contains forbidden characters)', async () => {
         expect.assertions(3);
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         try {
@@ -117,7 +117,7 @@ describe('error handling', () => {
         }
         catch (e) {
             expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);
-            expect(e.message).toContain('Invalid part name'); //err
+            expect(e.message).toContain('Create part: invalid value'); //err
             expect(e.message).toContain('(inv alid part)'); //err
         }
     });
@@ -151,7 +151,7 @@ describe('error handling', () => {
         }
         catch (e) {
             expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);
-            expect(e.message).toContain('Invalid part name'); //err
+            expect(e.message).toContain('invalid value'); //err
             expect(e.message).toContain('*invalidpart'); //err
         }
     });

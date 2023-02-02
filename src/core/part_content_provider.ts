@@ -13,13 +13,10 @@ export const createPartContentProvider = (
   partNameRegexp: RegExp
 ) => {
   log('CREATE partContentProvider');
-
   const partNameMatcher = createWordMatcher(partNameRegexp);
+
   return async (fileName: string, partNameStr: string): Promise<string[]> => {
-    if (partNameMatcher.test(partNameStr) === false) {
-      return Promise.reject(new Error(`Invalid part name: (${partNameStr})`));
-    }
-    const parsedPartName = partNameMatcher.value(partNameStr);
+    const parsedPartName = partNameMatcher.parse(partNameStr, 'Part');
     log(`getting part map for file [${fileName}]`);
     const partsMap = await partMapProvider(fileName);
     log(`looking for part [${parsedPartName}]`);

@@ -97,6 +97,14 @@ describe('WordMatcher', () => {
 
 describe('WordMatcher parse', () => {
   test('parse description appears in error msg', () => {
-    expect(() => matcher.parse('', 'someName is')).toThrow('someName is:');
+    expect(() => matcher.parse('', 'someName is')).toThrow(
+      'someName is: invalid value format: ()'
+    );
+  });
+
+  test('Default parse description appears in error msg', () => {
+    expect(() => matcher.parse('*')).toThrow(
+      'Value: invalid value format: (*)'
+    );
   });
 });

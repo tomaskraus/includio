@@ -21,10 +21,11 @@ export interface IWordMatcher {
 
       runStopMatcher.test(' run1 ') === false;
       runStopMatcher.value('  run1 ') === '';
+      assert.throws(() => runStopMatcher.parse('  run1 '));
 
       runStopMatcher.test(' run a ') === false;
       runStopMatcher.value('  run a ') === '';
-
+      assert.throws(() => runStopMatcher.parse('  run a '));
       ```
 
    * Limitations:

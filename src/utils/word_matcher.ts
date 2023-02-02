@@ -22,10 +22,11 @@ export interface IWordMatcher {
 
       runStopMatcher.test(' run1 ') === false;
       runStopMatcher.value('  run1 ') === '';
+      assert.throws(() => runStopMatcher.parse('  run1 '));
 
       runStopMatcher.test(' run a ') === false;
       runStopMatcher.value('  run a ') === '';
-
+      assert.throws(() => runStopMatcher.parse('  run a '));
       ```
 
    * Limitations:
@@ -44,7 +45,7 @@ export const createWordMatcher = (word: RegExp | string): IWordMatcher => {
 
   const parse = (s: string, name = 'Value') => {
     if (!matcherRegexp.test(s)) {
-      throw new Error(`${name}: wrong value format: (${s})`);
+      throw new Error(`${name}: invalid value format: (${s})`);
     }
     return getValue(s);
   };
