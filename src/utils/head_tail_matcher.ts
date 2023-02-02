@@ -42,10 +42,10 @@ export interface IHeadTailMatcher {
  *
  * (padding), (head) and (tail) are safe: return always a string, never null or undefined
  *
- * Tip: use ^ at the start of the regexp argument, to prevent FirstAndRestMatcher to recognize lines starting with white character(s)
+ * Tip: use ^ at the start of the regexp argument, to prevent HeadTailMatcher to recognize lines starting with white character(s)
  *
  * Limitations:
- * Do not use group construct in the (head) RegExp parameter. FirstAndRestMatcher may return unexpected results.
+ * Do not use group construct in the (head) RegExp parameter. HeadTailMatcher may return unexpected results.
  *
  */
 export const createHeadTailMatcher = (
