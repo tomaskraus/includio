@@ -1,6 +1,6 @@
 export interface IWordMatcher {
     test: (s: string) => boolean;
-    word: (s: string) => string;
+    value: (s: string) => string;
 }
 /**
    * RegExp special helper
@@ -13,16 +13,16 @@ export interface IWordMatcher {
       const runStopMatcher = createWordMatcher(/run|stop/);
 
       runStopMatcher.test('  run ') === true;
-      runStopMatcher.word('  run ') === 'run';  //trims the result
+      runStopMatcher.value('  run ') === 'run';  //trims the result
 
       runStopMatcher.test('stop') === true;
-      runStopMatcher.word('stop') === 'stop';
+      runStopMatcher.value('stop') === 'stop';
 
       runStopMatcher.test(' run1 ') === false;
-      runStopMatcher.word('  run1 ') === '';
+      runStopMatcher.value('  run1 ') === '';
 
       runStopMatcher.test(' run a ') === false;
-      runStopMatcher.word('  run a ') === '';
+      runStopMatcher.value('  run a ') === '';
 
       ```
 

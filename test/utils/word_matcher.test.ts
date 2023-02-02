@@ -9,31 +9,31 @@ beforeEach(() => {
 describe('WordMatcher', () => {
   test('does not match empty sample, returns empty strings', () => {
     expect(matcher.test('')).toBeFalsy();
-    expect(matcher.word('')).toEqual('');
+    expect(matcher.value('')).toEqual('');
   });
 
   test('matches typical example', () => {
     const line = '  run  ';
     expect(matcher.test(line)).toBeTruthy();
-    expect(matcher.word(line)).toEqual('run');
+    expect(matcher.value(line)).toEqual('run');
   });
 
   test("does not match if word doesn't match", () => {
     const line = '  ru.n ';
     expect(matcher.test(line)).toBeFalsy();
-    expect(matcher.word(line)).toEqual('');
+    expect(matcher.value(line)).toEqual('');
   });
 
   test('does not match more words', () => {
     const line = '  run quick ';
     expect(matcher.test(line)).toBeFalsy();
-    expect(matcher.word(line)).toEqual('');
+    expect(matcher.value(line)).toEqual('');
   });
 
   test('matches empty padding', () => {
     const line = 'run ';
     expect(matcher.test(line)).toBeTruthy();
-    expect(matcher.word(line)).toEqual('run');
+    expect(matcher.value(line)).toEqual('run');
   });
 
   test('template overrides space matching', () => {
@@ -41,23 +41,23 @@ describe('WordMatcher', () => {
 
     const line = 'run';
     expect(strictMatcher.test(line)).toBeTruthy();
-    expect(strictMatcher.word(line)).toEqual('run');
+    expect(strictMatcher.value(line)).toEqual('run');
 
     const line2 = ' run';
     expect(strictMatcher.test(line2)).toBeFalsy();
-    expect(strictMatcher.word(line2)).toEqual('');
+    expect(strictMatcher.value(line2)).toEqual('');
   });
 
   test('matches an empty tail', () => {
     const line = ' run';
     expect(matcher.test(line)).toBeTruthy();
-    expect(matcher.word(line)).toEqual('run');
+    expect(matcher.value(line)).toEqual('run');
   });
 
   test('matches no heading and trailing spaces', () => {
     const line = 'run';
     expect(matcher.test(line)).toBeTruthy();
-    expect(matcher.word(line)).toEqual('run');
+    expect(matcher.value(line)).toEqual('run');
   });
 
   test('matches alternate construct', () => {
@@ -65,15 +65,15 @@ describe('WordMatcher', () => {
 
     const lineRun = ' run ';
     expect(matcher.test(lineRun)).toBeTruthy();
-    expect(matcher.word(lineRun)).toEqual('run');
+    expect(matcher.value(lineRun)).toEqual('run');
 
     const lineStop = 'stop  ';
     expect(matcher.test(lineStop)).toBeTruthy();
-    expect(matcher.word(lineStop)).toEqual('stop');
+    expect(matcher.value(lineStop)).toEqual('stop');
 
     const lineIdle = '  idle ';
     expect(matcher.test(lineIdle)).toBeFalsy();
-    expect(matcher.word(lineIdle)).toEqual('');
+    expect(matcher.value(lineIdle)).toEqual('');
   });
 
   test('create matcher from string', () => {
@@ -81,10 +81,10 @@ describe('WordMatcher', () => {
 
     const lineIdle = '   idle   ';
     expect(idleMatcher.test(lineIdle)).toBeTruthy();
-    expect(idleMatcher.word(lineIdle)).toEqual('idle');
+    expect(idleMatcher.value(lineIdle)).toEqual('idle');
 
     const lineRun = '   run ';
     expect(idleMatcher.test(lineRun)).toBeFalsy();
-    expect(idleMatcher.word(lineRun)).toEqual('');
+    expect(idleMatcher.value(lineRun)).toEqual('');
   });
 });

@@ -16,7 +16,7 @@ const createPartContentProvider = (partMapProvider, partNameRegexp) => {
         if (partNameMatcher.test(partName) === false) {
             return Promise.reject(new Error(`Invalid part name: (${partName})`));
         }
-        const parsedPartName = partNameMatcher.word(partName);
+        const parsedPartName = partNameMatcher.value(partName);
         log(`getting part map for file [${fileName}]`);
         const partsMap = await partMapProvider(fileName);
         log(`looking for part [${parsedPartName}]`);
