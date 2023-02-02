@@ -1,6 +1,7 @@
 export interface IWordMatcher {
   test: (s: string) => boolean;
   value: (s: string) => string;
+  parse: (s: string, name?: string) => string;
 }
 
 /**
@@ -35,12 +36,22 @@ export const createWordMatcher = (word: RegExp | string): IWordMatcher => {
   const wordValue = typeof word === 'string' ? word : word.source;
   const matcherRegexp = new RegExp(`^\\s*(${wordValue})\\s*$`);
   const safeMatches = ['', ''];
+
   const getValue = (s: string): string => {
     const matches = s.match(matcherRegexp) || safeMatches;
     return (matches[1] || '').trim();
   };
+
+  const parse = (s: string, name = 'Value') => {
+    if (!matcherRegexp.test(s)) {
+      throw new Error(`${name}: wrong value format: (${s})`);
+    }
+    return getValue(s);
+  };
+
   return {
     test: (s: string) => matcherRegexp.test(s),
     value: getValue,
+    parse: parse,
   };
 };

@@ -37,9 +37,16 @@ const createWordMatcher = (word) => {
         const matches = s.match(matcherRegexp) || safeMatches;
         return (matches[1] || '').trim();
     };
+    const parse = (s, name = 'Value') => {
+        if (!matcherRegexp.test(s)) {
+            throw new Error(`${name}: wrong value format: (${s})`);
+        }
+        return getValue(s);
+    };
     return {
         test: (s) => matcherRegexp.test(s),
         value: getValue,
+        parse: parse,
     };
 };
 exports.createWordMatcher = createWordMatcher;

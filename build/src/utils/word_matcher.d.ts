@@ -1,6 +1,7 @@
 export interface IWordMatcher {
     test: (s: string) => boolean;
     value: (s: string) => string;
+    parse: (s: string, name?: string) => string;
 }
 /**
    * RegExp special helper

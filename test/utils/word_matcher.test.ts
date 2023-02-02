@@ -10,6 +10,7 @@ describe('WordMatcher', () => {
   test('does not match empty sample, returns empty strings', () => {
     expect(matcher.test('')).toBeFalsy();
     expect(matcher.value('')).toEqual('');
+    expect(() => matcher.parse('')).toThrow();
   });
 
   test('matches typical example', () => {
@@ -22,12 +23,14 @@ describe('WordMatcher', () => {
     const line = '  ru.n ';
     expect(matcher.test(line)).toBeFalsy();
     expect(matcher.value(line)).toEqual('');
+    expect(() => matcher.parse('')).toThrow();
   });
 
   test('does not match more words', () => {
     const line = '  run quick ';
     expect(matcher.test(line)).toBeFalsy();
     expect(matcher.value(line)).toEqual('');
+    expect(() => matcher.parse('')).toThrow();
   });
 
   test('matches empty padding', () => {
@@ -46,6 +49,7 @@ describe('WordMatcher', () => {
     const line2 = ' run';
     expect(strictMatcher.test(line2)).toBeFalsy();
     expect(strictMatcher.value(line2)).toEqual('');
+    expect(() => matcher.parse('')).toThrow();
   });
 
   test('matches an empty tail', () => {
@@ -74,6 +78,7 @@ describe('WordMatcher', () => {
     const lineIdle = '  idle ';
     expect(matcher.test(lineIdle)).toBeFalsy();
     expect(matcher.value(lineIdle)).toEqual('');
+    expect(() => matcher.parse('')).toThrow();
   });
 
   test('create matcher from string', () => {
@@ -86,5 +91,12 @@ describe('WordMatcher', () => {
     const lineRun = '   run ';
     expect(idleMatcher.test(lineRun)).toBeFalsy();
     expect(idleMatcher.value(lineRun)).toEqual('');
+    expect(() => matcher.parse('')).toThrow();
+  });
+});
+
+describe('WordMatcher parse', () => {
+  test('parse description appears in error msg', () => {
+    expect(() => matcher.parse('', 'someName is')).toThrow('someName is:');
   });
 });
