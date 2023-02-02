@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createHeadTailMatcher = void 0;
-const default_value_1 = require("./default_value");
 /**
  * RegExp special helper
  * For a given line, provides functions to recognize its three parts:
@@ -47,14 +46,10 @@ const default_value_1 = require("./default_value");
 const createHeadTailMatcher = (head) => {
     const headValue = typeof head === 'string' ? head : head.source;
     const matcherRegexp = new RegExp(`^(\\s*)(${headValue})$|^(\\s*)(${headValue})\\s+(.*)$`);
-    const safeMatches = (0, default_value_1.defaultIfNullOrUndefined)(['', '', '', '', '', '', '']);
-    const emptyIfNullOrUndef = (0, default_value_1.defaultIfNullOrUndefined)('');
+    const safeMatches = ['', '', '', '', '', '', ''];
     const headTail = (s) => {
-        const matches = safeMatches(s.match(matcherRegexp));
-        return [
-            emptyIfNullOrUndef(matches[2] || matches[4]).trim(),
-            emptyIfNullOrUndef(matches[5]).trim(),
-        ];
+        const matches = s.match(matcherRegexp) || safeMatches;
+        return [(matches[2] || matches[4] || '').trim(), (matches[5] || '').trim()];
     };
     return {
         test: (s) => matcherRegexp.test(s),
@@ -62,8 +57,8 @@ const createHeadTailMatcher = (head) => {
         head: (s) => headTail(s)[0],
         tail: (s) => headTail(s)[1],
         leftPadding: (s) => {
-            const matches = safeMatches(s.match(matcherRegexp));
-            return emptyIfNullOrUndef(matches[1] || matches[3]);
+            const matches = s.match(matcherRegexp) || safeMatches;
+            return matches[1] || matches[3] || '';
         },
     };
 };

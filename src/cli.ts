@@ -2,20 +2,18 @@
  * Includo command line app
  */
 import {program} from 'commander';
-import stream from 'stream';
 
 import {createIncludoProcessor} from './includo';
 import {appLog} from './core/common';
 
 import {stdin, stdout} from 'node:process';
-import {defaultIfNullOrUndefined} from './utils/default_value';
 
 const log = appLog.extend('CLI');
 
 program
   .name('includo')
   .description('Inserts files (or their parts) into a text file.')
-  .version(defaultIfNullOrUndefined('-')(process.env.npm_package_version))
+  .version(process.env.npm_package_version || '-')
   .option(
     '-i --inputFile <string>',
     'File other files will be inserted into.' +
@@ -42,10 +40,7 @@ program.parse();
 const options = program.opts();
 
 createIncludoProcessor({
-  resourceDir: defaultIfNullOrUndefined('')(options.resourceDir),
-})(
-  defaultIfNullOrUndefined<string | stream.Readable>(stdin)(options.inputFile),
-  defaultIfNullOrUndefined<string | stream.Writable>(stdout)(options.outputFile)
-).then(result => {
+  resourceDir: options.resourceDir || '',
+})(options.inputFile || stdin, options.outputFile || stdout).then(result => {
   log(`lines read: ${result.lineNumber}`);
 });

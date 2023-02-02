@@ -1,5 +1,3 @@
-import {defaultIfNullOrUndefined} from './default_value';
-
 export interface IHeadTailMatcher {
   test: (s: string) => boolean;
   headTail: (s: string) => [string, string];
@@ -57,14 +55,10 @@ export const createHeadTailMatcher = (
   const matcherRegexp = new RegExp(
     `^(\\s*)(${headValue})$|^(\\s*)(${headValue})\\s+(.*)$`
   );
-  const safeMatches = defaultIfNullOrUndefined(['', '', '', '', '', '', '']);
-  const emptyIfNullOrUndef = defaultIfNullOrUndefined('');
+  const safeMatches = ['', '', '', '', '', '', ''];
   const headTail = (s: string): [string, string] => {
-    const matches = safeMatches(s.match(matcherRegexp));
-    return [
-      emptyIfNullOrUndef(matches[2] || matches[4]).trim(),
-      emptyIfNullOrUndef(matches[5]).trim(),
-    ];
+    const matches = s.match(matcherRegexp) || safeMatches;
+    return [(matches[2] || matches[4] || '').trim(), (matches[5] || '').trim()];
   };
   return {
     test: (s: string) => matcherRegexp.test(s),
@@ -72,8 +66,8 @@ export const createHeadTailMatcher = (
     head: (s: string) => headTail(s)[0],
     tail: (s: string) => headTail(s)[1],
     leftPadding: (s: string) => {
-      const matches = safeMatches(s.match(matcherRegexp));
-      return emptyIfNullOrUndef(matches[1] || matches[3]);
+      const matches = s.match(matcherRegexp) || safeMatches;
+      return matches[1] || matches[3] || '';
     },
   };
 };
