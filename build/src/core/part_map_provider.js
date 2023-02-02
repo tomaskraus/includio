@@ -29,7 +29,7 @@ const createPartMapProvider = (fileContentProvider, partTagProvider, partNameReg
             (0, rxjs_1.map)(lines => {
                 const name = partTagMatcher.tail(lines[0]);
                 if (name.length > 0 && !partNameRegexp.test(name)) {
-                    throw new Error(`Invalid part name [${name}]`);
+                    throw new Error(`Invalid part name: (${name})`);
                 }
                 return {
                     name,
@@ -49,7 +49,7 @@ const createPartMapProvider = (fileContentProvider, partTagProvider, partNameReg
                 },
                 complete: () => {
                     if (parts.size === 0) {
-                        reject(new Error(`No parts found in [${partsFileName}]`));
+                        reject(new Error(`No parts found in (${partsFileName})`));
                     }
                     resolve(parts);
                 },

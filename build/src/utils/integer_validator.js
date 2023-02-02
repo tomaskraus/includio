@@ -34,19 +34,19 @@ const createIntegerValidator = (minValue = Number.MIN_SAFE_INTEGER, maxValue = N
         throw createErrorObj('no integer value found', errorMessageBeginning);
     }
     if (/\./.test(str)) {
-        throw createErrorObj(`value [${str}] is not an integer`, errorMessageBeginning);
+        throw createErrorObj(`value (${str}) is not an integer`, errorMessageBeginning);
     }
     const val = Number(str);
     if (Number.isFinite(val)) {
         if (val < minValue) {
-            throw createErrorObj(`value [${val}] is lower than a required minimum [${minValue}]`, errorMessageBeginning);
+            throw createErrorObj(`value (${val}) is lower than a required minimum [${minValue}]`, errorMessageBeginning);
         }
         if (val > maxValue) {
-            throw createErrorObj(`value [${val}] is greater than a required maximum [${maxValue}]`, errorMessageBeginning);
+            throw createErrorObj(`value (${val}) is greater than a required maximum [${maxValue}]`, errorMessageBeginning);
         }
         return val;
     }
-    throw createErrorObj(`[${str}] is not a number`, errorMessageBeginning);
+    throw createErrorObj(`(${str}) is not a number`, errorMessageBeginning);
 };
 exports.createIntegerValidator = createIntegerValidator;
 const createErrorObj = (msg, errorMessage) => {

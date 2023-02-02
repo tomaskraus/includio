@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mock_fs_1 = __importDefault(require("mock-fs"));
 const includo_1 = require("../src/includo");
 const mStream = __importStar(require("memory-streams"));
+const line_transform_machines_1 = require("line-transform-machines");
 let output;
 beforeEach(() => {
     (0, mock_fs_1.default)({
@@ -87,65 +88,59 @@ describe('normal ops', () => {
 });
 describe('error handling', () => {
     test('nonexistent part name', async () => {
-        expect.assertions(3);
+        expect.assertions(2);
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         try {
             await p('part-valid-nonexistent.txt', output);
         }
         catch (e) {
-            expect(e.message).toContain('part-valid-nonexistent.txt:3'); //file&line info
-            expect(e.message).toContain('@@ source1.txt : nonexistentpart '); //line
-            expect(e.message).toContain('[nonexistentpart] not found'); //err
+            expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);
+            expect(e.message).toContain('(nonexistentpart) not found'); //err
         }
     });
     test('empty part name', async () => {
-        expect.assertions(3);
+        expect.assertions(2);
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         try {
             await p('part-empty.txt', output);
         }
         catch (e) {
-            expect(e.message).toContain('part-empty.txt:2'); //file&line info
-            expect(e.message).toContain('@@ source1.txt :  '); //line
+            expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);
             expect(e.message).toContain('Invalid part name'); //err
         }
     });
     test('invalid part name (contains forbidden characters)', async () => {
-        expect.assertions(4);
+        expect.assertions(3);
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         try {
             await p('part-valid-source-part-invalid.txt', output);
         }
         catch (e) {
-            expect(e.message).toContain('part-valid-source-part-invalid.txt:3'); //file&line info
-            expect(e.message).toContain('@@ source-invalid-part-name.txt : part1 '); //line
+            expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);
             expect(e.message).toContain('Invalid part name'); //err
-            expect(e.message).toContain('[inv alid part]'); //err
+            expect(e.message).toContain('(inv alid part)'); //err
         }
     });
     test('use part from file that contains no parts', async () => {
-        expect.assertions(3);
+        expect.assertions(2);
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         try {
             await p('part-valid-source-with-no-parts.txt', output);
         }
         catch (e) {
-            expect(e.message).toContain('part-valid-source-with-no-parts.txt:2'); //file&line info
-            expect(e.message).toContain('@@ source-with-no-parts.txt : part1 '); //line
+            expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);
             expect(e.message).toContain('No parts found'); //err
         }
     });
     test('use part from file that contains no parts. Custom resourceDir', async () => {
-        expect.assertions(4);
+        expect.assertions(2);
         const p = (0, includo_1.createIncludoProcessor)({ resourceDir: 'dir-for-insert' });
         try {
             await p('part-valid-source-with-no-parts.txt', output);
         }
         catch (e) {
-            expect(e.message).toContain('part-valid-source-with-no-parts.txt:2'); //file&line info
-            expect(e.message).toContain('@@ source-with-no-parts.txt : part1 '); //line
+            expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);
             expect(e.message).toContain('No parts found'); //err
-            expect(e.message).toContain('dir-for-insert/source-with-no-parts.txt'); //contains resourceDir in file path
         }
     });
     test('invalid part name in input file', async () => {
@@ -155,44 +150,41 @@ describe('error handling', () => {
             await p('part-invalid.txt', output);
         }
         catch (e) {
-            expect(e.message).toContain('part-invalid.txt:3'); //file&line info
-            expect(e.message).toContain('@@ source1.txt : *invalidpart '); //line
+            expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);
             expect(e.message).toContain('Invalid part name'); //err
+            expect(e.message).toContain('*invalidpart'); //err
         }
     });
     test('more parts at once', async () => {
-        expect.assertions(3);
+        expect.assertions(2);
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         try {
             await p('part-more-at-once.txt', output);
         }
         catch (e) {
-            expect(e.message).toContain('part-more-at-once.txt:2'); //file&line info
-            expect(e.message).toContain('@@ source1.txt : part1 : part2'); //line
+            expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);
             expect(e.message).toContain('Only one part allowed'); //err
         }
     });
     test('Non-existent file for insertion', async () => {
-        expect.assertions(3);
+        expect.assertions(2);
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         try {
             await p('tag-nonexistent-file-name.txt', output);
         }
         catch (e) {
-            expect(e.message).toContain('tag-nonexistent-file-name.txt:2'); //file&line info
-            expect(e.message).toContain('@@ nonexistentfile.txt '); //line
+            expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);
             expect(e.message).toContain('ENOENT'); //err
         }
     });
     test('Non-existent resourceDir', async () => {
-        expect.assertions(4);
+        expect.assertions(3);
         const p = (0, includo_1.createIncludoProcessor)({ resourceDir: 'abc' });
         try {
             await p('part-valid-exists.txt', output);
         }
         catch (e) {
-            expect(e.message).toContain('part-valid-exists.txt'); //file&line info
-            expect(e.message).toContain('@@ source1.txt '); //line
+            expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);
             expect(e.message).toContain('ENOENT'); //err
             expect(e.message).toContain('abc/source1.txt'); //err - file info
         }

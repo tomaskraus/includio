@@ -4,6 +4,7 @@ import {createIncludoProcessor, DEFAULT_INCLUDO_OPTIONS} from '../src/includo';
 import stream from 'stream';
 
 import * as mStream from 'memory-streams';
+import {LineMachineError} from 'line-transform-machines';
 
 let output: stream.Writable;
 
@@ -97,85 +98,77 @@ describe('command: first', () => {
 
 describe('command: first - errors', () => {
   test('no args', async () => {
-    expect.assertions(4);
+    expect.assertions(3);
     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
     try {
       await p('first-cmd-no-args.txt', output);
     } catch (e) {
-      expect((e as Error).message).toContain('first-cmd-no-args.txt:2'); //file&line info
-      expect((e as Error).message).toContain('@@ source1.txt : part1 | first'); //line
-      expect((e as Error).message).toContain('first <number>'); //err
-      expect((e as Error).message).toContain('no integer value found'); //err
+      expect(e).toBeInstanceOf(LineMachineError);
+      expect((e as LineMachineError).message).toContain('first <number>'); //err
+      expect((e as LineMachineError).message).toContain(
+        'no integer value found'
+      ); //err
     }
   });
 
   test('invalid args', async () => {
-    expect.assertions(4);
+    expect.assertions(3);
     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
     try {
       await p('first-cmd-invalid-args.txt', output);
     } catch (e) {
-      expect((e as Error).message).toContain('first-cmd-invalid-args.txt:2'); //file&line info
-      expect((e as Error).message).toContain(
-        '@@ source1.txt : part1 | first abc'
-      ); //line
-      expect((e as Error).message).toContain('first <number>'); //err
-      expect((e as Error).message).toContain('not a number'); //err
+      expect(e).toBeInstanceOf(LineMachineError);
+      expect((e as LineMachineError).message).toContain('first <number>'); //err
+      expect((e as LineMachineError).message).toContain('not a number'); //err
     }
   });
 
   test('out of range args', async () => {
-    expect.assertions(4);
+    expect.assertions(3);
     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
     try {
       await p('first-cmd-out-of-range-args.txt', output);
     } catch (e) {
-      expect((e as Error).message).toContain(
-        'first-cmd-out-of-range-args.txt:2'
-      ); //file&line info
-      expect((e as Error).message).toContain(
-        '@@ source1.txt : part1 | first 0'
-      ); //line
-      expect((e as Error).message).toContain('first <number>'); //err
-      expect((e as Error).message).toContain('[0] is lower than'); //err
+      expect(e).toBeInstanceOf(LineMachineError);
+      expect((e as LineMachineError).message).toContain('first <number>'); //err
+      expect((e as LineMachineError).message).toContain('(0) is lower than'); //err
     }
   });
 });
 
 describe('general error handling', () => {
   test('empty pipe', async () => {
-    expect.assertions(3);
+    expect.assertions(2);
     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
     try {
       await p('empty-pipe.txt', output);
     } catch (e) {
-      expect((e as Error).message).toContain('empty-pipe.txt:2'); //file&line info
-      expect((e as Error).message).toContain('@@ source1.txt | '); //line
-      expect((e as Error).message).toContain('Empty command in pipe'); //err
+      expect(e).toBeInstanceOf(LineMachineError);
+      expect((e as LineMachineError).message).toContain(
+        'Empty command in pipe'
+      ); //err
     }
   });
   test('invalid command name', async () => {
-    expect.assertions(4);
+    expect.assertions(3);
     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
     try {
       await p('invalid-cmd.txt', output);
     } catch (e) {
-      expect((e as Error).message).toContain('invalid-cmd.txt:2'); //file&line info
-      expect((e as Error).message).toContain('@@ source1.txt | in*valid 24'); //line
-      expect((e as Error).message).toContain('Invalid command name'); //err
-      expect((e as Error).message).toContain('[in*valid 24]'); //err
+      expect(e).toBeInstanceOf(LineMachineError);
+      expect((e as LineMachineError).message).toContain('Invalid command name'); //err
+      expect((e as LineMachineError).message).toContain('(in*valid 24)'); //err
     }
   });
   test('unknown command', async () => {
-    expect.assertions(4);
+    expect.assertions(3);
     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
     try {
       await p('unknown-cmd.txt', output);
     } catch (e) {
-      expect((e as Error).message).toContain('unknown-cmd.txt:2'); //file&line info
-      expect((e as Error).message).toContain('@@ source1.txt | unkn'); //line
-      expect((e as Error).message).toContain('Unknown command'); //err
-      expect((e as Error).message).toContain('[unkn]'); //err
+      expect(e).toBeInstanceOf(LineMachineError);
+      expect((e as LineMachineError).message).toContain('Unknown command'); //err
+      expect((e as LineMachineError).message).toContain('(unkn)'); //err
     }
   });
 });

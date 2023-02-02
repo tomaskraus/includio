@@ -48,7 +48,7 @@ const createParseFileName = () => {
       //remove quotes
       return sanitizedLine.slice(1, -1);
     }
-    throw new Error(`Invalid file name format: [${line}]`);
+    throw new Error(`Invalid file name format: (${line})`);
   };
 };
 

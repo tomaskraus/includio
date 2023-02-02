@@ -45,7 +45,7 @@ const createGetLines = (options, partNameRegexp) => {
         if (tokens.length === 2) {
             return partContentProvider(fileName, tokens[1].trim());
         }
-        throw new Error(`Only one part allowed: [${tagContent}]`);
+        throw new Error(`Only one part allowed: (${tagContent})`);
     };
 };
 const createPipeDispatcher = (cmdNameRegexp) => {
@@ -66,7 +66,7 @@ const createPipeDispatcher = (cmdNameRegexp) => {
                 const currentResult = commandDispatcher(cmdName, cmdArgs, previousResult);
                 return pipeDispatcher(tail, currentResult);
             }
-            throw new Error(`Invalid command name: [${sanitizedCurrentCmdLine}]`);
+            throw new Error(`Invalid command name: (${sanitizedCurrentCmdLine})`);
         }
     };
     return pipeDispatcher;
@@ -76,6 +76,6 @@ const commandDispatcher = (commandName, commandArguments, input) => {
     if (commandName === 'first') {
         return (0, commands_1.cmdFirst)(input, commandArguments);
     }
-    throw new Error(`Unknown command: [${commandName}]`);
+    throw new Error(`Unknown command: (${commandName})`);
 };
 //# sourceMappingURL=insertion_dispatcher.js.map

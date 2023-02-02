@@ -37,7 +37,7 @@ export const createPartMapProvider = (
           map(lines => {
             const name = partTagMatcher.tail(lines[0]);
             if (name.length > 0 && !partNameRegexp.test(name)) {
-              throw new Error(`Invalid part name [${name}]`);
+              throw new Error(`Invalid part name: (${name})`);
             }
             return {
               name,
@@ -58,7 +58,7 @@ export const createPartMapProvider = (
           },
           complete: () => {
             if (parts.size === 0) {
-              reject(new Error(`No parts found in [${partsFileName}]`));
+              reject(new Error(`No parts found in (${partsFileName})`));
             }
             resolve(parts);
           },

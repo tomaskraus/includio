@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mock_fs_1 = __importDefault(require("mock-fs"));
 const includo_1 = require("../src/includo");
 const mStream = __importStar(require("memory-streams"));
+const line_transform_machines_1 = require("line-transform-machines");
 // import * as fs from 'fs';
 // let input: stream.Readable;
 let output;
@@ -72,15 +73,19 @@ describe('error handling', () => {
         }
     });
     test('Empty tag: Include line value, file name & line number and Error message', async () => {
-        expect.assertions(3);
+        expect.assertions(6);
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         try {
             await p('error-file.txt', output);
         }
         catch (e) {
-            expect(e.message).toContain('error-file.txt:2'); //file&line info
-            expect(e.message).toContain('@@'); //line
-            expect(e.message).toContain('empty'); //err
+            expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);
+            const lerr = e;
+            expect(lerr.message).toContain('empty tag not allowed');
+            expect(lerr.at).toContain('error-file.txt:2');
+            expect(lerr.lineNumber).toEqual(2);
+            expect(lerr.inputFileName).toEqual('error-file.txt');
+            expect(lerr.lineValue).toEqual('@@  ');
         }
     });
 });

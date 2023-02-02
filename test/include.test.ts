@@ -4,6 +4,7 @@ import {createIncludoProcessor, DEFAULT_INCLUDO_OPTIONS} from '../src/includo';
 import stream from 'stream';
 
 import * as mStream from 'memory-streams';
+import {LineMachineError} from 'line-transform-machines';
 // import * as fs from 'fs';
 
 // let input: stream.Readable;
@@ -51,19 +52,23 @@ describe('error handling', () => {
     try {
       await p('non-existent-file.txt', output);
     } catch (e) {
-      expect((e as Error).message).toContain('ENOENT'); //file&line info
+      expect((e as LineMachineError).message).toContain('ENOENT'); //file&line info
     }
   });
 
   test('Empty tag: Include line value, file name & line number and Error message', async () => {
-    expect.assertions(3);
+    expect.assertions(6);
     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
     try {
       await p('error-file.txt', output);
     } catch (e) {
-      expect((e as Error).message).toContain('error-file.txt:2'); //file&line info
-      expect((e as Error).message).toContain('@@'); //line
-      expect((e as Error).message).toContain('empty'); //err
+      expect(e).toBeInstanceOf(LineMachineError);
+      const lerr = e as LineMachineError;
+      expect(lerr.message).toContain('empty tag not allowed');
+      expect(lerr.at).toContain('error-file.txt:2');
+      expect(lerr.lineNumber).toEqual(2);
+      expect(lerr.inputFileName).toEqual('error-file.txt');
+      expect(lerr.lineValue).toEqual('@@  ');
     }
   });
 });

@@ -12,14 +12,14 @@ const createPartContentProvider = (partMapProvider, partNameRegexp) => {
     log('CREATE partContentProvider');
     return async (fileName, partName) => {
         if (partNameRegexp.test(partName) === false) {
-            return Promise.reject(new Error(`Invalid part name: [${partName}]`));
+            return Promise.reject(new Error(`Invalid part name: (${partName})`));
         }
         log(`getting part map for file [${fileName}]`);
         const partsMap = await partMapProvider(fileName);
         log(`looking for part [${partName}]`);
         const resultStr = partsMap.get(partName);
         if (typeof resultStr === 'undefined') {
-            return Promise.reject(new Error(`part [${partName}] not found in [${fileName}]`));
+            return Promise.reject(new Error(`part (${partName}) not found in (${fileName})`));
         }
         return Promise.resolve(resultStr);
     };

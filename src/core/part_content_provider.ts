@@ -15,7 +15,7 @@ export const createPartContentProvider = (
 
   return async (fileName: string, partName: string): Promise<string[]> => {
     if (partNameRegexp.test(partName) === false) {
-      return Promise.reject(new Error(`Invalid part name: [${partName}]`));
+      return Promise.reject(new Error(`Invalid part name: (${partName})`));
     }
     log(`getting part map for file [${fileName}]`);
     const partsMap = await partMapProvider(fileName);
@@ -23,7 +23,7 @@ export const createPartContentProvider = (
     const resultStr = partsMap.get(partName);
     if (typeof resultStr === 'undefined') {
       return Promise.reject(
-        new Error(`part [${partName}] not found in [${fileName}]`)
+        new Error(`part (${partName}) not found in (${fileName})`)
       );
     }
     return Promise.resolve(resultStr);

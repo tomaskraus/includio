@@ -66,7 +66,7 @@ const createGetLines = (options: TIncludoOptions, partNameRegexp: RegExp) => {
     if (tokens.length === 2) {
       return partContentProvider(fileName, tokens[1].trim());
     }
-    throw new Error(`Only one part allowed: [${tagContent}]`);
+    throw new Error(`Only one part allowed: (${tagContent})`);
   };
 };
 
@@ -95,7 +95,7 @@ const createPipeDispatcher = (cmdNameRegexp: RegExp) => {
         );
         return pipeDispatcher(tail, currentResult);
       }
-      throw new Error(`Invalid command name: [${sanitizedCurrentCmdLine}]`);
+      throw new Error(`Invalid command name: (${sanitizedCurrentCmdLine})`);
     }
   };
 
@@ -114,5 +114,5 @@ const commandDispatcher = (
     return cmdFirst(input, commandArguments);
   }
 
-  throw new Error(`Unknown command: [${commandName}]`);
+  throw new Error(`Unknown command: (${commandName})`);
 };

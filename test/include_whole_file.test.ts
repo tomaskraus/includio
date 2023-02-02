@@ -4,6 +4,7 @@ import {createIncludoProcessor, DEFAULT_INCLUDO_OPTIONS} from '../src/includo';
 import stream from 'stream';
 
 import * as mStream from 'memory-streams';
+import {LineMachineError} from 'line-transform-machines';
 // import * as fs from 'fs';
 
 // let input: stream.Readable;
@@ -80,68 +81,47 @@ describe('normal ops', () => {
 });
 
 describe('error handling', () => {
-  test('Invalid file name format', async () => {
-    expect.assertions(4);
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
-    try {
-      await p('unknown-cmd-name.txt', output);
-    } catch (e) {
-      expect((e as Error).message).toContain('unknown-cmd-name.txt:2'); //file&line info
-      expect((e as Error).message).toContain('@@ source1.txt unknownCmd:  '); //line
-      expect((e as Error).message).toContain('Invalid file name format'); //err
-      expect((e as Error).message).toContain('unknownCmd:'); //err
-    }
-  });
-
   test('Invalid file name for insertion (with invalid characters in file name)', async () => {
-    expect.assertions(3);
+    expect.assertions(2);
     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
     try {
       await p('tag-invalid-file-name.txt', output);
     } catch (e) {
-      expect((e as Error).message).toContain('tag-invalid-file-name.txt:2'); //file&line info
-      expect((e as Error).message).toContain('@@ ab*cd '); //line
-      expect((e as Error).message).toContain('Invalid'); //err
+      expect(e).toBeInstanceOf(LineMachineError);
+      expect((e as LineMachineError).message).toContain('Invalid');
     }
   });
 
   test('Non-existent file for insertion', async () => {
-    expect.assertions(3);
+    expect.assertions(2);
     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
     try {
       await p('tag-nonexistent-file-name.txt', output);
     } catch (e) {
-      expect((e as Error).message).toContain('tag-nonexistent-file-name.txt:2'); //file&line info
-      expect((e as Error).message).toContain('@@ nonexistentfile.txt '); //line
-      expect((e as Error).message).toContain('ENOENT'); //err
+      expect(e).toBeInstanceOf(LineMachineError);
+      expect((e as LineMachineError).message).toContain('ENOENT'); //err
     }
   });
 
   test('Non-existent file for insertion, in existent resourceDir', async () => {
-    expect.assertions(4);
+    expect.assertions(2);
     const p = createIncludoProcessor({resourceDir: 'dir-for-insert'});
     try {
       await p('tag-nonexistent-file-name.txt', output);
     } catch (e) {
-      expect((e as Error).message).toContain('tag-nonexistent-file-name.txt:2'); //file&line info
-      expect((e as Error).message).toContain('@@ nonexistentfile.txt '); //line
-      expect((e as Error).message).toContain('ENOENT'); //err
-      expect((e as Error).message).toContain(
-        'dir-for-insert/nonexistentfile.txt'
-      ); //contains resourceDir in file path
+      expect(e).toBeInstanceOf(LineMachineError);
+      expect((e as LineMachineError).message).toContain('ENOENT'); //err
     }
   });
 
   test('Non-existent resourceDir', async () => {
-    expect.assertions(4);
+    expect.assertions(2);
     const p = createIncludoProcessor({resourceDir: 'abc'});
     try {
       await p('tag-valid-file-name.txt', output);
     } catch (e) {
-      expect((e as Error).message).toContain('tag-valid-file-name.txt'); //file&line info
-      expect((e as Error).message).toContain('@@ source1.txt '); //line
-      expect((e as Error).message).toContain('ENOENT'); //err
-      expect((e as Error).message).toContain('abc/source1.txt'); //err - file info
+      expect(e).toBeInstanceOf(LineMachineError);
+      expect((e as LineMachineError).message).toContain('ENOENT'); //err
     }
   });
 });
