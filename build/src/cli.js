@@ -18,14 +18,23 @@ commander_1.program
     '\nIf not specified, standard output will be used.')
     .option('-r --resourceDir <string>', 'Directory where to include files from.' +
     '\nIf not specified, current working dir (.) will be used.')
+    .option('-t --test', 'check the input file & resources for possible errors')
     .addHelpText('after', `
   Example: 
   includo -i README.template.md -o README.md -r assets`);
 commander_1.program.parse();
 const options = commander_1.program.opts();
-(0, includo_1.createIncludoProcessor)({
-    resourceDir: options.resourceDir || '',
-})(options.inputFile || node_process_1.stdin, options.outputFile || node_process_1.stdout).then(result => {
+const proc = (() => {
+    if (options.test) {
+        return (0, includo_1.createIncludoProcessor)({
+            resourceDir: 'test', // options.resourceDir || '',
+        });
+    }
+    return (0, includo_1.createIncludoProcessor)({
+        resourceDir: options.resourceDir || '',
+    });
+})();
+proc(options.inputFile || node_process_1.stdin, options.outputFile || node_process_1.stdout).then(result => {
     log(`lines read: ${result.lineNumber}`);
 });
 //# sourceMappingURL=cli.js.map

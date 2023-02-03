@@ -29,6 +29,7 @@ program
     'Directory where to include files from.' +
       '\nIf not specified, current working dir (.) will be used.'
   )
+  .option('-t --test', 'check the input file & resources for possible errors')
   .addHelpText(
     'after',
     `
@@ -39,8 +40,19 @@ program
 program.parse();
 const options = program.opts();
 
-createIncludoProcessor({
-  resourceDir: options.resourceDir || '',
-})(options.inputFile || stdin, options.outputFile || stdout).then(result => {
+const resourceDir = options.resourceDir || '';
+
+const proc = (() => {
+  if (options.test) {
+    return createIncludoProcessor({
+      resourceDir: 'test', // ,
+    });
+  }
+  return createIncludoProcessor({
+    resourceDir,
+  });
+})();
+
+proc(options.inputFile || stdin, options.outputFile || stdout).then(result => {
   log(`lines read: ${result.lineNumber}`);
 });
