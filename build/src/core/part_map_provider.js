@@ -34,7 +34,7 @@ const createPartMapProvider = (fileContentProvider, partTagProvider, partNameReg
                 const name = partTagMatcher.tail(nLines[0].value);
                 const startLineNumber = nLines[0].lineNumber;
                 if (name.length > 0 && !partNameMatcher.test(name)) {
-                    throw new Error(`Create part from ("${partsFileName}:${startLineNumber}"): invalid value: (${name})`);
+                    throw new Error(`Create part from ("${(0, common_1.getFileLineInfoStr)(partsFileName, startLineNumber)}"): invalid value: (${name})`);
                 }
                 return {
                     name,
@@ -48,7 +48,7 @@ const createPartMapProvider = (fileContentProvider, partTagProvider, partNameReg
             (0, rxjs_1.scan)((acc, partRecord) => {
                 log(`CREATE part [${partsFileName}][${partRecord.name}]`);
                 if (acc.has(partRecord.name)) {
-                    throw new Error(`Duplicit part name (${partRecord.name}) in ("${partsFileName}:${partRecord.startLineNumber}")`);
+                    throw new Error(`Duplicit part name (${partRecord.name}) in ("${(0, common_1.getFileLineInfoStr)(partsFileName, partRecord.startLineNumber)}")`);
                 }
                 return acc.set(partRecord.name, partRecord.value);
             }, parts))

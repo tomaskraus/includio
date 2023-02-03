@@ -53,3 +53,6 @@ const createParseFileName = () => {
 };
 
 export const parseFileName = createParseFileName();
+
+export const getFileLineInfoStr = (fileName: string, lineNumber: number) =>
+  `${fileName}:${lineNumber}`;

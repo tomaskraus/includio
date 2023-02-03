@@ -22,3 +22,4 @@ export type TIncludoOptions = {
 export declare const DEFAULT_INCLUDO_OPTIONS: TIncludoOptions;
 export declare const createFileNameResolver: (resourceDir: string) => (fileName: string) => string;
 export declare const parseFileName: (line: string) => string;
+export declare const getFileLineInfoStr: (fileName: string, lineNumber: number) => string;
