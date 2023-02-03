@@ -62,7 +62,10 @@ const createPipeDispatcher = (cmdNameRegexp) => {
             }
             if (cmdNameMatcher.test(sanitizedCurrentCmdLine)) {
                 const cmdName = cmdNameMatcher.head(sanitizedCurrentCmdLine);
-                const cmdArgs = cmdNameMatcher.tail(sanitizedCurrentCmdLine).split(',');
+                const cmdArgs = cmdNameMatcher
+                    .tail(sanitizedCurrentCmdLine)
+                    .split(',')
+                    .map(s => s.trim());
                 const currentResult = commandDispatcher(cmdName, cmdArgs, previousResult);
                 return pipeDispatcher(tail, currentResult);
             }
@@ -74,10 +77,10 @@ const createPipeDispatcher = (cmdNameRegexp) => {
 const commandDispatcher = (commandName, commandArguments, input) => {
     log(`processing command [${commandName}] with arguments [${commandArguments}]`);
     if (commandName === 'first') {
-        return (0, commands_1.cmdFirst)(input, commandArguments);
+        return (0, commands_1.cmdFirst)(input, ...commandArguments);
     }
     if (commandName === 'last') {
-        return (0, commands_1.cmdLast)(input, commandArguments);
+        return (0, commands_1.cmdLast)(input, ...commandArguments);
     }
     throw new Error(`Unknown command: (${commandName})`);
 };

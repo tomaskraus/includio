@@ -11,48 +11,50 @@
 
 import {createIntegerValidator} from '../utils/integer_validator';
 
-export type TIncludoCommand = (lines: string[], args: string[]) => string[];
+export type TIncludoCommand = (lines: string[], ...args: string[]) => string[];
 
 const positiveIntegerValidator = createIntegerValidator(1);
 
 /**
- * returns first n lines
- * args[0]: n
- * args[1]: optional more-content-mark string
- *
- * @param lines
- * @param args
- * @returns
+ * @param lines input
+ * @param countStr n
+ * @param moreContentMark adds this string at the end if input has more lines than n
+ * @returns first n lines
  */
-export const cmdFirst: TIncludoCommand = (lines: string[], args: string[]) => {
+export const cmdFirst: TIncludoCommand = (
+  lines: string[],
+  countStr: string,
+  moreContentMark?: string
+) => {
   const maxLineCount = positiveIntegerValidator(
-    args[0],
+    countStr,
     'first <number>, [<string>]'
   );
   const content = lines.slice(0, maxLineCount);
-  if (args[1] && maxLineCount < lines.length) {
-    return [...content, args[1].trim()];
+  if (moreContentMark && maxLineCount < lines.length) {
+    return [...content, moreContentMark];
   }
   return content;
 };
 
 /**
- * returns last n lines
- * args[0]: n
- * args[1]: optional more-content-mark string
- *
- * @param lines
- * @param args
- * @returns
+ * @param lines input
+ * @param countStr n
+ * @param moreContentMark adds this string at the beginning if input has more lines than n
+ * @returns last n lines
  */
-export const cmdLast: TIncludoCommand = (lines: string[], args: string[]) => {
+export const cmdLast: TIncludoCommand = (
+  lines: string[],
+  countStr: string,
+  moreContentMark?: string
+) => {
   const maxLineCount = positiveIntegerValidator(
-    args[0],
+    countStr,
     'last <number>, [<string>]'
   );
   const content = lines.slice(-maxLineCount);
-  if (args[1] && maxLineCount < lines.length) {
-    return [args[1].trim(), ...content];
+  if (moreContentMark && maxLineCount < lines.length) {
+    return [moreContentMark, ...content];
   }
   return content;
 };

@@ -14,37 +14,31 @@ exports.cmdLast = exports.cmdFirst = void 0;
 const integer_validator_1 = require("../utils/integer_validator");
 const positiveIntegerValidator = (0, integer_validator_1.createIntegerValidator)(1);
 /**
- * returns first n lines
- * args[0]: n
- * args[1]: optional more-content-mark string
- *
- * @param lines
- * @param args
- * @returns
+ * @param lines input
+ * @param countStr n
+ * @param moreContentMark adds this string at the end if input has more lines than n
+ * @returns first n lines
  */
-const cmdFirst = (lines, args) => {
-    const maxLineCount = positiveIntegerValidator(args[0], 'first <number>, [<string>]');
+const cmdFirst = (lines, countStr, moreContentMark) => {
+    const maxLineCount = positiveIntegerValidator(countStr, 'first <number>, [<string>]');
     const content = lines.slice(0, maxLineCount);
-    if (args[1] && maxLineCount < lines.length) {
-        return [...content, args[1].trim()];
+    if (moreContentMark && maxLineCount < lines.length) {
+        return [...content, moreContentMark];
     }
     return content;
 };
 exports.cmdFirst = cmdFirst;
 /**
- * returns last n lines
- * args[0]: n
- * args[1]: optional more-content-mark string
- *
- * @param lines
- * @param args
- * @returns
+ * @param lines input
+ * @param countStr n
+ * @param moreContentMark adds this string at the beginning if input has more lines than n
+ * @returns last n lines
  */
-const cmdLast = (lines, args) => {
-    const maxLineCount = positiveIntegerValidator(args[0], 'last <number>, [<string>]');
+const cmdLast = (lines, countStr, moreContentMark) => {
+    const maxLineCount = positiveIntegerValidator(countStr, 'last <number>, [<string>]');
     const content = lines.slice(-maxLineCount);
-    if (args[1] && maxLineCount < lines.length) {
-        return [args[1].trim(), ...content];
+    if (moreContentMark && maxLineCount < lines.length) {
+        return [moreContentMark, ...content];
     }
     return content;
 };
