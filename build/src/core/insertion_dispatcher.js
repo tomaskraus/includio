@@ -76,6 +76,9 @@ const commandDispatcher = (commandName, commandArguments, input) => {
     if (commandName === 'first') {
         return (0, commands_1.cmdFirst)(input, commandArguments);
     }
+    if (commandName === 'last') {
+        return (0, commands_1.cmdLast)(input, commandArguments);
+    }
     throw new Error(`Unknown command: (${commandName})`);
 };
 //# sourceMappingURL=insertion_dispatcher.js.map

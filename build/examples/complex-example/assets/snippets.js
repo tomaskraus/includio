@@ -14,7 +14,7 @@ const node_process_1 = require("node:process");
 })
     .catch(err => console.error(err));
 //<
-//< code
+//< HU
 //<
 //<
 //<

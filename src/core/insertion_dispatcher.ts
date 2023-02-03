@@ -18,7 +18,7 @@ import {createPartMapProvider} from './part_map_provider';
 import {createPartContentProvider} from './part_content_provider';
 import {createPartTagProvider} from './part_tag_provider';
 import {createHeadTailMatcher} from '../utils/head_tail_matcher';
-import {cmdFirst} from './commands';
+import {cmdFirst, cmdLast} from './commands';
 
 const log = appLog.extend('insertionDispatcher');
 
@@ -112,6 +112,9 @@ const commandDispatcher = (
   );
   if (commandName === 'first') {
     return cmdFirst(input, commandArguments);
+  }
+  if (commandName === 'last') {
+    return cmdLast(input, commandArguments);
   }
 
   throw new Error(`Unknown command: (${commandName})`);

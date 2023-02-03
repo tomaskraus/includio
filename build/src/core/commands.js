@@ -10,7 +10,7 @@
  * Insertion commands can be pipelined.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cmdFirst = void 0;
+exports.cmdLast = exports.cmdFirst = void 0;
 const integer_validator_1 = require("../utils/integer_validator");
 const positiveIntegerValidator = (0, integer_validator_1.createIntegerValidator)(1);
 const cmdFirst = (lines, args) => {
@@ -22,4 +22,13 @@ const cmdFirst = (lines, args) => {
     return content;
 };
 exports.cmdFirst = cmdFirst;
+const cmdLast = (lines, args) => {
+    const maxLineCount = positiveIntegerValidator(args[0], 'last <number>');
+    const content = lines.slice(-maxLineCount);
+    if (maxLineCount < lines.length) {
+        return ['...', ...content];
+    }
+    return content;
+};
+exports.cmdLast = cmdLast;
 //# sourceMappingURL=commands.js.map

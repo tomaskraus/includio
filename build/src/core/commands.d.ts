@@ -10,3 +10,4 @@
  */
 export type TIncludoCommand = (lines: string[], args: string[]) => string[];
 export declare const cmdFirst: TIncludoCommand;
+export declare const cmdLast: TIncludoCommand;

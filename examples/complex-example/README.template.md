@@ -39,3 +39,15 @@ That line which contains the `@@ help.txt`, tells `Includo` to insert the `help.
 ```ts
 @@ shared.ts : import_includo
 ```
+
+function header:
+
+```ts
+@@ snippets.ts | first 12 | last 2
+```
+
+a bit of code:
+
+```ts
+@@ snippets.ts : code | first 3, //...
+```

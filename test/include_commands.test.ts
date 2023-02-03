@@ -33,6 +33,13 @@ beforeEach(() => {
     'first-cmd-out-of-range-args.txt':
       'Hello, \n@@ source1.txt : part1 | first 0 \nWorld!\n',
 
+    'last-cmd-view-more.txt':
+      'Hello, \n@@ source1.txt : part1 | last 4 \nWorld!\n',
+    'last-cmd-view-less.txt':
+      'Hello, \n@@ source1.txt | last 3 \n our\n World!\n',
+    'last-cmd-view-exact.txt':
+      'Hello, \n@@ source1.txt : part1 | last 2 \nWorld!\n',
+
     'unknown-cmd.txt': 'Hello, \n@@ source1.txt | unkn \nWorld!\n',
     'invalid-cmd.txt': 'Hello, \n@@ source1.txt | in*valid 24 \nWorld!\n',
 
@@ -136,6 +143,35 @@ describe('command: first - errors', () => {
       expect((e as LineMachineError).message).toContain('first <number>'); //err
       expect((e as LineMachineError).message).toContain('(0) is lower than'); //err
     }
+  });
+});
+
+describe('command: last', () => {
+  test('view more than provided', async () => {
+    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+
+    await p('last-cmd-view-more.txt', output);
+    expect(output.toString()).toEqual(
+      'Hello, \n m1 line1 \nm1 line2\nWorld!\n'
+    );
+  });
+
+  test('view less than provided', async () => {
+    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+
+    await p('last-cmd-view-less.txt', output);
+    expect(output.toString()).toEqual(
+      'Hello, \n...\nm1 line2\n//< \ntext2\n our\n World!\n'
+    );
+  });
+
+  test('view exactly the line count what provided', async () => {
+    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+
+    await p('last-cmd-view-exact.txt', output);
+    expect(output.toString()).toEqual(
+      'Hello, \n m1 line1 \nm1 line2\nWorld!\n'
+    );
   });
 });
 

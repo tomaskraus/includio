@@ -23,3 +23,12 @@ export const cmdFirst: TIncludoCommand = (lines: string[], args: string[]) => {
   }
   return content;
 };
+
+export const cmdLast: TIncludoCommand = (lines: string[], args: string[]) => {
+  const maxLineCount = positiveIntegerValidator(args[0], 'last <number>');
+  const content = lines.slice(-maxLineCount);
+  if (maxLineCount < lines.length) {
+    return ['...', ...content];
+  }
+  return content;
+};

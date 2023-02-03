@@ -16,7 +16,7 @@ createIncludoProcessor()(stdin, stdout)
   .catch(err => console.error(err));
 //<
 
-//< code
+//< HU
 //<
 
 //<
