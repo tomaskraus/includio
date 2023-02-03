@@ -43,7 +43,7 @@ export const createPartMapProvider = (
             const startLineNumber = nLines[0].lineNumber;
             if (name.length > 0 && !partNameMatcher.test(name)) {
               throw new Error(
-                `Create part from (${partsFileName}:${startLineNumber}): invalid value: (${name})`
+                `Create part from ("${partsFileName}:${startLineNumber}"): invalid value: (${name})`
               );
             }
             return {
@@ -59,7 +59,7 @@ export const createPartMapProvider = (
             log(`CREATE part [${partsFileName}][${partRecord.name}]`);
             if (acc.has(partRecord.name)) {
               throw new Error(
-                `Duplicit part name (${partRecord.name}) in (${partsFileName}:${partRecord.startLineNumber})`
+                `Duplicit part name (${partRecord.name}) in ("${partsFileName}:${partRecord.startLineNumber}")`
               );
             }
             return acc.set(partRecord.name, partRecord.value);
