@@ -18,6 +18,8 @@ Options:
   -r --resourceDir <string>  Directory where to include files from.
                              If not specified, current working dir (.) will be
                              used.
+  -t --test                  check the input file & resources for possible
+                             errors
   -h, --help                 display help for command
 
   Example: 
@@ -44,3 +46,41 @@ Inserts files (or their parts) into a text file.
 ```
 
 ## API
+
+    Create includo engine this way:
+
+```ts
+import {createIncludoProcessor} from 'includo';
+
+import {stdin, stdout} from 'node:process';
+
+createIncludoProcessor()(stdin, stdout)
+  .then(result => {
+    console.log(`lines read: ${result.lineNumber}`);
+  })
+  .catch(err => console.error(err));
+```
+
+### API usage
+
+```ts
+import {createIncludoProcessor} from 'includo';
+```
+
+function header:
+
+```ts
+createIncludoProcessor()(stdin, stdout)
+```
+
+a bit of code:
+
+```ts
+import {stdin, stdout} from 'node:process';
+
+createIncludoProcessor()(stdin, stdout)
+  .then(result => {
+    console.log(`lines read: ${result.lineNumber}`);
+  })
+//...
+```

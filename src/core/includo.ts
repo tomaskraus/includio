@@ -43,3 +43,35 @@ export const createIncludoProcessor = (
   log('CREATE includo processor');
   return createAsyncLineMachine(createIncludoLineCallback(opts));
 };
+
+const createTestIncludoLineCallback = (
+  options: TIncludoOptions
+): TAsyncLineCallback => {
+  const insertionTagMatcher = createHeadTailMatcher(options.tagInsert);
+  const insertionDispatcher = createInsertionDispatcher(options);
+  log(`CREATE testIncludoCallback for tag [${options.tagInsert}] `);
+
+  return async (
+    line: string,
+    lineNumber: number,
+    fileLineInfo?: string
+  ): Promise<string | null> => {
+    if (insertionTagMatcher.test(line)) {
+      try {
+        await insertionDispatcher(insertionTagMatcher.tail(line));
+        return null;
+      } catch (e) {
+        return `"${fileLineInfo}" ; ${(e as Error).message}`;
+      }
+    }
+    return null;
+  };
+};
+
+export const createTestIncludoProcessor = (
+  options?: Partial<TIncludoOptions>
+): TFileProcessor<TFileLineContext> => {
+  const opts = {...DEFAULT_INCLUDO_OPTIONS, ...options};
+  log('CREATE testIncludo processor');
+  return createAsyncLineMachine(createTestIncludoLineCallback(opts));
+};

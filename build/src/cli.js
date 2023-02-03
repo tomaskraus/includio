@@ -24,17 +24,19 @@ commander_1.program
   includo -i README.template.md -o README.md -r assets`);
 commander_1.program.parse();
 const options = commander_1.program.opts();
+const resourceDir = options.resourceDir || '';
 const proc = (() => {
     if (options.test) {
-        return (0, includo_1.createIncludoProcessor)({
-            resourceDir: 'test', // options.resourceDir || '',
+        return (0, includo_1.createTestIncludoProcessor)({
+            resourceDir,
         });
     }
     return (0, includo_1.createIncludoProcessor)({
-        resourceDir: options.resourceDir || '',
+        resourceDir,
     });
 })();
 proc(options.inputFile || node_process_1.stdin, options.outputFile || node_process_1.stdout).then(result => {
+    console.error(''); // just enters a new line at console
     log(`lines read: ${result.lineNumber}`);
 });
 //# sourceMappingURL=cli.js.map

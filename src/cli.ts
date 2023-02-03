@@ -3,7 +3,10 @@
  */
 import {program} from 'commander';
 
-import {createIncludoProcessor} from './core/includo';
+import {
+  createIncludoProcessor,
+  createTestIncludoProcessor,
+} from './core/includo';
 import {appLog} from './core/common';
 
 import {stdin, stdout} from 'node:process';
@@ -44,8 +47,8 @@ const resourceDir = options.resourceDir || '';
 
 const proc = (() => {
   if (options.test) {
-    return createIncludoProcessor({
-      resourceDir: 'test', // ,
+    return createTestIncludoProcessor({
+      resourceDir,
     });
   }
   return createIncludoProcessor({
@@ -54,5 +57,6 @@ const proc = (() => {
 })();
 
 proc(options.inputFile || stdin, options.outputFile || stdout).then(result => {
+  console.error(''); // just enters a new line at console
   log(`lines read: ${result.lineNumber}`);
 });

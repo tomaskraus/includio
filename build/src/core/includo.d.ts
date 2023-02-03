@@ -10,3 +10,4 @@ import { DEFAULT_INCLUDO_OPTIONS } from './common';
 import type { TIncludoOptions } from './common';
 export { DEFAULT_INCLUDO_OPTIONS };
 export declare const createIncludoProcessor: (options?: Partial<TIncludoOptions>) => TFileProcessor<TFileLineContext>;
+export declare const createTestIncludoProcessor: (options?: Partial<TIncludoOptions>) => TFileProcessor<TFileLineContext>;
