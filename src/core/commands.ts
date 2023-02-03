@@ -16,10 +16,12 @@ export type TIncludoCommand = (lines: string[], ...args: string[]) => string[];
 const positiveIntegerValidator = createIntegerValidator(1);
 
 /**
+ * Returns first n input lines.
+ *
  * @param lines input
- * @param countStr n
+ * @param countStr n (unparsed)
  * @param moreContentMark adds this string at the end if input has more lines than n
- * @returns first n lines
+ * @returns first n input lines
  */
 export const cmdFirst: TIncludoCommand = (
   lines: string[],
@@ -38,10 +40,12 @@ export const cmdFirst: TIncludoCommand = (
 };
 
 /**
+ * Returns last n input lines.
+ *
  * @param lines input
- * @param countStr n
+ * @param countStr (unparsed)
  * @param moreContentMark adds this string at the beginning if input has more lines than n
- * @returns last n lines
+ * @returns last n input lines
  */
 export const cmdLast: TIncludoCommand = (
   lines: string[],

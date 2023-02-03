@@ -14,10 +14,12 @@ exports.cmdLast = exports.cmdFirst = void 0;
 const integer_validator_1 = require("../utils/integer_validator");
 const positiveIntegerValidator = (0, integer_validator_1.createIntegerValidator)(1);
 /**
+ * Returns first n input lines.
+ *
  * @param lines input
- * @param countStr n
+ * @param countStr n (unparsed)
  * @param moreContentMark adds this string at the end if input has more lines than n
- * @returns first n lines
+ * @returns first n input lines
  */
 const cmdFirst = (lines, countStr, moreContentMark) => {
     const maxLineCount = positiveIntegerValidator(countStr, 'first <number>, [<string>]');
@@ -29,10 +31,12 @@ const cmdFirst = (lines, countStr, moreContentMark) => {
 };
 exports.cmdFirst = cmdFirst;
 /**
+ * Returns last n input lines.
+ *
  * @param lines input
- * @param countStr n
+ * @param countStr (unparsed)
  * @param moreContentMark adds this string at the beginning if input has more lines than n
- * @returns last n lines
+ * @returns last n input lines
  */
 const cmdLast = (lines, countStr, moreContentMark) => {
     const maxLineCount = positiveIntegerValidator(countStr, 'last <number>, [<string>]');
