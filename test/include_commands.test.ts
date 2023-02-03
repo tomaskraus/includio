@@ -14,7 +14,7 @@ let output: stream.Writable;
 beforeEach(() => {
   mock({
     'first-cmd-more-args.txt':
-      'Hello, \n@@ source1.txt : part1 | first 1, 2 \nWorld!\n',
+      'Hello, \n@@ source1.txt : part1 | first 1, .., 3 \nWorld!\n',
 
     'first-cmd-chaining.txt':
       'Hello, \n@@ source1.txt : part1 | first 2 | first 1 \nWorld!\n',
@@ -23,6 +23,8 @@ beforeEach(() => {
       'Hello, \n@@ source1.txt : part1 | first 4 \nWorld!\n',
     'first-cmd-view-less.txt':
       'Hello, \n@@ source1.txt | first 3 \n our\n World!\n',
+    'first-cmd-view-less-param.txt':
+      'Hello, \n@@ source1.txt | first 3, ... \n our\n World!\n',
     'first-cmd-view-exact.txt':
       'Hello, \n@@ source1.txt : part1 | first 2 \nWorld!\n',
 
@@ -37,6 +39,8 @@ beforeEach(() => {
       'Hello, \n@@ source1.txt : part1 | last 4 \nWorld!\n',
     'last-cmd-view-less.txt':
       'Hello, \n@@ source1.txt | last 3 \n our\n World!\n',
+    'last-cmd-view-less-param.txt':
+      'Hello, \n@@ source1.txt | last 3, ... \n our\n World!\n',
     'last-cmd-view-exact.txt':
       'Hello, \n@@ source1.txt : part1 | last 2 \nWorld!\n',
 
@@ -66,14 +70,14 @@ describe('command: common behavior', () => {
     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
 
     await p('first-cmd-more-args.txt', output);
-    expect(output.toString()).toEqual('Hello, \n m1 line1 \n...\nWorld!\n');
+    expect(output.toString()).toEqual('Hello, \n m1 line1 \n..\nWorld!\n');
   });
 
   test('supports command chaining via pipeline', async () => {
     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
 
     await p('first-cmd-chaining.txt', output);
-    expect(output.toString()).toEqual('Hello, \n m1 line1 \n...\nWorld!\n');
+    expect(output.toString()).toEqual('Hello, \n m1 line1 \nWorld!\n');
   });
 });
 
@@ -91,6 +95,15 @@ describe('command: first', () => {
     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
 
     await p('first-cmd-view-less.txt', output);
+    expect(output.toString()).toEqual(
+      'Hello, \ntext1 \n //< part1 \n m1 line1 \n our\n World!\n'
+    );
+  });
+
+  test('view less than provided, with less-mark parameter', async () => {
+    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+
+    await p('first-cmd-view-less-param.txt', output);
     expect(output.toString()).toEqual(
       'Hello, \ntext1 \n //< part1 \n m1 line1 \n...\n our\n World!\n'
     );
@@ -160,6 +173,15 @@ describe('command: last', () => {
     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
 
     await p('last-cmd-view-less.txt', output);
+    expect(output.toString()).toEqual(
+      'Hello, \nm1 line2\n//< \ntext2\n our\n World!\n'
+    );
+  });
+
+  test('view less than provided, with less-mark parameter', async () => {
+    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+
+    await p('last-cmd-view-less-param.txt', output);
     expect(output.toString()).toEqual(
       'Hello, \n...\nm1 line2\n//< \ntext2\n our\n World!\n'
     );

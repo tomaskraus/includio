@@ -41,7 +41,6 @@ That line which contains the `@@ help.txt`, tells `Includo` to insert the `help.
 Usage: includo [options]
 
 Inserts files (or their parts) into a text file.
-...
 ```
 
 ## API
@@ -69,9 +68,7 @@ import {createIncludoProcessor} from 'includo';
 function header:
 
 ```ts
-...
 createIncludoProcessor()(stdin, stdout)
-...
 ```
 
 a bit of code:
@@ -80,5 +77,8 @@ a bit of code:
 import {stdin, stdout} from 'node:process';
 
 createIncludoProcessor()(stdin, stdout)
-...
+  .then(result => {
+    console.log(`lines read: ${result.lineNumber}`);
+  })
+//...
 ```

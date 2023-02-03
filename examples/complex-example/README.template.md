@@ -43,11 +43,11 @@ That line which contains the `@@ help.txt`, tells `Includo` to insert the `help.
 function header:
 
 ```ts
-@@ snippets.ts | first 12 | last 2
+@@ snippets.ts | first 12 | last 1
 ```
 
 a bit of code:
 
 ```ts
-@@ snippets.ts : code | first 3, //...
+@@ snippets.ts : code | first 6, //...
 ```
