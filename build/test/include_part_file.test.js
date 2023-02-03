@@ -43,12 +43,14 @@ beforeEach(() => {
         'part-valid-nonexistent.txt': 'Hello, \none\n@@ source1.txt : nonexistentpart \nWorld!',
         'part-invalid.txt': 'Hello, \na second\n@@ source1.txt : *invalidpart \nWorld!',
         'part-valid-source-part-invalid.txt': 'Hello, \na second\n@@ source-invalid-part-name.txt : part1 \nWorld!',
+        'part-valid-source-part-duplicit.txt': 'Hello, \na second\n@@ source-duplicit-part-name.txt : p2 \nWorld!',
         'tag-nonexistent-file-name.txt': 'Hello, \n@@ nonexistentfile.txt : part1 \nWorld!',
         'source1.txt': 'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2',
         'source 1.txt': 'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2',
         'source-empty-content-part.txt': 'text1 \n //< part1\n//< \ntext2 \n //< part2 \n m1 line1 \nm1 line2\n//< ',
         'source-part-without-name.txt': 'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2 //< \n abc\n//<',
         'source-invalid-part-name.txt': 'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2 \n//< inv alid part \n abc\n//<',
+        'source-duplicit-part-name.txt': 'text1 \n //< part1 \n m1 line1 \n//< p2 \n line2\n//< \ntext2 \n//< part1 \n abc\n//<',
         'source-with-no-parts.txt': 'text1 \n \ntext2 ',
         'dir-for-insert': {
             'source-with-no-parts.txt': 'text1 \n \ntext2 ',
@@ -120,6 +122,19 @@ describe('error handling', () => {
             expect(e.message).toContain('invalid value'); //err
             expect(e.message).toContain('(inv alid part)'); //err
             expect(e.message).toContain('source-invalid-part-name.txt:7'); //err
+        }
+    });
+    test('duplicit part name in resource file (contains forbidden characters)', async () => {
+        expect.assertions(4);
+        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        try {
+            await p('part-valid-source-part-duplicit.txt', output);
+        }
+        catch (e) {
+            expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);
+            expect(e.message).toContain('Duplicit part name'); //err
+            expect(e.message).toContain('(part1)'); //err
+            expect(e.message).toContain('source-duplicit-part-name.txt:8'); //err
         }
     });
     test('use part from file that contains no parts', async () => {

@@ -40,14 +40,16 @@ export const createPartMapProvider = (
           // create a part record
           map(nLines => {
             const name = partTagMatcher.tail(nLines[0].value);
+            const startLineNumber = nLines[0].lineNumber;
             if (name.length > 0 && !partNameMatcher.test(name)) {
               throw new Error(
-                `Create part from (${partsFileName}:${nLines[0].lineNumber}): invalid value: (${name})`
+                `Create part from (${partsFileName}:${startLineNumber}): invalid value: (${name})`
               );
             }
             return {
               name,
               value: nLines.slice(1).map(ln => ln.value),
+              startLineNumber,
             };
           }),
           //do not allow part record with an empty name
@@ -55,6 +57,11 @@ export const createPartMapProvider = (
           //add part record to a map
           scan((acc, partRecord) => {
             log(`CREATE part [${partsFileName}][${partRecord.name}]`);
+            if (acc.has(partRecord.name)) {
+              throw new Error(
+                `Duplicit part name (${partRecord.name}) in (${partsFileName}:${partRecord.startLineNumber})`
+              );
+            }
             return acc.set(partRecord.name, partRecord.value);
           }, parts)
         )

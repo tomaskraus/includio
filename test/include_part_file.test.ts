@@ -31,6 +31,8 @@ beforeEach(() => {
       'Hello, \na second\n@@ source1.txt : *invalidpart \nWorld!',
     'part-valid-source-part-invalid.txt':
       'Hello, \na second\n@@ source-invalid-part-name.txt : part1 \nWorld!',
+    'part-valid-source-part-duplicit.txt':
+      'Hello, \na second\n@@ source-duplicit-part-name.txt : p2 \nWorld!',
     'tag-nonexistent-file-name.txt':
       'Hello, \n@@ nonexistentfile.txt : part1 \nWorld!',
 
@@ -42,6 +44,8 @@ beforeEach(() => {
       'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2 //< \n abc\n//<',
     'source-invalid-part-name.txt':
       'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2 \n//< inv alid part \n abc\n//<',
+    'source-duplicit-part-name.txt':
+      'text1 \n //< part1 \n m1 line1 \n//< p2 \n line2\n//< \ntext2 \n//< part1 \n abc\n//<',
     'source-with-no-parts.txt': 'text1 \n \ntext2 ',
     'dir-for-insert': {
       'source-with-no-parts.txt': 'text1 \n \ntext2 ',
@@ -135,6 +139,21 @@ describe('error handling', () => {
       expect((e as LineMachineError).message).toContain('(inv alid part)'); //err
       expect((e as LineMachineError).message).toContain(
         'source-invalid-part-name.txt:7'
+      ); //err
+    }
+  });
+
+  test('duplicit part name in resource file (contains forbidden characters)', async () => {
+    expect.assertions(4);
+    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    try {
+      await p('part-valid-source-part-duplicit.txt', output);
+    } catch (e) {
+      expect(e).toBeInstanceOf(LineMachineError);
+      expect((e as LineMachineError).message).toContain('Duplicit part name'); //err
+      expect((e as LineMachineError).message).toContain('(part1)'); //err
+      expect((e as LineMachineError).message).toContain(
+        'source-duplicit-part-name.txt:8'
       ); //err
     }
   });
