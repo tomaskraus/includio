@@ -37,11 +37,9 @@ beforeEach(() => {
     (0, mock_fs_1.default)({
         'empty-file.txt': '',
         'no-tag-file.txt': 'Hello, \nWorld!',
-        'my-file.txt': 'Hello, \n@@ id\nWorld!\n',
         'error-file.txt': 'Hello, \n@@  \nWorld!',
     });
     mock_fs_1.default.file();
-    // input = fs.createReadStream('my-file.txt');
     output = new mStream.WritableStream();
 });
 afterEach(() => {

@@ -17,12 +17,10 @@ beforeEach(() => {
   mock({
     'empty-file.txt': '',
     'no-tag-file.txt': 'Hello, \nWorld!',
-    'my-file.txt': 'Hello, \n@@ id\nWorld!\n',
     'error-file.txt': 'Hello, \n@@  \nWorld!',
   });
   mock.file();
 
-  // input = fs.createReadStream('my-file.txt');
   output = new mStream.WritableStream();
 });
 
