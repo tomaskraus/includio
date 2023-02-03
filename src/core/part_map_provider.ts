@@ -33,17 +33,21 @@ export const createPartMapProvider = (
     return new Promise((resolve, reject) => {
       from(lines)
         .pipe(
+          // preserve line number
+          map((s, i) => ({value: s, lineNumber: i + 1})),
           // split the lines by their part tags
-          splitIf(s => partTagMatcher.test(s)),
-          //create a part record
-          map(lines => {
-            const name = partTagMatcher.tail(lines[0]);
+          splitIf(s => partTagMatcher.test(s.value)),
+          // create a part record
+          map(nLines => {
+            const name = partTagMatcher.tail(nLines[0].value);
             if (name.length > 0 && !partNameMatcher.test(name)) {
-              throw new Error(`Create part: invalid value: (${name})`);
+              throw new Error(
+                `Create part from (${partsFileName}:${nLines[0].lineNumber}): invalid value: (${name})`
+              );
             }
             return {
               name,
-              value: lines.slice(1),
+              value: nLines.slice(1).map(ln => ln.value),
             };
           }),
           //do not allow part record with an empty name

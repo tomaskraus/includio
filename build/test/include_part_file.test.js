@@ -110,15 +110,16 @@ describe('error handling', () => {
         }
     });
     test('invalid part name in resource file (contains forbidden characters)', async () => {
-        expect.assertions(3);
+        expect.assertions(4);
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         try {
             await p('part-valid-source-part-invalid.txt', output);
         }
         catch (e) {
             expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);
-            expect(e.message).toContain('Create part: invalid value'); //err
+            expect(e.message).toContain('invalid value'); //err
             expect(e.message).toContain('(inv alid part)'); //err
+            expect(e.message).toContain('source-invalid-part-name.txt:7'); //err
         }
     });
     test('use part from file that contains no parts', async () => {
