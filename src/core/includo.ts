@@ -59,7 +59,6 @@ const createTestIncludoLineCallback = (
     if (insertionTagMatcher.test(line)) {
       try {
         await insertionDispatcher(insertionTagMatcher.tail(line));
-        return null;
       } catch (e) {
         return `"${fileLineInfo}" ; ${(e as Error).message}`;
       }
