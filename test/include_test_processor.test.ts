@@ -5,7 +5,7 @@ import {
   DEFAULT_INCLUDO_OPTIONS,
 } from '../src/core/includo';
 import stream from 'stream';
-
+import fs from 'node:fs';
 import * as mStream from 'memory-streams';
 
 let output: stream.Writable;
@@ -27,14 +27,26 @@ afterEach(() => {
 });
 
 describe('normal ops', () => {
-  test('test input that contains errors', async () => {
+  test('test input that contains errors - from file', async () => {
     const t = createTestIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
 
     await t('error-file.txt', output);
 
     const result = output.toString();
 
-    expect(result).toContain('error-file.txt:2');
-    expect(result).toContain('error-file.txt:4');
+    expect(result).toContain('"error-file.txt:2" ;');
+    expect(result).toContain('"error-file.txt:4" ;');
+  });
+
+  test('test input that contains errors - from stream', async () => {
+    const t = createTestIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+
+    const input = fs.createReadStream('error-file.txt');
+    await t(input, output);
+
+    const result = output.toString();
+
+    expect(result).toContain('"" ;');
+    expect(result).toContain('"" ;');
   });
 });

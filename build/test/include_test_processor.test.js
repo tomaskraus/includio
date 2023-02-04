@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mock_fs_1 = __importDefault(require("mock-fs"));
 const includo_1 = require("../src/core/includo");
+const node_fs_1 = __importDefault(require("node:fs"));
 const mStream = __importStar(require("memory-streams"));
 let output;
 beforeEach(() => {
@@ -42,12 +43,20 @@ afterEach(() => {
     mock_fs_1.default.restore();
 });
 describe('normal ops', () => {
-    test('test input that contains errors', async () => {
+    test('test input that contains errors - from file', async () => {
         const t = (0, includo_1.createTestIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         await t('error-file.txt', output);
         const result = output.toString();
-        expect(result).toContain('error-file.txt:2');
-        expect(result).toContain('error-file.txt:4');
+        expect(result).toContain('"error-file.txt:2" ;');
+        expect(result).toContain('"error-file.txt:4" ;');
+    });
+    test('test input that contains errors - from stream', async () => {
+        const t = (0, includo_1.createTestIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const input = node_fs_1.default.createReadStream('error-file.txt');
+        await t(input, output);
+        const result = output.toString();
+        expect(result).toContain('"" ;');
+        expect(result).toContain('"" ;');
     });
 });
 //# sourceMappingURL=include_test_processor.test.js.map
