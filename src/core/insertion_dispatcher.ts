@@ -17,6 +17,7 @@ import {fileContentProvider} from './file_content_provider';
 import {createPartMapProvider} from './part_map_provider';
 import {createPartContentProvider} from './part_content_provider';
 import {createPartTagProvider} from './part_tag_provider';
+import {createLineDispatcher} from './line_dispatcher';
 import {createHeadTailMatcher} from '../utils/head_tail_matcher';
 import {cmdFirst, cmdLast} from './commands';
 
@@ -26,7 +27,7 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
   log(`CREATE insertionDispatcher. resourceDir: [${options.resourceDir}]`);
 
   const getLines = createGetLines(options, PART_NAME_REGEXP);
-  const pipeDispatcher = createPipeDispatcher(COMMAND_NAME_REGEXP);
+  const lineDispatcher = createLineDispatcher();
 
   return async (tagContent: string): Promise<string> => {
     log(`call on [${tagContent}]`);
@@ -34,10 +35,7 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
       return Promise.reject(new Error('empty tag not allowed!'));
     }
 
-    const [contentSelectorStr, ...commandLines] = tagContent.split('|');
-    const sourceLines = await getLines(contentSelectorStr);
-
-    const result = pipeDispatcher(commandLines, sourceLines);
+    const result = lineDispatcher(tagContent);
     return result.join('\n');
   };
 };
@@ -56,8 +54,12 @@ const createGetLines = (options: TIncludoOptions, partNameRegexp: RegExp) => {
   );
   const fileNameResolver = createFileNameResolver(options.resourceDir);
 
-  return async (tagContent: string): Promise<string[]> => {
-    const tokens = tagContent.split(':');
+  /**
+   * contentSelector consists of:
+   *   fileName : part
+   */
+  return async (contentSelector: string): Promise<string[]> => {
+    const tokens = contentSelector.split(':');
     const fileName = fileNameResolver(parseFileName(tokens[0]));
 
     if (tokens.length === 1) {
@@ -66,7 +68,7 @@ const createGetLines = (options: TIncludoOptions, partNameRegexp: RegExp) => {
     if (tokens.length === 2) {
       return partContentProvider(fileName, tokens[1]);
     }
-    throw new Error(`Only one part allowed: (${tagContent})`);
+    throw new Error(`Only one part allowed: (${contentSelector})`);
   };
 };
 
