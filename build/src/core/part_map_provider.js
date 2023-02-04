@@ -58,7 +58,7 @@ const createPartMapProvider = (fileContentProvider, partTagProvider, partNameReg
                 },
                 complete: () => {
                     if (parts.size === 0) {
-                        reject(new Error(`No parts found in (${partsFileName})`));
+                        reject(new Error(`No parts found in ("${partsFileName}")`));
                     }
                     resolve(parts);
                 },

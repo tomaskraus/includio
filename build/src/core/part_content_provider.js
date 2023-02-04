@@ -19,7 +19,7 @@ const createPartContentProvider = (partMapProvider, partNameRegexp) => {
         log(`looking for part [${parsedPartName}]`);
         const resultStr = partsMap.get(parsedPartName);
         if (typeof resultStr === 'undefined') {
-            return Promise.reject(new Error(`part (${parsedPartName}) not found in (${fileName})`));
+            return Promise.reject(new Error(`part (${parsedPartName}) not found in ("${fileName}")`));
         }
         return Promise.resolve(resultStr);
     };
