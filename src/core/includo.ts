@@ -60,7 +60,8 @@ const createTestIncludoLineCallback = (
       try {
         await insertionDispatcher(insertionTagMatcher.tail(line));
       } catch (e) {
-        return `"${fileLineInfo}" ; ${(e as Error).message}`;
+        const flinfoStr = fileLineInfo || '';
+        return `"${flinfoStr}" ; ${(e as Error).message}`;
       }
     }
     return null;

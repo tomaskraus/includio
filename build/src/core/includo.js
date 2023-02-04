@@ -41,7 +41,8 @@ const createTestIncludoLineCallback = (options) => {
                 await insertionDispatcher(insertionTagMatcher.tail(line));
             }
             catch (e) {
-                return `"${fileLineInfo}" ; ${e.message}`;
+                const flinfoStr = fileLineInfo || '';
+                return `"${flinfoStr}" ; ${e.message}`;
             }
         }
         return null;
