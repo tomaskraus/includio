@@ -10,7 +10,7 @@ const common_1 = require("./common");
 const rxjs_1 = require("rxjs");
 const split_if_1 = require("split-if");
 const cache_fn_1 = require("../utils/cache_fn");
-const head_tail_matcher_1 = require("../utils/head_tail_matcher");
+const head_tail_matcher_old_1 = require("../utils/head_tail_matcher_old");
 const word_matcher_1 = require("../utils/word_matcher");
 const log = common_1.appLog.extend('partMapProvider');
 const createPartMapProvider = (fileContentProvider, partTagProvider, partNameRegexp) => {
@@ -19,7 +19,7 @@ const createPartMapProvider = (fileContentProvider, partTagProvider, partNameReg
     const _getMapFromFile = async (partsFileName) => {
         log(`creating part map from [${partsFileName}]`);
         const partTagStr = partTagProvider(partsFileName);
-        const partTagMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)(partTagStr);
+        const partTagMatcher = (0, head_tail_matcher_old_1.createHeadTailMatcherOld)(partTagStr);
         const lines = await fileContentProvider(partsFileName);
         const parts = new Map();
         return new Promise((resolve, reject) => {

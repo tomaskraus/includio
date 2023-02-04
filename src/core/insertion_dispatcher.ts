@@ -17,7 +17,7 @@ import {fileContentProvider} from './file_content_provider';
 import {createPartMapProvider} from './part_map_provider';
 import {createPartContentProvider} from './part_content_provider';
 import {createPartTagProvider} from './part_tag_provider';
-import {createHeadTailMatcher} from '../utils/head_tail_matcher';
+import {createHeadTailMatcherOld} from '../utils/head_tail_matcher_old';
 import {cmdFirst, cmdLast} from './commands';
 
 const log = appLog.extend('insertionDispatcher');
@@ -71,7 +71,7 @@ const createGetLines = (options: TIncludoOptions, partNameRegexp: RegExp) => {
 };
 
 const createPipeDispatcher = (cmdNameRegexp: RegExp) => {
-  const cmdNameMatcher = createHeadTailMatcher(cmdNameRegexp);
+  const cmdNameMatcher = createHeadTailMatcherOld(cmdNameRegexp);
 
   const pipeDispatcher = (
     cmdLines: string[],

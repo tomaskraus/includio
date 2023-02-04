@@ -12,10 +12,10 @@ const line_transform_machines_1 = require("line-transform-machines");
 const insertion_dispatcher_1 = require("./insertion_dispatcher");
 const common_1 = require("./common");
 Object.defineProperty(exports, "DEFAULT_INCLUDO_OPTIONS", { enumerable: true, get: function () { return common_1.DEFAULT_INCLUDO_OPTIONS; } });
-const head_tail_matcher_1 = require("../utils/head_tail_matcher");
+const head_tail_matcher_old_1 = require("../utils/head_tail_matcher_old");
 const log = common_1.appLog.extend('processor');
 const createIncludoLineCallback = (options) => {
-    const insertionTagMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)(options.tagInsert);
+    const insertionTagMatcher = (0, head_tail_matcher_old_1.createHeadTailMatcherOld)(options.tagInsert);
     const insertionDispatcher = (0, insertion_dispatcher_1.createInsertionDispatcher)(options);
     log(`CREATE includoCallback for tag [${options.tagInsert}] `);
     return (line) => {
@@ -32,7 +32,7 @@ const createIncludoProcessor = (options) => {
 };
 exports.createIncludoProcessor = createIncludoProcessor;
 const createTestIncludoLineCallback = (options) => {
-    const insertionTagMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)(options.tagInsert);
+    const insertionTagMatcher = (0, head_tail_matcher_old_1.createHeadTailMatcherOld)(options.tagInsert);
     const insertionDispatcher = (0, insertion_dispatcher_1.createInsertionDispatcher)(options);
     log(`CREATE testIncludoCallback for tag [${options.tagInsert}] `);
     return async (line, lineNumber, fileLineInfo) => {

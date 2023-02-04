@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const head_tail_matcher_1 = require("../../src/utils/head_tail_matcher");
+const head_tail_matcher_old_1 = require("../../src/utils/head_tail_matcher_old");
 let matcher;
 beforeEach(() => {
-    matcher = (0, head_tail_matcher_1.createHeadTailMatcher)(/\w+/);
+    matcher = (0, head_tail_matcher_old_1.createHeadTailMatcherOld)(/\w+/);
 });
 describe('HeadTailMatcher', () => {
     test('does not match empty sample, returns empty strings', () => {
@@ -55,7 +55,7 @@ describe('HeadTailMatcher', () => {
         expect(matcher.leftPadding(line)).toEqual('  ');
     });
     test('matches alternate construct', () => {
-        const matcher = (0, head_tail_matcher_1.createHeadTailMatcher)(/run|stop/);
+        const matcher = (0, head_tail_matcher_old_1.createHeadTailMatcherOld)(/run|stop/);
         const lineRun = ' run script1 10 20';
         expect(matcher.test(lineRun)).toBeTruthy();
         expect(matcher.headTail(lineRun)).toEqual(['run', 'script1 10 20']);
@@ -76,7 +76,7 @@ describe('HeadTailMatcher', () => {
         expect(matcher.leftPadding(lineIdle)).toEqual('');
     });
     test('create matcher from string', () => {
-        const idleMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)('idle');
+        const idleMatcher = (0, head_tail_matcher_old_1.createHeadTailMatcherOld)('idle');
         const lineIdle = '   idle script1 10 20  ';
         expect(idleMatcher.test(lineIdle)).toBeTruthy();
         expect(idleMatcher.headTail(lineIdle)).toEqual(['idle', 'script1 10 20']);
@@ -91,4 +91,4 @@ describe('HeadTailMatcher', () => {
         expect(idleMatcher.leftPadding(lineRun)).toEqual('');
     });
 });
-//# sourceMappingURL=head_tail_matcher.test.js.map
+//# sourceMappingURL=head_tail_matcher_old.test.js.map

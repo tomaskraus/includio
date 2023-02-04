@@ -12,7 +12,7 @@ const file_content_provider_1 = require("./file_content_provider");
 const part_map_provider_1 = require("./part_map_provider");
 const part_content_provider_1 = require("./part_content_provider");
 const part_tag_provider_1 = require("./part_tag_provider");
-const head_tail_matcher_1 = require("../utils/head_tail_matcher");
+const head_tail_matcher_old_1 = require("../utils/head_tail_matcher_old");
 const commands_1 = require("./commands");
 const log = common_1.appLog.extend('insertionDispatcher');
 const createInsertionDispatcher = (options) => {
@@ -49,7 +49,7 @@ const createGetLines = (options, partNameRegexp) => {
     };
 };
 const createPipeDispatcher = (cmdNameRegexp) => {
-    const cmdNameMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)(cmdNameRegexp);
+    const cmdNameMatcher = (0, head_tail_matcher_old_1.createHeadTailMatcherOld)(cmdNameRegexp);
     const pipeDispatcher = (cmdLines, previousResult) => {
         if (cmdLines.length === 0) {
             return previousResult;

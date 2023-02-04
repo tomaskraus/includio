@@ -1,12 +1,12 @@
 import {
-  IHeadTailMatcher,
-  createHeadTailMatcher,
-} from '../../src/utils/head_tail_matcher';
+  IHeadTailMatcherOld,
+  createHeadTailMatcherOld,
+} from '../../src/utils/head_tail_matcher_old';
 
-let matcher: IHeadTailMatcher;
+let matcher: IHeadTailMatcherOld;
 
 beforeEach(() => {
-  matcher = createHeadTailMatcher(/\w+/);
+  matcher = createHeadTailMatcherOld(/\w+/);
 });
 
 describe('HeadTailMatcher', () => {
@@ -65,7 +65,7 @@ describe('HeadTailMatcher', () => {
   });
 
   test('matches alternate construct', () => {
-    const matcher = createHeadTailMatcher(/run|stop/);
+    const matcher = createHeadTailMatcherOld(/run|stop/);
 
     const lineRun = ' run script1 10 20';
     expect(matcher.test(lineRun)).toBeTruthy();
@@ -90,7 +90,7 @@ describe('HeadTailMatcher', () => {
   });
 
   test('create matcher from string', () => {
-    const idleMatcher = createHeadTailMatcher('idle');
+    const idleMatcher = createHeadTailMatcherOld('idle');
 
     const lineIdle = '   idle script1 10 20  ';
     expect(idleMatcher.test(lineIdle)).toBeTruthy();
