@@ -18,7 +18,7 @@ commander_1.program
     '\nIf not specified, standard output will be used.')
     .option('-r --resourceDir <string>', 'Directory where to include files from.' +
     '\nIf not specified, current working dir (.) will be used.')
-    .option('-t --test', 'check the input file & resources for possible errors')
+    .option('-t --test', 'Check the input file & resources for possible errors.')
     .addHelpText('after', `
   Example: 
   includo -i README.template.md -o README.md -r assets`);
