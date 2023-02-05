@@ -1,19 +1,19 @@
 import {
-  IHeadTailMatcher,
-  createHeadTailMatcher,
-} from '../../src/utils/head_tail_matcher';
+  ISeparatorMatcher,
+  createSeparatorMatcher,
+} from '../../src/utils/separator_matcher';
 
-let spaceMatcher: IHeadTailMatcher;
-let pipeMatcher: IHeadTailMatcher;
+let spaceMatcher: ISeparatorMatcher;
+let pipeMatcher: ISeparatorMatcher;
 
 beforeEach(() => {
-  spaceMatcher = createHeadTailMatcher(' ');
-  pipeMatcher = createHeadTailMatcher('\\|');
+  spaceMatcher = createSeparatorMatcher(' ');
+  pipeMatcher = createSeparatorMatcher('\\|');
 });
 
 describe('special regexp chars in separator string', () => {
   test('need to double escape special char meaning', () => {
-    const dotMatcher = createHeadTailMatcher('\\.');
+    const dotMatcher = createSeparatorMatcher('\\.');
 
     expect(dotMatcher.headTail('a.b.c')).toEqual(['a', 'b.c']);
     expect(dotMatcher.head('a.b.c')).toEqual('a');

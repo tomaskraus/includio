@@ -7,11 +7,11 @@ exports.createLineDispatcher = void 0;
 const common_1 = require("./common");
 const first_matcher_1 = require("../utils/first_matcher");
 const commands_1 = require("./commands");
-const head_tail_matcher_1 = require("../utils/head_tail_matcher");
+const separator_matcher_1 = require("../utils/separator_matcher");
 const log = common_1.appLog.extend('lineDispatcher');
 const createLineDispatcher = (cmdNameRegexp) => {
     log('CREATE lineDispatcher');
-    const pipeMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)('\\|');
+    const pipeSeparatorMatcher = (0, separator_matcher_1.createSeparatorMatcher)('\\|');
     const cmdNameMatcher = (0, first_matcher_1.createFirstMatcher)(cmdNameRegexp);
     const lineDispatcher = (previousResult, commands) => {
         log(`commands: [${commands}]`);
@@ -19,7 +19,7 @@ const createLineDispatcher = (cmdNameRegexp) => {
             return previousResult;
         }
         else {
-            const [currentCmd, tail] = pipeMatcher.headTail(commands);
+            const [currentCmd, tail] = pipeSeparatorMatcher.headTail(commands);
             if (currentCmd === '') {
                 throw new Error('Empty command in pipe');
             }

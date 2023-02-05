@@ -9,8 +9,8 @@ export interface IFirstMatcher {
  * For a given line, provides functions to recognize its two parts:
  * '(head)(tail)'
  * where:
- *  - (head) is customizable (RegExp/String argument)
- *  - (rest) is the rest of the line till its end, not trimmed.
+ *  - (head) is customizable (RegExp|String argument), trimmed automatically.
+ *  - (tail) is the rest of the line till its end, not trimmed.
  *
  *
  * @example
@@ -34,7 +34,7 @@ export interface IFirstMatcher {
     ```
  *
  *
- * (head) and (rest) are safe: return always a string, never null or undefined
+ * (head) and (tail) are safe: return always a string, never null or undefined
  *
  * Tip: use ^ at the start of the regexp argument, to prevent FirstRestMatcher to recognize lines starting with white character(s)
  *

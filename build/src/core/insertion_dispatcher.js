@@ -13,19 +13,19 @@ const part_map_provider_1 = require("./part_map_provider");
 const part_content_provider_1 = require("./part_content_provider");
 const part_tag_provider_1 = require("./part_tag_provider");
 const line_dispatcher_1 = require("./line_dispatcher");
-const head_tail_matcher_1 = require("../utils/head_tail_matcher");
+const separator_matcher_1 = require("../utils/separator_matcher");
 const log = common_1.appLog.extend('insertionDispatcher');
 const createInsertionDispatcher = (options) => {
     log(`CREATE insertionDispatcher. resourceDir: [${options.resourceDir}]`);
     const getLines = createGetLines(options, common_1.PART_NAME_REGEXP);
     const lineDispatcher = (0, line_dispatcher_1.createLineDispatcher)(common_1.COMMAND_NAME_REGEXP);
-    const pipeMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)('\\|');
+    const pipeSeparatorMatcher = (0, separator_matcher_1.createSeparatorMatcher)('\\|');
     return async (tagContent) => {
         log(`call on [${tagContent}]`);
         if (tagContent.trim().length === 0) {
             return Promise.reject(new Error('empty tag not allowed!'));
         }
-        const [contentSelector, commands] = pipeMatcher.headTail(tagContent);
+        const [contentSelector, commands] = pipeSeparatorMatcher.headTail(tagContent);
         const input = await getLines(contentSelector);
         const result = lineDispatcher(input, commands);
         return result.join('\n');

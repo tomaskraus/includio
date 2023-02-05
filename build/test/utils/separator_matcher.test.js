@@ -1,15 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const head_tail_matcher_1 = require("../../src/utils/head_tail_matcher");
+const separator_matcher_1 = require("../../src/utils/separator_matcher");
 let spaceMatcher;
 let pipeMatcher;
 beforeEach(() => {
-    spaceMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)(' ');
-    pipeMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)('\\|');
+    spaceMatcher = (0, separator_matcher_1.createSeparatorMatcher)(' ');
+    pipeMatcher = (0, separator_matcher_1.createSeparatorMatcher)('\\|');
 });
 describe('special regexp chars in separator string', () => {
     test('need to double escape special char meaning', () => {
-        const dotMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)('\\.');
+        const dotMatcher = (0, separator_matcher_1.createSeparatorMatcher)('\\.');
         expect(dotMatcher.headTail('a.b.c')).toEqual(['a', 'b.c']);
         expect(dotMatcher.head('a.b.c')).toEqual('a');
         expect(dotMatcher.tail('a.b.c')).toEqual('b.c');
@@ -68,4 +68,4 @@ describe('HeadTailMatcher', () => {
         expect(pipeMatcher.tail('  hello | our world | ! ')).toEqual(' our world | ! ');
     });
 });
-//# sourceMappingURL=head_tail_matcher.test.js.map
+//# sourceMappingURL=separator_matcher.test.js.map

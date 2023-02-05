@@ -18,7 +18,7 @@ import {createPartMapProvider} from './part_map_provider';
 import {createPartContentProvider} from './part_content_provider';
 import {createPartTagProvider} from './part_tag_provider';
 import {createLineDispatcher} from './line_dispatcher';
-import {createHeadTailMatcher} from '../utils/head_tail_matcher';
+import {createSeparatorMatcher} from '../utils/separator_matcher';
 
 const log = appLog.extend('insertionDispatcher');
 
@@ -28,14 +28,15 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
   const getLines = createGetLines(options, PART_NAME_REGEXP);
   const lineDispatcher = createLineDispatcher(COMMAND_NAME_REGEXP);
 
-  const pipeMatcher = createHeadTailMatcher('\\|');
+  const pipeSeparatorMatcher = createSeparatorMatcher('\\|');
 
   return async (tagContent: string): Promise<string> => {
     log(`call on [${tagContent}]`);
     if (tagContent.trim().length === 0) {
       return Promise.reject(new Error('empty tag not allowed!'));
     }
-    const [contentSelector, commands] = pipeMatcher.headTail(tagContent);
+    const [contentSelector, commands] =
+      pipeSeparatorMatcher.headTail(tagContent);
     const input = await getLines(contentSelector);
     const result = lineDispatcher(input, commands);
     return result.join('\n');

@@ -6,14 +6,14 @@ import {appLog} from './common';
 
 import {createFirstMatcher} from '../utils/first_matcher';
 import {cmdFirst, cmdLast} from './commands';
-import {createHeadTailMatcher} from '../utils/head_tail_matcher';
+import {createSeparatorMatcher} from '../utils/separator_matcher';
 
 const log = appLog.extend('lineDispatcher');
 
 export const createLineDispatcher = (cmdNameRegexp: RegExp) => {
   log('CREATE lineDispatcher');
 
-  const pipeMatcher = createHeadTailMatcher('\\|');
+  const pipeSeparatorMatcher = createSeparatorMatcher('\\|');
   const cmdNameMatcher = createFirstMatcher(cmdNameRegexp);
 
   const lineDispatcher = (
@@ -24,7 +24,7 @@ export const createLineDispatcher = (cmdNameRegexp: RegExp) => {
     if (commands.trim() === '') {
       return previousResult;
     } else {
-      const [currentCmd, tail] = pipeMatcher.headTail(commands);
+      const [currentCmd, tail] = pipeSeparatorMatcher.headTail(commands);
       if (currentCmd === '') {
         throw new Error('Empty command in pipe');
       }
