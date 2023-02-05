@@ -8,7 +8,7 @@ import {appLog, getFileLineInfoStr} from './common';
 import {from, filter, scan, map} from 'rxjs';
 import {splitIf} from 'split-if';
 import {cacheOneArgFnAsync} from '../utils/cache_fn';
-import {createHeadTailMatcherOld} from '../utils/head_tail_matcher_old';
+import {createFirstRestMatcher} from '../utils/first_rest_matcher';
 import {createWordMatcher} from '../utils/word_matcher';
 
 const log = appLog.extend('partMapProvider');
@@ -26,7 +26,7 @@ export const createPartMapProvider = (
   ): Promise<Map<string, string[]>> => {
     log(`creating part map from [${partsFileName}]`);
     const partTagStr = partTagProvider(partsFileName);
-    const partTagMatcher = createHeadTailMatcherOld(partTagStr);
+    const partTagMatcher = createFirstRestMatcher(partTagStr);
 
     const lines = await fileContentProvider(partsFileName);
     const parts = new Map<string, string[]>();
@@ -39,7 +39,7 @@ export const createPartMapProvider = (
           splitIf(s => partTagMatcher.test(s.value)),
           // create a part record
           map(nLines => {
-            const name = partTagMatcher.tail(nLines[0].value);
+            const name = partTagMatcher.rest(nLines[0].value);
             const startLineNumber = nLines[0].lineNumber;
             if (name.length > 0 && !partNameMatcher.test(name)) {
               throw new Error(

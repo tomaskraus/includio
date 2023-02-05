@@ -15,7 +15,7 @@ import type {TAsyncLineCallback} from 'line-transform-machines';
 import {createInsertionDispatcher} from './insertion_dispatcher';
 import {DEFAULT_INCLUDO_OPTIONS, appLog} from './common';
 import type {TIncludoOptions} from './common';
-import {createHeadTailMatcherOld} from '../utils/head_tail_matcher_old';
+import {createFirstRestMatcher} from '../utils/first_rest_matcher';
 
 const log = appLog.extend('processor');
 
@@ -24,13 +24,13 @@ export {DEFAULT_INCLUDO_OPTIONS};
 const createIncludoLineCallback = (
   options: TIncludoOptions
 ): TAsyncLineCallback => {
-  const insertionTagMatcher = createHeadTailMatcherOld(options.tagInsert);
+  const insertionTagMatcher = createFirstRestMatcher(options.tagInsert);
   const insertionDispatcher = createInsertionDispatcher(options);
   log(`CREATE includoCallback for tag [${options.tagInsert}] `);
 
   return (line: string): Promise<string> => {
     if (insertionTagMatcher.test(line)) {
-      return insertionDispatcher(insertionTagMatcher.tail(line));
+      return insertionDispatcher(insertionTagMatcher.rest(line));
     }
     return Promise.resolve(line);
   };
@@ -47,7 +47,7 @@ export const createIncludoProcessor = (
 const createTestIncludoLineCallback = (
   options: TIncludoOptions
 ): TAsyncLineCallback => {
-  const insertionTagMatcher = createHeadTailMatcherOld(options.tagInsert);
+  const insertionTagMatcher = createFirstRestMatcher(options.tagInsert);
   const insertionDispatcher = createInsertionDispatcher(options);
   log(`CREATE testIncludoCallback for tag [${options.tagInsert}] `);
 
@@ -58,7 +58,7 @@ const createTestIncludoLineCallback = (
   ): Promise<string | null> => {
     if (insertionTagMatcher.test(line)) {
       try {
-        await insertionDispatcher(insertionTagMatcher.tail(line));
+        await insertionDispatcher(insertionTagMatcher.rest(line));
       } catch (e) {
         const flinfoStr = fileLineInfo || '';
         return `"${flinfoStr}" ; ${(e as Error).message}`;

@@ -12,7 +12,7 @@ const file_content_provider_1 = require("./file_content_provider");
 const part_map_provider_1 = require("./part_map_provider");
 const part_content_provider_1 = require("./part_content_provider");
 const part_tag_provider_1 = require("./part_tag_provider");
-const head_tail_matcher_old_1 = require("../utils/head_tail_matcher_old");
+const first_rest_matcher_1 = require("../utils/first_rest_matcher");
 const commands_1 = require("./commands");
 const log = common_1.appLog.extend('insertionDispatcher');
 const createInsertionDispatcher = (options) => {
@@ -49,7 +49,7 @@ const createGetLines = (options, partNameRegexp) => {
     };
 };
 const createPipeDispatcher = (cmdNameRegexp) => {
-    const cmdNameMatcher = (0, head_tail_matcher_old_1.createHeadTailMatcherOld)(cmdNameRegexp);
+    const cmdNameMatcher = (0, first_rest_matcher_1.createFirstRestMatcher)(cmdNameRegexp);
     const pipeDispatcher = (cmdLines, previousResult) => {
         if (cmdLines.length === 0) {
             return previousResult;
@@ -61,9 +61,9 @@ const createPipeDispatcher = (cmdNameRegexp) => {
                 throw new Error('Empty command in pipe');
             }
             if (cmdNameMatcher.test(sanitizedCurrentCmdLine)) {
-                const cmdName = cmdNameMatcher.head(sanitizedCurrentCmdLine);
+                const cmdName = cmdNameMatcher.first(sanitizedCurrentCmdLine);
                 const cmdArgs = cmdNameMatcher
-                    .tail(sanitizedCurrentCmdLine)
+                    .rest(sanitizedCurrentCmdLine)
                     .split(',')
                     .map(s => s.trim());
                 const currentResult = commandDispatcher(cmdName, cmdArgs, previousResult);
