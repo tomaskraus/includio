@@ -9,21 +9,21 @@ exports.createWordMatcher = void 0;
    *
    * @example
      ```ts
-      const runStopMatcher = createWordMatcher(/run|stop/);
+    const machineCmdWordMatcher = createWordMatcher(/run|stop/);
 
-      runStopMatcher.test('  run ') === true;
-      runStopMatcher.value('  run ') === 'run';  //trims the result
+    machineCmdWordMatcher.test('  run ') === true;
+    machineCmdWordMatcher.value('  run ') === 'run'; // trims the result
 
-      runStopMatcher.test('stop') === true;
-      runStopMatcher.value('stop') === 'stop';
+    machineCmdWordMatcher.test('stop') === true;
+    machineCmdWordMatcher.value('stop') === 'stop';
 
-      runStopMatcher.test(' run1 ') === false;
-      runStopMatcher.value('  run1 ') === '';
-      assert.throws(() => runStopMatcher.parse('  run1 '));
+    machineCmdWordMatcher.test(' run1 ') === false;
+    machineCmdWordMatcher.value('  run1 ') === '';
+    assert.throws(() => machineCmdWordMatcher.parse('  run1 '));
 
-      runStopMatcher.test(' run a ') === false;
-      runStopMatcher.value('  run a ') === '';
-      assert.throws(() => runStopMatcher.parse('  run a '));
+    machineCmdWordMatcher.test(' run a ') === false;
+    machineCmdWordMatcher.value('  run a ') === '';
+    assert.throws(() => machineCmdWordMatcher.parse('  run a ', 'Machine command')); // can include custom error message beginning
       ```
 
    * Limitations:
