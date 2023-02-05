@@ -23,18 +23,15 @@ export type IHeadTailMatcher = {
 
 export const createHeadTailMatcher = (separator: string): IHeadTailMatcher => {
   const headTail = (s: string): [string, string] => {
-    const headGroupReg = new RegExp(`\\s*([^${separator}]*)\\s*`);
+    const headGroupReg = new RegExp(`\\s*([^${separator}]+)\\s*`);
     const reg = new RegExp(
       `^${headGroupReg.source}$|^${headGroupReg.source}${separator}(.*)$`
     );
-    const matches = s.match(reg) || [''];
+    const matches = s.match(reg) || ['', ''];
     if (typeof matches[2] !== 'undefined') {
       return [matches[2].trim(), matches[3] || ''];
     }
-    if (typeof matches[1] !== 'undefined') {
-      return [matches[1].trim(), ''];
-    }
-    return ['', ''];
+    return [matches[1].trim(), ''];
   };
   return {
     headTail,
