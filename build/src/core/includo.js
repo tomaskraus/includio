@@ -12,15 +12,15 @@ const line_transform_machines_1 = require("line-transform-machines");
 const insertion_dispatcher_1 = require("./insertion_dispatcher");
 const common_1 = require("./common");
 Object.defineProperty(exports, "DEFAULT_INCLUDO_OPTIONS", { enumerable: true, get: function () { return common_1.DEFAULT_INCLUDO_OPTIONS; } });
-const first_rest_matcher_1 = require("../utils/first_rest_matcher");
+const first_matcher_1 = require("../utils/first_matcher");
 const log = common_1.appLog.extend('processor');
 const createIncludoLineCallback = (options) => {
-    const insertionTagMatcher = (0, first_rest_matcher_1.createFirstRestMatcher)(options.tagInsert);
+    const insertionTagMatcher = (0, first_matcher_1.createFirstMatcher)(options.tagInsert);
     const insertionDispatcher = (0, insertion_dispatcher_1.createInsertionDispatcher)(options);
     log(`CREATE includoCallback for tag [${options.tagInsert}] `);
     return (line) => {
         if (insertionTagMatcher.test(line)) {
-            return insertionDispatcher(insertionTagMatcher.rest(line));
+            return insertionDispatcher(insertionTagMatcher.tail(line));
         }
         return Promise.resolve(line);
     };
@@ -32,13 +32,13 @@ const createIncludoProcessor = (options) => {
 };
 exports.createIncludoProcessor = createIncludoProcessor;
 const createTestIncludoLineCallback = (options) => {
-    const insertionTagMatcher = (0, first_rest_matcher_1.createFirstRestMatcher)(options.tagInsert);
+    const insertionTagMatcher = (0, first_matcher_1.createFirstMatcher)(options.tagInsert);
     const insertionDispatcher = (0, insertion_dispatcher_1.createInsertionDispatcher)(options);
     log(`CREATE testIncludoCallback for tag [${options.tagInsert}] `);
     return async (line, lineNumber, fileLineInfo) => {
         if (insertionTagMatcher.test(line)) {
             try {
-                await insertionDispatcher(insertionTagMatcher.rest(line));
+                await insertionDispatcher(insertionTagMatcher.tail(line));
             }
             catch (e) {
                 const flinfoStr = fileLineInfo || '';

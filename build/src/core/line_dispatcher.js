@@ -5,14 +5,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createLineDispatcher = void 0;
 const common_1 = require("./common");
-const first_rest_matcher_1 = require("../utils/first_rest_matcher");
+const first_matcher_1 = require("../utils/first_matcher");
 const commands_1 = require("./commands");
 const head_tail_matcher_1 = require("../utils/head_tail_matcher");
 const log = common_1.appLog.extend('lineDispatcher');
 const createLineDispatcher = (cmdNameRegexp) => {
     log('CREATE lineDispatcher');
     const pipeMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)('\\|');
-    const cmdNameMatcher = (0, first_rest_matcher_1.createFirstRestMatcher)(cmdNameRegexp);
+    const cmdNameMatcher = (0, first_matcher_1.createFirstMatcher)(cmdNameRegexp);
     const lineDispatcher = (previousResult, commands) => {
         log(`commands: [${commands}]`);
         if (commands.trim() === '') {
@@ -24,9 +24,9 @@ const createLineDispatcher = (cmdNameRegexp) => {
                 throw new Error('Empty command in pipe');
             }
             if (cmdNameMatcher.test(currentCmd)) {
-                const cmdName = cmdNameMatcher.first(currentCmd);
+                const cmdName = cmdNameMatcher.head(currentCmd);
                 const cmdArgs = cmdNameMatcher
-                    .rest(currentCmd)
+                    .tail(currentCmd)
                     .split(',')
                     .map(s => s.trim());
                 const currentResult = commandDispatcher(previousResult, cmdName, cmdArgs);

@@ -10,7 +10,7 @@ const common_1 = require("./common");
 const rxjs_1 = require("rxjs");
 const split_if_1 = require("split-if");
 const cache_fn_1 = require("../utils/cache_fn");
-const first_rest_matcher_1 = require("../utils/first_rest_matcher");
+const first_matcher_1 = require("../utils/first_matcher");
 const word_matcher_1 = require("../utils/word_matcher");
 const log = common_1.appLog.extend('partMapProvider');
 const createPartMapProvider = (fileContentProvider, partTagProvider, partNameRegexp) => {
@@ -19,7 +19,7 @@ const createPartMapProvider = (fileContentProvider, partTagProvider, partNameReg
     const _getMapFromFile = async (partsFileName) => {
         log(`creating part map from [${partsFileName}]`);
         const partTagStr = partTagProvider(partsFileName);
-        const partTagMatcher = (0, first_rest_matcher_1.createFirstRestMatcher)(partTagStr);
+        const partTagMatcher = (0, first_matcher_1.createFirstMatcher)(partTagStr);
         const lines = await fileContentProvider(partsFileName);
         const parts = new Map();
         return new Promise((resolve, reject) => {
@@ -31,7 +31,7 @@ const createPartMapProvider = (fileContentProvider, partTagProvider, partNameReg
             (0, split_if_1.splitIf)(s => partTagMatcher.test(s.value)), 
             // create a part record
             (0, rxjs_1.map)(nLines => {
-                const name = partTagMatcher.rest(nLines[0].value).trim();
+                const name = partTagMatcher.tail(nLines[0].value).trim();
                 const startLineNumber = nLines[0].lineNumber;
                 if (name.length > 0 && !partNameMatcher.test(name)) {
                     throw new Error(`Create part from ("${(0, common_1.getFileLineInfoStr)(partsFileName, startLineNumber)}"): invalid value: (${name})`);

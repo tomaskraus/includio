@@ -4,7 +4,7 @@
 
 import {appLog} from './common';
 
-import {createFirstRestMatcher} from '../utils/first_rest_matcher';
+import {createFirstMatcher} from '../utils/first_matcher';
 import {cmdFirst, cmdLast} from './commands';
 import {createHeadTailMatcher} from '../utils/head_tail_matcher';
 
@@ -14,7 +14,7 @@ export const createLineDispatcher = (cmdNameRegexp: RegExp) => {
   log('CREATE lineDispatcher');
 
   const pipeMatcher = createHeadTailMatcher('\\|');
-  const cmdNameMatcher = createFirstRestMatcher(cmdNameRegexp);
+  const cmdNameMatcher = createFirstMatcher(cmdNameRegexp);
 
   const lineDispatcher = (
     previousResult: string[],
@@ -29,9 +29,9 @@ export const createLineDispatcher = (cmdNameRegexp: RegExp) => {
         throw new Error('Empty command in pipe');
       }
       if (cmdNameMatcher.test(currentCmd)) {
-        const cmdName = cmdNameMatcher.first(currentCmd);
+        const cmdName = cmdNameMatcher.head(currentCmd);
         const cmdArgs = cmdNameMatcher
-          .rest(currentCmd)
+          .tail(currentCmd)
           .split(',')
           .map(s => s.trim());
         const currentResult = commandDispatcher(

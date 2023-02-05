@@ -18,8 +18,8 @@ Options:
   -r --resourceDir <string>  Directory where to include files from.
                              If not specified, current working dir (.) will be
                              used.
-  -t --test                  check the input file & resources for possible
-                             errors
+  -t --test                  Check the input file & resources for possible
+                             errors.
   -h, --help                 display help for command
 
   Example: 
