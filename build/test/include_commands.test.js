@@ -48,8 +48,8 @@ beforeEach(() => {
         'last-cmd-view-exact.txt': 'Hello, \n@@ source1.txt : part1 | last 2 \nWorld!\n',
         'unknown-cmd.txt': 'Hello, \n@@ source1.txt | unkn \nWorld!\n',
         'invalid-cmd.txt': 'Hello, \n@@ source1.txt | in*valid 24 \nWorld!\n',
-        'empty-pipe.txt': 'Hello, \n@@ source1.txt | \nWorld!\n',
-        'empty-pipe-part.txt': 'Hello, \n@@ source1.txt : part1 |\nWorld!\n',
+        'empty-pipe-1.txt': 'Hello, \n@@ source1.txt | | first 3\nWorld!\n',
+        'empty-pipe-2.txt': 'Hello, \n@@ source1.txt || first 3\nWorld!\n',
         'source1.txt': 'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2',
         'dir-for-insert': {
             'source-with-no-parts.txt': 'text1 \n \ntext2 ',
@@ -156,11 +156,22 @@ describe('command: last', () => {
     });
 });
 describe('general error handling', () => {
-    test('empty pipe', async () => {
+    test('empty pipe 1', async () => {
         expect.assertions(2);
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
         try {
-            await p('empty-pipe.txt', output);
+            await p('empty-pipe-1.txt', output);
+        }
+        catch (e) {
+            expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);
+            expect(e.message).toContain('Empty command in pipe'); //err
+        }
+    });
+    test('empty pipe 2', async () => {
+        expect.assertions(2);
+        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        try {
+            await p('empty-pipe-2.txt', output);
         }
         catch (e) {
             expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);

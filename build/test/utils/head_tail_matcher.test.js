@@ -1,94 +1,71 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const head_tail_matcher_1 = require("../../src/utils/head_tail_matcher");
-let matcher;
+let spaceMatcher;
+let pipeMatcher;
 beforeEach(() => {
-    matcher = (0, head_tail_matcher_1.createHeadTailMatcher)(/\w+/);
+    spaceMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)(' ');
+    pipeMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)('\\|');
+});
+describe('special regexp chars in separator string', () => {
+    test('need to double escape special char meaning', () => {
+        const dotMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)('\\.');
+        expect(dotMatcher.headTail('a.b.c')).toEqual(['a', 'b.c']);
+        expect(dotMatcher.head('a.b.c')).toEqual('a');
+        expect(dotMatcher.tail('a.b.c')).toEqual('b.c');
+    });
 });
 describe('HeadTailMatcher', () => {
-    test('does not match empty sample, returns empty strings', () => {
-        expect(matcher.test('')).toBeFalsy();
-        expect(matcher.headTail('')).toEqual(['', '']);
-        expect(matcher.head('')).toEqual('');
-        expect(matcher.tail('')).toEqual('');
-        expect(matcher.leftPadding('')).toEqual('');
+    test('on empty string, returns empty head and empty tail', () => {
+        expect(spaceMatcher.headTail('')).toEqual(['', '']);
+        expect(spaceMatcher.head('')).toEqual('');
+        expect(spaceMatcher.tail('')).toEqual('');
+        expect(pipeMatcher.headTail('')).toEqual(['', '']);
+        expect(pipeMatcher.head('')).toEqual('');
+        expect(pipeMatcher.tail('')).toEqual('');
     });
-    test('matches typical example', () => {
-        const line = '  run script1 10 20 ';
-        expect(matcher.test(line)).toBeTruthy();
-        expect(matcher.headTail(line)).toEqual(['run', 'script1 10 20']);
-        expect(matcher.head(line)).toEqual('run');
-        expect(matcher.tail(line)).toEqual('script1 10 20');
-        expect(matcher.leftPadding(line)).toEqual('  ');
+    test('on string that contains only one separator, returns empty head and empty tail', () => {
+        expect(spaceMatcher.headTail(' ')).toEqual(['', '']);
+        expect(spaceMatcher.head(' ')).toEqual('');
+        expect(spaceMatcher.tail(' ')).toEqual('');
+        expect(pipeMatcher.headTail('|')).toEqual(['', '']);
+        expect(pipeMatcher.head('|')).toEqual('');
+        expect(pipeMatcher.tail('|')).toEqual('');
     });
-    test("does not match if head doesn't match", () => {
-        const line = '  ru.n script1 10 20';
-        expect(matcher.test(line)).toBeFalsy();
-        expect(matcher.headTail(line)).toEqual(['', '']);
-        expect(matcher.head(line)).toEqual('');
-        expect(matcher.tail(line)).toEqual('');
-        //does not preserve padding functionality
-        expect(matcher.leftPadding(line)).toEqual('');
+    test('removes leading white spaces first. Even if white space is a separator!', () => {
+        expect(spaceMatcher.headTail('   ')).toEqual(['', '']);
+        expect(spaceMatcher.head('   ')).toEqual('');
+        expect(spaceMatcher.tail('   ')).toEqual('');
+        expect(pipeMatcher.headTail('   | ')).toEqual(['', ' ']);
+        expect(pipeMatcher.head('   | ')).toEqual('');
+        expect(pipeMatcher.tail('   | ')).toEqual(' ');
     });
-    test('matches empty padding', () => {
-        const line = 'run abc ';
-        expect(matcher.test(line)).toBeTruthy();
-        expect(matcher.headTail(line)).toEqual(['run', 'abc']);
-        expect(matcher.head(line)).toEqual('run');
-        expect(matcher.tail(line)).toEqual('abc');
-        expect(matcher.leftPadding(line)).toEqual('');
+    test('trims the head (even if a separator is a white space!)', () => {
+        expect(spaceMatcher.head(' hello  ')).toEqual('hello');
+        expect(pipeMatcher.head(' hello  ')).toEqual('hello');
+        expect(pipeMatcher.head('   | abc ')).toEqual('');
     });
-    test('matches an empty tail', () => {
-        const line = ' run';
-        expect(matcher.test(line)).toBeTruthy();
-        expect(matcher.headTail(line)).toEqual(['run', '']);
-        expect(matcher.head(line)).toEqual('run');
-        expect(matcher.tail(line)).toEqual('');
-        expect(matcher.leftPadding(line)).toEqual(' ');
+    test('if separator is white char, removes leading white spaces from the tail)', () => {
+        expect(spaceMatcher.headTail(' hello  our world ')).toEqual([
+            'hello',
+            'our world ',
+        ]);
+        expect(spaceMatcher.head(' hello  our world ')).toEqual('hello');
+        expect(spaceMatcher.tail(' hello  our world ')).toEqual('our world ');
     });
-    test('matches an empty tail & trailing spaces', () => {
-        const line = '  run  ';
-        expect(matcher.test(line)).toBeTruthy();
-        expect(matcher.headTail(line)).toEqual(['run', '']);
-        expect(matcher.head(line)).toEqual('run');
-        expect(matcher.tail(line)).toEqual('');
-        expect(matcher.leftPadding(line)).toEqual('  ');
+    test('tail is the rest of the original string', () => {
+        expect(pipeMatcher.tail(' hello  | our  world ')).toEqual(' our  world ');
+        expect(pipeMatcher.tail(' hello|')).toEqual('');
+        expect(pipeMatcher.tail(' hello| ')).toEqual(' ');
+        expect(spaceMatcher.tail(' hello  | our  world ')).toEqual('| our  world ');
     });
-    test('matches alternate construct', () => {
-        const matcher = (0, head_tail_matcher_1.createHeadTailMatcher)(/run|stop/);
-        const lineRun = ' run script1 10 20';
-        expect(matcher.test(lineRun)).toBeTruthy();
-        expect(matcher.headTail(lineRun)).toEqual(['run', 'script1 10 20']);
-        expect(matcher.head(lineRun)).toEqual('run');
-        expect(matcher.tail(lineRun)).toEqual('script1 10 20');
-        expect(matcher.leftPadding(lineRun)).toEqual(' ');
-        const lineStop = 'stop script1 10 20 ';
-        expect(matcher.test(lineStop)).toBeTruthy();
-        expect(matcher.headTail(lineStop)).toEqual(['stop', 'script1 10 20']);
-        expect(matcher.head(lineStop)).toEqual('stop');
-        expect(matcher.tail(lineStop)).toEqual('script1 10 20');
-        expect(matcher.leftPadding(lineStop)).toEqual('');
-        const lineIdle = '  idle script1 10 20';
-        expect(matcher.test(lineIdle)).toBeFalsy();
-        expect(matcher.headTail(lineIdle)).toEqual(['', '']);
-        expect(matcher.head(lineIdle)).toEqual('');
-        expect(matcher.tail(lineIdle)).toEqual('');
-        expect(matcher.leftPadding(lineIdle)).toEqual('');
-    });
-    test('create matcher from string', () => {
-        const idleMatcher = (0, head_tail_matcher_1.createHeadTailMatcher)('idle');
-        const lineIdle = '   idle script1 10 20  ';
-        expect(idleMatcher.test(lineIdle)).toBeTruthy();
-        expect(idleMatcher.headTail(lineIdle)).toEqual(['idle', 'script1 10 20']);
-        expect(idleMatcher.head(lineIdle)).toEqual('idle');
-        expect(idleMatcher.tail(lineIdle)).toEqual('script1 10 20');
-        expect(idleMatcher.leftPadding(lineIdle)).toEqual('   ');
-        const lineRun = '   run script1 10 20';
-        expect(idleMatcher.test(lineRun)).toBeFalsy();
-        expect(idleMatcher.headTail(lineRun)).toEqual(['', '']);
-        expect(idleMatcher.head(lineRun)).toEqual('');
-        expect(idleMatcher.tail(lineRun)).toEqual('');
-        expect(idleMatcher.leftPadding(lineRun)).toEqual('');
+    test('consumes the first (non white char) separator occurence (removes leading white spaces first!)', () => {
+        expect(pipeMatcher.headTail('  hello | our world | ! ')).toEqual([
+            'hello',
+            ' our world | ! ',
+        ]);
+        expect(pipeMatcher.head('  hello | our world | ! ')).toEqual('hello');
+        expect(pipeMatcher.tail('  hello | our world | ! ')).toEqual(' our world | ! ');
     });
 });
 //# sourceMappingURL=head_tail_matcher.test.js.map

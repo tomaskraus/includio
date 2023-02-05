@@ -47,8 +47,8 @@ beforeEach(() => {
     'unknown-cmd.txt': 'Hello, \n@@ source1.txt | unkn \nWorld!\n',
     'invalid-cmd.txt': 'Hello, \n@@ source1.txt | in*valid 24 \nWorld!\n',
 
-    'empty-pipe.txt': 'Hello, \n@@ source1.txt | \nWorld!\n',
-    'empty-pipe-part.txt': 'Hello, \n@@ source1.txt : part1 |\nWorld!\n',
+    'empty-pipe-1.txt': 'Hello, \n@@ source1.txt | | first 3\nWorld!\n',
+    'empty-pipe-2.txt': 'Hello, \n@@ source1.txt || first 3\nWorld!\n',
 
     'source1.txt': 'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2',
 
@@ -198,11 +198,11 @@ describe('command: last', () => {
 });
 
 describe('general error handling', () => {
-  test('empty pipe', async () => {
+  test('empty pipe 1', async () => {
     expect.assertions(2);
     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
     try {
-      await p('empty-pipe.txt', output);
+      await p('empty-pipe-1.txt', output);
     } catch (e) {
       expect(e).toBeInstanceOf(LineMachineError);
       expect((e as LineMachineError).message).toContain(
@@ -210,6 +210,20 @@ describe('general error handling', () => {
       ); //err
     }
   });
+
+  test('empty pipe 2', async () => {
+    expect.assertions(2);
+    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    try {
+      await p('empty-pipe-2.txt', output);
+    } catch (e) {
+      expect(e).toBeInstanceOf(LineMachineError);
+      expect((e as LineMachineError).message).toContain(
+        'Empty command in pipe'
+      ); //err
+    }
+  });
+
   test('invalid command name', async () => {
     expect.assertions(3);
     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
