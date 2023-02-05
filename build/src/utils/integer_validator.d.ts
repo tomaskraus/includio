@@ -19,4 +19,4 @@
     assert.throws(() => integerBetween_1_And_6_Validator('1.5'));
   ```
  */
-export declare const createIntegerValidator: (minValue?: number, maxValue?: number) => (str: string, errorMessageBeginning?: string) => number;
+export declare const createIntegerValidator: (minValue?: number, maxValue?: number) => (integerStr: string, beginOfErrorMessageStr?: string) => number;

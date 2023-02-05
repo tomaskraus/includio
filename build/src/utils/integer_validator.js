@@ -25,31 +25,31 @@ exports.createIntegerValidator = void 0;
 const createIntegerValidator = (minValue = Number.MIN_SAFE_INTEGER, maxValue = Number.MAX_SAFE_INTEGER) => 
 /**
  *
- * @param str String to be parsed for an integer.
- * @param errorMessageBeginning Begin of the error message. It will be added before the reason error one.
+ * @param integerStr String to be parsed for an integer.
+ * @param beginOfErrorMessageStr Begin of the error message. It will be added before the error reason description.
  * @returns Function that parses an integer value from string.
  */
-(str, errorMessageBeginning) => {
-    if (str.length === 0) {
-        throw createErrorObj('no integer value found', errorMessageBeginning);
+(integerStr, beginOfErrorMessageStr) => {
+    if (integerStr.length === 0) {
+        throw createErrorObj('no integer value found', beginOfErrorMessageStr);
     }
-    if (/\./.test(str)) {
-        throw createErrorObj(`value (${str}) is not an integer`, errorMessageBeginning);
+    if (/\./.test(integerStr)) {
+        throw createErrorObj(`value (${integerStr}) is not an integer`, beginOfErrorMessageStr);
     }
-    const val = Number(str);
+    const val = Number(integerStr);
     if (Number.isFinite(val)) {
         if (val < minValue) {
-            throw createErrorObj(`value (${val}) is lower than a required minimum [${minValue}]`, errorMessageBeginning);
+            throw createErrorObj(`value (${val}) is lower than a required minimum [${minValue}]`, beginOfErrorMessageStr);
         }
         if (val > maxValue) {
-            throw createErrorObj(`value (${val}) is greater than a required maximum [${maxValue}]`, errorMessageBeginning);
+            throw createErrorObj(`value (${val}) is greater than a required maximum [${maxValue}]`, beginOfErrorMessageStr);
         }
         return val;
     }
-    throw createErrorObj(`(${str}) is not a number`, errorMessageBeginning);
+    throw createErrorObj(`(${integerStr}) is not a number`, beginOfErrorMessageStr);
 };
 exports.createIntegerValidator = createIntegerValidator;
-const createErrorObj = (msg, errorMessage) => {
-    return new Error(errorMessage ? `${errorMessage}: ${msg}` : `${msg}`);
+const createErrorObj = (msg, errorMessageBegin) => {
+    return new Error(errorMessageBegin ? `${errorMessageBegin}: ${msg}` : `${msg}`);
 };
 //# sourceMappingURL=integer_validator.js.map

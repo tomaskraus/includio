@@ -27,41 +27,46 @@ export const createIntegerValidator =
   ) =>
   /**
    *
-   * @param str String to be parsed for an integer.
-   * @param errorMessageBeginning Begin of the error message. It will be added before the reason error one.
+   * @param integerStr String to be parsed for an integer.
+   * @param beginOfErrorMessageStr Begin of the error message. It will be added before the error reason description.
    * @returns Function that parses an integer value from string.
    */
-  (str: string, errorMessageBeginning?: string) => {
-    if (str.length === 0) {
-      throw createErrorObj('no integer value found', errorMessageBeginning);
+  (integerStr: string, beginOfErrorMessageStr?: string) => {
+    if (integerStr.length === 0) {
+      throw createErrorObj('no integer value found', beginOfErrorMessageStr);
     }
 
-    if (/\./.test(str)) {
+    if (/\./.test(integerStr)) {
       throw createErrorObj(
-        `value (${str}) is not an integer`,
-        errorMessageBeginning
+        `value (${integerStr}) is not an integer`,
+        beginOfErrorMessageStr
       );
     }
 
-    const val = Number(str);
+    const val = Number(integerStr);
     if (Number.isFinite(val)) {
       if (val < minValue) {
         throw createErrorObj(
           `value (${val}) is lower than a required minimum [${minValue}]`,
-          errorMessageBeginning
+          beginOfErrorMessageStr
         );
       }
       if (val > maxValue) {
         throw createErrorObj(
           `value (${val}) is greater than a required maximum [${maxValue}]`,
-          errorMessageBeginning
+          beginOfErrorMessageStr
         );
       }
       return val;
     }
-    throw createErrorObj(`(${str}) is not a number`, errorMessageBeginning);
+    throw createErrorObj(
+      `(${integerStr}) is not a number`,
+      beginOfErrorMessageStr
+    );
   };
 
-const createErrorObj = (msg: string, errorMessage?: string) => {
-  return new Error(errorMessage ? `${errorMessage}: ${msg}` : `${msg}`);
+const createErrorObj = (msg: string, errorMessageBegin?: string) => {
+  return new Error(
+    errorMessageBegin ? `${errorMessageBegin}: ${msg}` : `${msg}`
+  );
 };
