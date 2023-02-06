@@ -19,6 +19,7 @@ import {createPartContentProvider} from './part_content_provider';
 import {createPartTagProvider} from './part_tag_provider';
 import {createLineDispatcher} from './line_dispatcher';
 import {createSeparatorMatcher} from '../utils/separator_matcher';
+import {createFirstMatcher} from '../utils/first_matcher';
 
 const log = appLog.extend('insertionDispatcher');
 
@@ -69,7 +70,12 @@ const createGetLines = (options: TIncludoOptions, partNameRegexp: RegExp) => {
       return fileContentProvider(fileName);
     }
     if (tokens.length === 2) {
-      return partContentProvider(fileName, tokens[1]);
+      const partNameMatcher = createFirstMatcher(partNameRegexp);
+      if (!partNameMatcher.test(tokens[1])) {
+        throw new Error(`Part: invalid value: (${tokens[1]})`);
+      }
+      const partName = partNameMatcher.head(tokens[1]);
+      return partContentProvider(fileName, partName);
     }
     throw new Error(`Only one part allowed: (${contentSelector})`);
   };

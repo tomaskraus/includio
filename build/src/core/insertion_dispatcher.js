@@ -14,6 +14,7 @@ const part_content_provider_1 = require("./part_content_provider");
 const part_tag_provider_1 = require("./part_tag_provider");
 const line_dispatcher_1 = require("./line_dispatcher");
 const separator_matcher_1 = require("../utils/separator_matcher");
+const first_matcher_1 = require("../utils/first_matcher");
 const log = common_1.appLog.extend('insertionDispatcher');
 const createInsertionDispatcher = (options) => {
     log(`CREATE insertionDispatcher. resourceDir: [${options.resourceDir}]`);
@@ -48,7 +49,12 @@ const createGetLines = (options, partNameRegexp) => {
             return (0, file_content_provider_1.fileContentProvider)(fileName);
         }
         if (tokens.length === 2) {
-            return partContentProvider(fileName, tokens[1]);
+            const partNameMatcher = (0, first_matcher_1.createFirstMatcher)(partNameRegexp);
+            if (!partNameMatcher.test(tokens[1])) {
+                throw new Error(`Part: invalid value: (${tokens[1]})`);
+            }
+            const partName = partNameMatcher.head(tokens[1]);
+            return partContentProvider(fileName, partName);
         }
         throw new Error(`Only one part allowed: (${contentSelector})`);
     };

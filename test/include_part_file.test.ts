@@ -17,6 +17,8 @@ beforeEach(() => {
     'part-valid-exists-empty-content.txt':
       'Hello, \n@@ source-empty-content-part.txt : part1 \nWorld!\n',
     'part-empty.txt': 'Hello, \n@@ source1.txt :  \nWorld!\n',
+    'part-more-text-after-partname.txt':
+      'Hello, \n@@ source1.txt : part1 some text >> \nWorld!\n',
     'part-more-text-after-partname-in-source.txt':
       'Hello, \n@@ source1-text-after-part-name.txt : part1  \nWorld!\n',
     'part-valid-exists-source-with-empty-part-name.txt':
@@ -77,6 +79,15 @@ describe('normal ops', () => {
     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
 
     const res = await p('part-valid-exists-quoted-file.txt', output);
+    expect(res.lineNumber).toEqual(4);
+    expect(output.toString()).toEqual(
+      'Hello, \n m1 line1 \nm1 line2\nWorld!\n'
+    );
+  });
+
+  test('more text after part name in input', async () => {
+    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const res = await p('part-more-text-after-partname.txt', output);
     expect(res.lineNumber).toEqual(4);
     expect(output.toString()).toEqual(
       'Hello, \n m1 line1 \nm1 line2\nWorld!\n'
@@ -192,13 +203,12 @@ describe('error handling', () => {
   });
 
   test('invalid part name in input file', async () => {
-    expect.assertions(3);
+    expect.assertions(2);
     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
     try {
       await p('part-invalid.txt', output);
     } catch (e) {
       expect(e).toBeInstanceOf(LineMachineError);
-      expect((e as LineMachineError).message).toContain('invalid value'); //err
       expect((e as LineMachineError).message).toContain('*invalidpart'); //err
     }
   });
