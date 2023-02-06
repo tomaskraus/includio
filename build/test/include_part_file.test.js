@@ -38,6 +38,7 @@ beforeEach(() => {
         'part-empty.txt': 'Hello, \n@@ source1.txt :  \nWorld!\n',
         'part-more-text-after-partname.txt': 'Hello, \n@@ source1.txt : part1 some text >> \nWorld!\n',
         'part-more-text-after-partname-in-source.txt': 'Hello, \n@@ source1-text-after-part-name.txt : part1  \nWorld!\n',
+        'part-more-at-once.txt': 'Hello, \n@@ source1.txt : part1 : part2 \nWorld!\n',
         'part-valid-exists-source-with-empty-part-name.txt': 'Hello, \n@@ source-part-without-name.txt : part1 \nWorld!\n',
         'part-valid-source-with-no-parts.txt': 'Hello, \n@@ source-with-no-parts.txt : part1 \nWorld!\n',
         'part-valid-exists-quoted-file.txt': 'Hello, \n@@ "source 1.txt" : part1 \nWorld!\n',
@@ -205,6 +206,17 @@ describe('error handling', () => {
             expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);
             expect(e.message).toContain('ENOENT'); //err
             expect(e.message).toContain('abc/source1.txt'); //err - file info
+        }
+    });
+    test('more parts at once', async () => {
+        expect.assertions(2);
+        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        try {
+            await p('part-more-at-once.txt', output);
+        }
+        catch (e) {
+            expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);
+            expect(e.message).toContain('Only one part allowed'); //err
         }
     });
 });
