@@ -40,11 +40,13 @@ beforeEach(() => {
         //   "Hello, \n@@ 'someFile 2.txt' \nWorld!\n",
         'tag-valid-file-path.txt': 'Hello, \n@@ ./source1.txt \nWorld!\n',
         'tag-valid-file-name-in-double-quotes.txt': 'Hello, \n@@ "source 1.txt" \nWorld!\n',
+        'tag-empty-file.txt': 'Hello, \n@@ ./source_empty.txt \nWorld!\n',
         'tag-invalid-file-name.txt': 'Hello, \n@@ ab*cd \nWorld!',
         'tag-nonexistent-file-name.txt': 'Hello, \n@@ nonexistentfile.txt \nWorld!',
         'unknown-cmd-name.txt': 'Hello, \n@@ source1.txt unknownCmd:  \nWorld!\n',
         'source1.txt': '-- text insert --\n-- text line2 --\n',
         'source 1.txt': '-- "text" insert --\n-- text line2 --\n',
+        'source_empty.txt': '',
         'dir-for-insert': {
             'source1.txt': '-- dir text insert --\n-- dir text line2 --\n',
         },
@@ -74,6 +76,12 @@ describe('normal ops', () => {
         const res = await p('tag-valid-file-name-in-double-quotes.txt', output);
         expect(res.lineNumber).toEqual(4);
         expect(output.toString()).toEqual('Hello, \n-- "text" insert --\n-- text line2 --\n\nWorld!\n');
+    });
+    test('input with empty file with valid name tag adds empty line', async () => {
+        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const res = await p('tag-empty-file.txt', output);
+        expect(res.lineNumber).toEqual(4);
+        expect(output.toString()).toEqual('Hello, \n\nWorld!\n');
     });
     test('input with valid file name (including a path) tag', async () => {
         const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
