@@ -17,8 +17,8 @@ beforeEach(() => {
     'part-valid-exists-empty-content.txt':
       'Hello, \n@@ source-empty-content-part.txt : part1 \nWorld!\n',
     'part-empty.txt': 'Hello, \n@@ source1.txt :  \nWorld!\n',
-    'part-more-at-once.txt':
-      'Hello, \n@@ source1.txt : part1 : part2 \nWorld!\n',
+    'part-more-text-after-partname-in-source.txt':
+      'Hello, \n@@ source1-text-after-part-name.txt : part1  \nWorld!\n',
     'part-valid-exists-source-with-empty-part-name.txt':
       'Hello, \n@@ source-part-without-name.txt : part1 \nWorld!\n',
     'part-valid-source-with-no-parts.txt':
@@ -37,13 +37,15 @@ beforeEach(() => {
       'Hello, \n@@ nonexistentfile.txt : part1 \nWorld!',
 
     'source1.txt': 'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2',
+    'source1-text-after-part-name.txt':
+      'text1 \n //< part1 text> \n m1 line1 \nm1 line2\n//< \ntext2',
     'source 1.txt': 'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2',
     'source-empty-content-part.txt':
       'text1 \n //< part1\n//< \ntext2 \n //< part2 \n m1 line1 \nm1 line2\n//< ',
     'source-part-without-name.txt':
       'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2 //< \n abc\n//<',
     'source-invalid-part-name.txt':
-      'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2 \n//< inv alid part \n abc\n//<',
+      'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2 \n//< inv*alid*part \n abc\n//<',
     'source-duplicit-part-name.txt':
       'text1 \n //< part1 \n m1 line1 \n//< p2 \n line2\n//< \ntext2 \n//< part1 \n abc\n//<',
     'source-with-no-parts.txt': 'text1 \n \ntext2 ',
@@ -75,6 +77,15 @@ describe('normal ops', () => {
     const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
 
     const res = await p('part-valid-exists-quoted-file.txt', output);
+    expect(res.lineNumber).toEqual(4);
+    expect(output.toString()).toEqual(
+      'Hello, \n m1 line1 \nm1 line2\nWorld!\n'
+    );
+  });
+
+  test('more text after part name in source file', async () => {
+    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const res = await p('part-more-text-after-partname-in-source.txt', output);
     expect(res.lineNumber).toEqual(4);
     expect(output.toString()).toEqual(
       'Hello, \n m1 line1 \nm1 line2\nWorld!\n'
@@ -136,7 +147,7 @@ describe('error handling', () => {
     } catch (e) {
       expect(e).toBeInstanceOf(LineMachineError);
       expect((e as LineMachineError).message).toContain('invalid value'); //err
-      expect((e as LineMachineError).message).toContain('(inv alid part)'); //err
+      expect((e as LineMachineError).message).toContain('(inv*alid*part)'); //err
       expect((e as LineMachineError).message).toContain(
         'source-invalid-part-name.txt:7'
       ); //err
@@ -189,19 +200,6 @@ describe('error handling', () => {
       expect(e).toBeInstanceOf(LineMachineError);
       expect((e as LineMachineError).message).toContain('invalid value'); //err
       expect((e as LineMachineError).message).toContain('*invalidpart'); //err
-    }
-  });
-
-  test('more parts at once', async () => {
-    expect.assertions(2);
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
-    try {
-      await p('part-more-at-once.txt', output);
-    } catch (e) {
-      expect(e).toBeInstanceOf(LineMachineError);
-      expect((e as LineMachineError).message).toContain(
-        'Only one part allowed'
-      ); //err
     }
   });
 

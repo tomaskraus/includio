@@ -11,15 +11,17 @@ const rxjs_1 = require("rxjs");
 const split_if_1 = require("split-if");
 const cache_fn_1 = require("../utils/cache_fn");
 const first_matcher_1 = require("../utils/first_matcher");
-const word_matcher_1 = require("../utils/word_matcher");
 const log = common_1.appLog.extend('partMapProvider');
-const createPartMapProvider = (fileContentProvider, partTagProvider, partNameRegexp) => {
+const createPartMapProvider = (fileContentProvider, partTagProvider, partNameRegexp
+// partChar: string
+) => {
     log('CREATE partMapProvider');
-    const partNameMatcher = (0, word_matcher_1.createWordMatcher)(partNameRegexp);
+    const partChar = '<';
+    const partNameMatcher = (0, first_matcher_1.createFirstMatcher)(partNameRegexp);
     const _getMapFromFile = async (partsFileName) => {
         log(`creating part map from [${partsFileName}]`);
-        const partTagStr = partTagProvider(partsFileName);
-        const partTagMatcher = (0, first_matcher_1.createFirstMatcher)(partTagStr);
+        const commentStr = partTagProvider(partsFileName);
+        const partTagRegex = new RegExp(`^\\s*${commentStr}${partChar}\\s*(.*)$`);
         const lines = await fileContentProvider(partsFileName);
         const parts = new Map();
         return new Promise((resolve, reject) => {
@@ -28,16 +30,20 @@ const createPartMapProvider = (fileContentProvider, partTagProvider, partNameReg
             // preserve line number
             (0, rxjs_1.map)((s, i) => ({ value: s, lineNumber: i + 1 })), 
             // split the lines by their part tags
-            (0, split_if_1.splitIf)(s => partTagMatcher.test(s.value)), 
+            (0, split_if_1.splitIf)(s => partTagRegex.test(s.value)), 
             // create a part record
             (0, rxjs_1.map)(nLines => {
-                const name = partTagMatcher.tail(nLines[0].value).trim();
                 const startLineNumber = nLines[0].lineNumber;
+                const matches = nLines[0].value.match(partTagRegex) || [
+                    '',
+                    '',
+                ];
+                const name = matches[1].trim();
                 if (name.length > 0 && !partNameMatcher.test(name)) {
                     throw new Error(`Create part from ("${(0, common_1.getFileLineInfoStr)(partsFileName, startLineNumber)}"): invalid value: (${name})`);
                 }
                 return {
-                    name,
+                    name: partNameMatcher.head(name),
                     value: nLines.slice(1).map(ln => ln.value),
                     startLineNumber,
                 };

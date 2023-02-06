@@ -12,7 +12,7 @@ export const createPartTagProvider = (options: TIncludoOptions) => {
   log('CREATE partTagProvider');
 
   return (fileName: string): string => {
-    const tag = '//<';
+    const tag = '//';
     log(`part tag for [${fileName}]: [${tag}]`);
     return tag;
   };

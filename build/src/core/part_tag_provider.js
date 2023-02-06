@@ -11,7 +11,7 @@ const log = common_1.appLog.extend('partTagProvider');
 const createPartTagProvider = (options) => {
     log('CREATE partTagProvider');
     return (fileName) => {
-        const tag = '//<';
+        const tag = '//';
         log(`part tag for [${fileName}]: [${tag}]`);
         return tag;
     };

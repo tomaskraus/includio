@@ -9,7 +9,6 @@ import {from, filter, scan, map} from 'rxjs';
 import {splitIf} from 'split-if';
 import {cacheOneArgFnAsync} from '../utils/cache_fn';
 import {createFirstMatcher} from '../utils/first_matcher';
-import {createWordMatcher} from '../utils/word_matcher';
 
 const log = appLog.extend('partMapProvider');
 
@@ -17,16 +16,19 @@ export const createPartMapProvider = (
   fileContentProvider: (filename: string) => Promise<string[]>,
   partTagProvider: (filename: string) => string,
   partNameRegexp: RegExp
+  // partChar: string
 ) => {
   log('CREATE partMapProvider');
+  const partChar = '<';
 
-  const partNameMatcher = createWordMatcher(partNameRegexp);
+  const partNameMatcher = createFirstMatcher(partNameRegexp);
   const _getMapFromFile = async (
     partsFileName: string
   ): Promise<Map<string, string[]>> => {
     log(`creating part map from [${partsFileName}]`);
-    const partTagStr = partTagProvider(partsFileName);
-    const partTagMatcher = createFirstMatcher(partTagStr);
+    const commentStr = partTagProvider(partsFileName);
+
+    const partTagRegex = new RegExp(`^\\s*${commentStr}${partChar}\\s*(.*)$`);
 
     const lines = await fileContentProvider(partsFileName);
     const parts = new Map<string, string[]>();
@@ -36,11 +38,15 @@ export const createPartMapProvider = (
           // preserve line number
           map((s, i) => ({value: s, lineNumber: i + 1})),
           // split the lines by their part tags
-          splitIf(s => partTagMatcher.test(s.value)),
+          splitIf(s => partTagRegex.test(s.value)),
           // create a part record
           map(nLines => {
-            const name = partTagMatcher.tail(nLines[0].value).trim();
             const startLineNumber = nLines[0].lineNumber;
+            const matches: string[] = nLines[0].value.match(partTagRegex) || [
+              '',
+              '',
+            ];
+            const name = matches[1].trim();
             if (name.length > 0 && !partNameMatcher.test(name)) {
               throw new Error(
                 `Create part from ("${getFileLineInfoStr(
@@ -50,7 +56,7 @@ export const createPartMapProvider = (
               );
             }
             return {
-              name,
+              name: partNameMatcher.head(name),
               value: nLines.slice(1).map(ln => ln.value),
               startLineNumber,
             };
