@@ -11,7 +11,7 @@ const common_1 = require("./common");
 const file_content_provider_1 = require("./file_content_provider");
 const part_map_provider_1 = require("./part_map_provider");
 const part_content_provider_1 = require("./part_content_provider");
-const part_tag_provider_1 = require("./part_tag_provider");
+const comment_tag_provider_1 = require("./comment_tag_provider");
 const line_dispatcher_1 = require("./line_dispatcher");
 const separator_matcher_1 = require("../utils/separator_matcher");
 const first_matcher_1 = require("../utils/first_matcher");
@@ -35,7 +35,7 @@ const createInsertionDispatcher = (options) => {
 exports.createInsertionDispatcher = createInsertionDispatcher;
 //---------------------------------------------------------------------------------------
 const createGetLines = (options, partNameRegexp) => {
-    const partMapProvider = (0, part_map_provider_1.createPartMapProvider)(file_content_provider_1.fileContentProvider, (0, part_tag_provider_1.createPartTagProvider)(options), partNameRegexp);
+    const partMapProvider = (0, part_map_provider_1.createPartMapProvider)(file_content_provider_1.fileContentProvider, (0, comment_tag_provider_1.createCommentTagProvider)(options), partNameRegexp);
     const partContentProvider = (0, part_content_provider_1.createPartContentProvider)(partMapProvider, partNameRegexp);
     const fileNameResolver = (0, common_1.createFileNameResolver)(options.resourceDir);
     /**

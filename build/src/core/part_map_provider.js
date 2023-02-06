@@ -12,7 +12,7 @@ const split_if_1 = require("split-if");
 const cache_fn_1 = require("../utils/cache_fn");
 const first_matcher_1 = require("../utils/first_matcher");
 const log = common_1.appLog.extend('partMapProvider');
-const createPartMapProvider = (fileContentProvider, partTagProvider, partNameRegexp
+const createPartMapProvider = (fileContentProvider, commentTagProvider, partNameRegexp
 // partChar: string
 ) => {
     log('CREATE partMapProvider');
@@ -20,8 +20,8 @@ const createPartMapProvider = (fileContentProvider, partTagProvider, partNameReg
     const partNameMatcher = (0, first_matcher_1.createFirstMatcher)(partNameRegexp);
     const _getMapFromFile = async (partsFileName) => {
         log(`creating part map from [${partsFileName}]`);
-        const commentStr = partTagProvider(partsFileName);
-        const partTagRegex = new RegExp(`^\\s*${commentStr}${partChar}\\s*(.*)$`);
+        const commentStr = commentTagProvider(partsFileName);
+        const commentTagRegex = new RegExp(`^\\s*${commentStr}${partChar}\\s*(.*)$`);
         const lines = await fileContentProvider(partsFileName);
         const parts = new Map();
         return new Promise((resolve, reject) => {
@@ -30,14 +30,11 @@ const createPartMapProvider = (fileContentProvider, partTagProvider, partNameReg
             // preserve line number
             (0, rxjs_1.map)((s, i) => ({ value: s, lineNumber: i + 1 })), 
             // split the lines by their part tags
-            (0, split_if_1.splitIf)(s => partTagRegex.test(s.value)), 
+            (0, split_if_1.splitIf)(s => commentTagRegex.test(s.value)), 
             // create a part record
             (0, rxjs_1.map)(nLines => {
                 const startLineNumber = nLines[0].lineNumber;
-                const matches = nLines[0].value.match(partTagRegex) || [
-                    '',
-                    '',
-                ];
+                const matches = nLines[0].value.match(commentTagRegex) || ['', ''];
                 const name = matches[1].trim();
                 if (name.length > 0 && !partNameMatcher.test(name)) {
                     throw new Error(`Create part from ("${(0, common_1.getFileLineInfoStr)(partsFileName, startLineNumber)}"): invalid value: (${name})`);

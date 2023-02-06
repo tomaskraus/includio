@@ -16,7 +16,7 @@ import {
 import {fileContentProvider} from './file_content_provider';
 import {createPartMapProvider} from './part_map_provider';
 import {createPartContentProvider} from './part_content_provider';
-import {createPartTagProvider} from './part_tag_provider';
+import {createCommentTagProvider} from './comment_tag_provider';
 import {createLineDispatcher} from './line_dispatcher';
 import {createSeparatorMatcher} from '../utils/separator_matcher';
 import {createFirstMatcher} from '../utils/first_matcher';
@@ -49,7 +49,7 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
 const createGetLines = (options: TIncludoOptions, partNameRegexp: RegExp) => {
   const partMapProvider = createPartMapProvider(
     fileContentProvider,
-    createPartTagProvider(options),
+    createCommentTagProvider(options),
     partNameRegexp
   );
   const partContentProvider = createPartContentProvider(
