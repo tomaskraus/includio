@@ -24,23 +24,23 @@ const createCommentManager = (options) => {
     const defaultCommentPair = options.defaultCommentPair;
     const defaultStartComment = options.defaultCommentPair[0];
     const defaultEndComment = options.defaultCommentPair[1];
-    const commentPairMap = options.commentPairMap.reduce((acc, [key, startComment, endComment]) => acc.set(key, [startComment, endComment]), new Map());
+    const commentPairMap = options.commentPairMap.reduce((acc, [key, startComment, endComment]) => acc.set(key.toLowerCase(), [startComment, endComment]), new Map());
     log(`Extension map size: ${commentPairMap.size}`);
     return {
         defaultStartComment,
         defaultEndComment,
         startTag: (fileName) => {
-            const extension = node_path_1.default.extname(fileName).slice(1); //remove leading dot
+            const extension = node_path_1.default.extname(fileName).slice(1).toLowerCase(); //remove leading dot
             const startCommentTag = (commentPairMap.get(extension) ||
                 defaultCommentPair)[0];
-            log(`start comment tag for [${fileName}][${extension}]: [${startCommentTag}]`);
+            log(`start comment tag for [${fileName}] with extension [${extension}]: [${startCommentTag}]`);
             return startCommentTag;
         },
         endTag: (fileName) => {
-            const extension = node_path_1.default.extname(fileName).slice(1);
+            const extension = node_path_1.default.extname(fileName).slice(1).toLowerCase();
             const endCommentTag = (commentPairMap.get(extension) ||
                 defaultCommentPair)[1];
-            log(`end comment tag for [${fileName}]: [${endCommentTag}]`);
+            log(`end comment tag for [${fileName}] with extension [${extension}]: [${endCommentTag}]`);
             return endCommentTag;
         },
     };
