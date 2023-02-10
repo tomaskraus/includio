@@ -1,3 +1,5 @@
+<!--- Comments are Fun --->
+
 # includo
 
 A simple file(part) includer tool.
@@ -50,4 +52,10 @@ a bit of code:
 
 ```ts
 @@ snippets.ts : code | first 6, //...
+```
+
+### Python
+
+```py
+@@ maze.py : example1
 ```

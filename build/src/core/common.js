@@ -16,6 +16,32 @@ exports.COMMAND_NAME_REGEXP = exports.VAR_NAME_REGEXP;
 exports.DEFAULT_INCLUDO_OPTIONS = {
     tagInsert: '@@',
     resourceDir: '',
+    commentPairMap: [
+        ['js', '//', ''],
+        ['ts', '//', ''],
+        ['jsx', '//', ''],
+        ['tsx', '//', ''],
+        ['java', '//', ''],
+        ['c', '//', ''],
+        ['cpp', '//', ''],
+        ['h', '//', ''],
+        ['ino', '//', ''],
+        ['cs', '//', ''],
+        ['kf', '//', ''],
+        ['swift', '//', ''],
+        ['go', '//', ''],
+        ['html', '<!--', '-->'],
+        ['md', '<!---', '--->'],
+        ['css', '/*', '*/'],
+        ['php', '//', ''],
+        ['py', '#', ''],
+        ['sh', '#', ''],
+        ['sql', '--', ''],
+        ['ini', ';', ''],
+        ['bat', 'REM', ''],
+        ['vb', "'", ''],
+    ],
+    defaultCommentPair: ['//', ''],
 };
 const createFileNameResolver = (resourceDir) => (fileName) => (0, node_path_1.normalize)((0, node_path_1.join)(resourceDir, fileName));
 exports.createFileNameResolver = createFileNameResolver;

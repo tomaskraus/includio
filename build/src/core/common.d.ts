@@ -18,6 +18,15 @@ export type TIncludoOptions = {
      * A directory where to look for files for insertion
      */
     resourceDir: string;
+    /**
+     * Comment pair map. Start comment, end comment.
+     * Most comments, such as JS line comments, don't have end part. Some others do, such as html comment.
+     */
+    commentPairMap: Array<[string, string, string]>;
+    /**
+     * default start comment string, end comment string
+     */
+    defaultCommentPair: [string, string];
 };
 export declare const DEFAULT_INCLUDO_OPTIONS: TIncludoOptions;
 export declare const createFileNameResolver: (resourceDir: string) => (fileName: string) => string;

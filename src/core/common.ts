@@ -23,11 +23,48 @@ export type TIncludoOptions = {
    * A directory where to look for files for insertion
    */
   resourceDir: string;
+
+  /**
+   * Comment pair map. Start comment, end comment.
+   * Most comments, such as JS line comments, don't have end part. Some others do, such as html comment.
+   */
+  commentPairMap: Array<[string, string, string]>; // key, startComment, endComment
+
+  /**
+   * default start comment string, end comment string
+   */
+  defaultCommentPair: [string, string];
 };
 
 export const DEFAULT_INCLUDO_OPTIONS: TIncludoOptions = {
   tagInsert: '@@',
   resourceDir: '',
+  commentPairMap: [
+    ['js', '//', ''],
+    ['ts', '//', ''],
+    ['jsx', '//', ''],
+    ['tsx', '//', ''],
+    ['java', '//', ''],
+    ['c', '//', ''],
+    ['cpp', '//', ''],
+    ['h', '//', ''],
+    ['ino', '//', ''],
+    ['cs', '//', ''],
+    ['kf', '//', ''], // Kotlin
+    ['swift', '//', ''],
+    ['go', '//', ''],
+    ['html', '<!--', '-->'],
+    ['md', '<!---', '--->'],
+    ['css', '/*', '*/'],
+    ['php', '//', ''],
+    ['py', '#', ''],
+    ['sh', '#', ''],
+    ['sql', '--', ''],
+    ['ini', ';', ''],
+    ['bat', 'REM', ''],
+    ['vb', "'", ''],
+  ],
+  defaultCommentPair: ['//', ''],
 };
 
 export const createFileNameResolver =

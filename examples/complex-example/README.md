@@ -1,3 +1,5 @@
+<!--- Comments are Fun --->
+
 # includo
 
 A simple file(part) includer tool.
@@ -83,4 +85,17 @@ createIncludoProcessor()(stdin, stdout)
     console.log(`lines read: ${result.lineNumber}`);
   })
 //...
+```
+
+### Python
+
+```py
+def direction_name(direction):
+    """
+    >>> direction_name(2)
+    '>'
+    """
+    names = ['', '^', '>', 'v', '<']
+    check_direction(direction)
+    return names[direction]
 ```
