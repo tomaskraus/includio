@@ -4,6 +4,12 @@
 
 A simple file(part) includer tool.
 
+![Includo schema simple](./my%20assets/includo-simple.png)
+
+A more detailed view:
+
+![Includo schema](./my%20assets/includo.png)
+
 ### CLI usage:
 
 ```sh
