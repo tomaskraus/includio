@@ -11,7 +11,7 @@ const debug_1 = __importDefault(require("debug"));
 const node_path_1 = require("node:path");
 exports.appLog = (0, debug_1.default)('includo');
 exports.VAR_NAME_REGEXP = /[a-zA-z]+[\w\d]*/;
-exports.PART_NAME_REGEXP = exports.VAR_NAME_REGEXP;
+exports.PART_NAME_REGEXP = /[_a-zA-z]+[-\w\d]*/;
 exports.COMMAND_NAME_REGEXP = exports.VAR_NAME_REGEXP;
 exports.DEFAULT_INCLUDO_OPTIONS = {
     tagInsert: '@@',

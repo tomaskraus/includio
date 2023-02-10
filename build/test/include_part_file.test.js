@@ -33,10 +33,10 @@ const line_transform_machines_1 = require("line-transform-machines");
 let output;
 beforeEach(() => {
     (0, mock_fs_1.default)({
-        'part-valid-exists.txt': 'Hello, \n@@ source1.txt : part1 \nWorld!\n',
+        'part-valid-exists.txt': 'Hello, \n@@ source1.txt : part-1 \nWorld!\n',
         'part-valid-exists-empty-content.txt': 'Hello, \n@@ source-empty-content-part.txt : part1 \nWorld!\n',
         'part-empty.txt': 'Hello, \n@@ source1.txt :  \nWorld!\n',
-        'part-more-at-once.txt': 'Hello, \n@@ source1.txt : part1 : part2 \nWorld!\n',
+        'part-more-at-once.txt': 'Hello, \n@@ source1.txt : part-1 : part2 \nWorld!\n',
         'part-valid-exists-source-with-empty-part-name.txt': 'Hello, \n@@ source-part-without-name.txt : part1 \nWorld!\n',
         'part-valid-source-with-no-parts.txt': 'Hello, \n@@ source-with-no-parts.txt : part1 \nWorld!\n',
         'part-valid-exists-quoted-file.txt': 'Hello, \n@@ "source 1.txt" : part1 \nWorld!\n',
@@ -45,7 +45,7 @@ beforeEach(() => {
         'part-valid-source-part-invalid.txt': 'Hello, \na second\n@@ source-invalid-part-name.txt : part1 \nWorld!',
         'part-valid-source-part-duplicit.txt': 'Hello, \na second\n@@ source-duplicit-part-name.txt : p2 \nWorld!',
         'tag-nonexistent-file-name.txt': 'Hello, \n@@ nonexistentfile.txt : part1 \nWorld!',
-        'source1.txt': 'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2',
+        'source1.txt': 'text1 \n //< part-1 \n m1 line1 \nm1 line2\n//< \ntext2',
         'source 1.txt': 'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2',
         'source-empty-content-part.txt': 'text1 \n //< part1\n//< \ntext2 \n //< part2 \n m1 line1 \nm1 line2\n//< ',
         'source-part-without-name.txt': 'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2 //< \n abc\n//<',
