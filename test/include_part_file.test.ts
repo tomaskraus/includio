@@ -13,16 +13,16 @@ let output: stream.Writable;
 
 beforeEach(() => {
   mock({
-    'part-valid-exists.txt': 'Hello, \n@@ source1.txt : part1 \nWorld!\n',
+    'part-valid-exists.txt': 'Hello, \n@@ source1.txt : part-1 \nWorld!\n',
     'part-valid-exists-empty-content.txt':
       'Hello, \n@@ source-empty-content-part.txt : part1 \nWorld!\n',
     'part-empty.txt': 'Hello, \n@@ source1.txt :  \nWorld!\n',
     'part-more-text-after-partname.txt':
-      'Hello, \n@@ source1.txt : part1 some text >> \nWorld!\n',
+      'Hello, \n@@ source1.txt : part-1 some text >> \nWorld!\n',
     'part-more-text-after-partname-in-source.txt':
       'Hello, \n@@ source1-text-after-part-name.txt : part1  \nWorld!\n',
     'part-more-at-once.txt':
-      'Hello, \n@@ source1.txt : part1 : part2 \nWorld!\n',
+      'Hello, \n@@ source1.txt : part-1 : part2 \nWorld!\n',
     'part-valid-exists-source-with-empty-part-name.txt':
       'Hello, \n@@ source-part-without-name.txt : part1 \nWorld!\n',
     'part-valid-source-with-no-parts.txt':
@@ -40,7 +40,7 @@ beforeEach(() => {
     'tag-nonexistent-file-name.txt':
       'Hello, \n@@ nonexistentfile.txt : part1 \nWorld!',
 
-    'source1.txt': 'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2',
+    'source1.txt': 'text1 \n //< part-1 \n m1 line1 \nm1 line2\n//< \ntext2',
     'source1-text-after-part-name.txt':
       'text1 \n //< part1 text> \n m1 line1 \nm1 line2\n//< \ntext2',
     'source 1.txt': 'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2',
