@@ -7,15 +7,15 @@ It is great for keeping your documentation up-to-date.
 
 ## Goals
 
-- Simple & easy to use  
+- **Simple** & easy to use  
   the less features the better
-- Do one thing: include files  
+- **Do one thing**: include files  
   there are full-blown preprocessors already
-- Extensive error checks  
+- Extensive **error checks**  
   to prevent missing or wrong parts in auto-generated documentation
-- CI friendly  
-  works well within a pipeline
-- Language agnostic  
+- **CI** friendly  
+  works well within a **pipeline**
+- Language **agnostic**  
   not only for js & markdown
 
 ## Installation
@@ -24,8 +24,7 @@ TBD...
 
 ## General Usage
 
-1. Make a template from your documentation - by adding `@@ ` lines with a file name you want to include to it.  
-   (More `@@` options are available)
+1. Make a template from your documentation - by adding `@@ ` lines with (at least) a file name you want to include to it.
 2. Run `Includo` command line app over it.
 3. Check the result.
 
