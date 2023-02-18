@@ -4,7 +4,7 @@
 //<
 */
 
-import {createIncludoProcessor} from '../../core/includo';
+import {createIncludoProcessor} from '../../../src/core/includo';
 
 //< code
 import {stdin, stdout} from 'node:process';

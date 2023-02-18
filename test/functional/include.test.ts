@@ -3,7 +3,7 @@ import mock from 'mock-fs';
 import {
   createIncludoProcessor,
   DEFAULT_INCLUDO_OPTIONS,
-} from '../src/core/includo';
+} from '../../src/core/includo';
 import stream from 'stream';
 
 import * as mStream from 'memory-streams';
