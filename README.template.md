@@ -17,31 +17,25 @@ It is great for keeping your documentation up-to-date.
 `middle.txt`:
 
 ```
-Over the hill and far away.
-Mother duck said, “Quack, quack, quack, quack.”
+@@ examples/example_1/middle.txt
 ```
 
 `rhymes.template.txt`:
 
 ```
-Five little ducks went out one day.
-@@ middle.txt
-But only four little ducks came back.
+@@ examples/example_1/rhymes.template.txt
 ```
 
 run this to generate the result:
 
 ```sh
-npx includo -i rhymes.template.txt -o rhymes.txt
+@@ examples/example_1/run.sh : Generate
 ```
 
 result (`rhymes.txt`):
 
 ```
-Five little ducks went out one day.
-Over the hill and far away.
-Mother duck said, “Quack, quack, quack, quack.”
-But only four little ducks came back.
+@@ examples/example_1/rhymes.txt
 ```
 
 The source of this example can be found at [examples/example_1/](examples/example_1/)

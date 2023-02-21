@@ -1,0 +1,3 @@
+Five little ducks went out one day.
+@@ middle.txt
+But only four little ducks came back.

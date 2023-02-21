@@ -5,6 +5,16 @@
 A simple file insertion preprocessor for text-based files. Inserts files (or their parts) to the resulting file.  
 It is great for keeping your documentation up-to-date.
 
+## General Usage
+
+1. Make a template from your documentation - by adding `@@ ` lines with (at least) a file name you want to include to it.
+2. Run `Includo` command line app over it.
+3. Check the result.
+
+## Example 1
+
+You want to have the help page of your command line app to be included in the markdown documentation, but you are tired of manually copy-paste updated help output whenever the app controls changes:
+
 ## Goals
 
 - **Simple** & easy to use  
@@ -21,12 +31,6 @@ It is great for keeping your documentation up-to-date.
 ## Installation
 
 TBD...
-
-## General Usage
-
-1. Make a template from your documentation - by adding `@@ ` lines with (at least) a file name you want to include to it.
-2. Run `Includo` command line app over it.
-3. Check the result.
 
 ## First Example
 
