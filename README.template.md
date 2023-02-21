@@ -16,13 +16,13 @@ It is great for keeping your documentation up-to-date.
 
 We want the content of the file `middle.txt` to be included in a resulting file `rhymes.txt`:
 
-`middle.txt`:
+1. `middle.txt` content:
 
 ```
 @@ examples/example_1/middle.txt
 ```
 
-Make a template `rhymes.template.txt`, which contains inclusion instruction line:
+2. Make a template `rhymes.template.txt`, which contains inclusion instruction line.
 
 `rhymes.template.txt`:
 
@@ -30,13 +30,13 @@ Make a template `rhymes.template.txt`, which contains inclusion instruction line
 @@ examples/example_1/rhymes.template.txt
 ```
 
-Process the template with `includo` app to generate the `rhymes.txt` result:
+3. Process the template with `includo` app to generate the `rhymes.txt` result:
 
 ```sh
 @@ examples/example_1/run.sh : Generate
 ```
 
-result (`rhymes.txt`):
+4. Result (`rhymes.txt`):
 
 ```
 @@ examples/example_1/rhymes.txt

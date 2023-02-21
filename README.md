@@ -16,14 +16,14 @@ It is great for keeping your documentation up-to-date.
 
 We want the content of the file `middle.txt` to be included in a resulting file `rhymes.txt`:
 
-`middle.txt`:
+1. `middle.txt` content:
 
 ```
 Over the hill and far away.
 Mother duck said, “Quack, quack, quack, quack.”
 ```
 
-Make a template `rhymes.template.txt`, which contains inclusion instruction line:
+2. Make a template `rhymes.template.txt`, which contains inclusion instruction line.
 
 `rhymes.template.txt`:
 
@@ -33,13 +33,13 @@ Five little ducks went out one day.
 But only four little ducks came back.
 ```
 
-Process the template with `includo` app to generate the `rhymes.txt` result:
+3. Process the template with `includo` app to generate the `rhymes.txt` result:
 
 ```sh
 npx includo -i rhymes.template.txt -o rhymes.txt
 ```
 
-result (`rhymes.txt`):
+4. Result (`rhymes.txt`):
 
 ```
 Five little ducks went out one day.
