@@ -14,12 +14,16 @@ It is great for keeping your documentation up-to-date.
 
 ## Example
 
+We want the content of the file `middle.txt` to be included in a resulting file `rhymes.txt`:
+
 `middle.txt`:
 
 ```
 Over the hill and far away.
 Mother duck said, “Quack, quack, quack, quack.”
 ```
+
+Make a template `rhymes.template.txt`, which contains inclusion instruction line:
 
 `rhymes.template.txt`:
 
@@ -29,7 +33,7 @@ Five little ducks went out one day.
 But only four little ducks came back.
 ```
 
-run this to generate the result:
+Process the template with `includo` app to generate the `rhymes.txt` result:
 
 ```sh
 npx includo -i rhymes.template.txt -o rhymes.txt
