@@ -8,7 +8,7 @@ It is great for keeping your documentation up-to-date.
 ## General Usage
 
 1. Make a template from your documentation - by adding `@@ ` lines with (at least) a file name you want to include to it.
-2. Run `Includo` command line app over it.
+2. Run `includo` command line app over it.
 3. Check the result.  
    In general, those lines starting with `@@ ` will be replaced by the file content (or its part).
 
