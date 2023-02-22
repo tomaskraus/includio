@@ -74,7 +74,7 @@ console.log(inc(10)); //=> 11
 
 There are two named parts: `inc` and `inc-example`, hidden behind `//<` comments.
 
-2. In a file `api.template.md`, there is a `@@ ` line that contains a 'link' to that `inc` part.
+2. In a file `api.template.md`, there is a `@@ ` line that contains a 'link' to that `inc` part of `my-lib.js` file.
 
 <!-- prettier-ignore -->
 ~~~

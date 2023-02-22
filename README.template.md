@@ -56,7 +56,7 @@ We want the `inc` method from `my-lib.js` to be included in `api.md`:
 
 There are two named parts: `inc` and `inc-example`, hidden behind `//<` comments.
 
-2. In a file `api.template.md`, there is a `@@ ` line that contains a 'link' to that `inc` part.
+2. In a file `api.template.md`, there is a `@@ ` line that contains a 'link' to that `inc` part of `my-lib.js` file.
 
 <!-- prettier-ignore -->
 ~~~
