@@ -1,6 +1,4 @@
 #!/bin/bash
-# exit when any command fails. Not necessary.
-# set -e
 
 node ../../bin/cli -i rhymes.template.txt -o rhymes.txt
 
