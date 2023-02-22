@@ -25,6 +25,8 @@ It is great for keeping your documentation up-to-date.
 - Language **agnostic**  
   Not only for js & markdown.
 
+![Includo schema simple](examples/assets/includo-simple.png)
+
 ## Installation
 
 TBD...
@@ -98,5 +100,5 @@ The source of this example can be found at [examples/example_2/](examples/exampl
 ## Command Line Help
 
 ```
-@@ examples/cli/help.txt
+@@ examples/assets/help.txt
 ```

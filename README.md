@@ -25,6 +25,8 @@ It is great for keeping your documentation up-to-date.
 - Language **agnostic**  
   Not only for js & markdown.
 
+![Includo schema simple](examples/assets/includo-simple.png)
+
 ## Installation
 
 TBD...
