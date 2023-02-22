@@ -114,16 +114,16 @@ The source of this example can be found at [examples/example_2/](examples/exampl
 
 ## Features
 
-- **Simple** & easy to use
-  the less features the better
-- **Do one thing**: include files
-  there are full-blown preprocessors already
-- Extensive **error checks**
-  to prevent missing or wrong parts in auto-generated documentation
-- **CI** friendly
-  works well within a **pipeline**
-- Language **agnostic**
-  not only for js & markdown
+- **Simple** & easy to use  
+  The less features the better.
+- **Do one thing**: include files only  
+  There are full-blown preprocessors already.
+- Extensive **error checks**  
+  To prevent missing or wrong parts in auto-generated documentation.
+- **CI** friendly  
+  Works well within a **pipeline**.
+- Language **agnostic**  
+  Not only for js & markdown.
 
 ## Installation
 
