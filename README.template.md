@@ -95,8 +95,8 @@ The source of this example can be found at [examples/example_2/](examples/exampl
 
 TBD...
 
-#
+## Command Line Help
 
 ```
-
+@@ examples/cli/help.txt
 ```

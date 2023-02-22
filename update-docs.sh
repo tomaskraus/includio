@@ -2,6 +2,8 @@
 # exit when any command fails.
 set -e
 
+node ./bin/cli.js --help > "examples/cli/help.txt"
+
 cd examples/example_1
 . run.sh
 cd ../../
