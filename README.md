@@ -12,6 +12,23 @@ It is great for keeping your documentation up-to-date.
 3. Check the result.  
    In general, those lines starting with `@@ ` will be replaced by the file content (or its part).
 
+## Features
+
+- **Simple** & easy to use  
+  The less features the better.
+- **Do one thing**: include files only  
+  There are full-blown preprocessors already.
+- Extensive **error checks**,  
+   to prevent missing or wrong parts in auto-generated documentation.
+- **CI** friendly  
+  Works well within a **pipeline**.
+- Language **agnostic**  
+  Not only for js & markdown.
+
+## Installation
+
+TBD...
+
 ## Example 1: full insertion
 
 We want the content of the file `middle.txt` to be included in a resulting file `rhymes.txt`:
@@ -111,23 +128,6 @@ const inc = x => {
 ~~~
 
 The source of this example can be found at [examples/example_2/](examples/example_2/)
-
-## Features
-
-- **Simple** & easy to use  
-  The less features the better.
-- **Do one thing**: include files only  
-  There are full-blown preprocessors already.
-- Extensive **error checks**,  
-   to prevent missing or wrong parts in auto-generated documentation.
-- **CI** friendly  
-  Works well within a **pipeline**.
-- Language **agnostic**  
-  Not only for js & markdown.
-
-## Installation
-
-TBD...
 
 ## Command Line Help
 
