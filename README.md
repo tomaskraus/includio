@@ -184,8 +184,11 @@ Options:
 - **Selector**  
   contains name of **resourceFile**, from which the content will be inserted. Can also contain a **part** name, that specifies a certain part of the **resourceFile**.
 - **Part**  
-  Points to the specified, named part of the **resourceFile**, using **marks**.  
+  Points to the specified, named part of the **resourceFile**, using a **mark** name.  
   **Part** is always a continuous sequence of lines in the **resourceFile**.
-- **Mark**
+- **Mark**  
+  A special line(s) in the **resourceFile**, enclosing its part(s). **Mark** can have a name - can be then referenced from a **directive** in the **template**.  
+  Typically, marks are hidden behind a line comment, to not interfere with the code in the **resourceFile**.  
+  `//< fun1` is an example of a named mark with a name "fun1", in some javascript **resourceFile**
 
 - **Command**
