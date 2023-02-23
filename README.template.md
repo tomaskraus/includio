@@ -118,11 +118,13 @@ The source of this example can be found at [examples/example_2/](examples/exampl
 @@ examples/assets/help.txt
 ```
 
-## Glossary
+## Text Processing Manual
+
+### Key Words
 
 - **Includo**  
   Command line, text manipulation application. Takes a **template** and produces a **result**.  
-  Creates the **result** by replacing every **directive** in the **template** with the content of the **resourceFile** mentioned in that **directive**.
+  Reads the **template** line by line and creates the **result** by replacing every **directive** line in the **template** with the content of the **resourceFile** mentioned in that **directive**.
 - **Template**  
   A text file (or standard input) **includo** makes a **result** from. The template may (and typically does) contain **directives**, which tells **includo** to insert content of certain **resourceFile**.
 - **Result**  
@@ -140,7 +142,22 @@ The source of this example can be found at [examples/example_2/](examples/exampl
   **Part** is always a continuous sequence of lines in the **resourceFile**.
 - **Mark**  
   A special line(s) in the **resourceFile**, enclosing its part(s). **Mark** can have a name - can be then referenced from a **directive** in the **template**.  
-  Typically, marks are hidden behind a line comment, to not interfere with the code in the **resourceFile**.  
-  `//< fun1` is an example of a named mark with a name "fun1", in some javascript **resourceFile**
+  Typically marks are hidden behind a line comment so they don't interfere with the code in the **resourceFile**.  
+  **resourceFile**
+- **Command**  
+  A function in the **directive** that further manipulates with the content provided by a **selector**. A **command** can have zero or more parameters.  
+  **Commands** can be chained by a pipe operator, each **command** giving its output to the next one.
 
-- **Command**
+### Part & Mark
+
+`//< fun1` is an example of a named mark with a name "fun1", in some javascript
+
+### Directive
+
+### Command
+
+### Command list
+
+#### first
+
+#### last
