@@ -2,13 +2,18 @@
 
 # includo
 
-A simple file insertion preprocessor for text-based files. Inserts files (or their parts) to the resulting file.  
+a simple yet thoughtful file insertion preprocessor for text-based files. Inserts files (or their parts) to the resulting file.  
 It is great for keeping your documentation up-to-date.
 
 ## General Usage
 
-1. Make a template from your documentation - by adding `@@ ` lines with (at least) a file name you want to include to it.
+1. Make a template from your documentation - by adding `@@ ` lines with (at least) a file names you want to include to it.
 2. Run `includo` command line app over it.
+
+```
+npx includo -i your.template.md > README.md
+```
+
 3. Check the result.  
    In general, those lines starting with `@@ ` will be replaced by the file content (or its part).
 
