@@ -146,19 +146,21 @@ The source of this example can be found at [examples/example_2/](examples/exampl
 ```
 Usage: includo [options]
 
-Inserts files (or their parts) into a text file.
+Creates the result by replacing every directive in the input template with the
+content of the resourceFile mentioned in that directive.
 
 Options:
   -V, --version              output the version number
-  -i --inputFile <string>    File other files will be inserted into.
+  -i --inputFile <string>    The input template
                              If not specified, standard input will be used.
-  -o --outputFile <string>   File where to output the result.
-                             If not specified, standard output will be used.
-  -r --resourceDir <string>  Directory where to include files from.
+  -o --outputFile <string>   A result file.
+                             If not specified, the result will be sent to a
+                             standard output.
+  -r --resourceDir <string>  Directory where to look for resourceFiles.
                              If not specified, current working dir (.) will be
                              used.
-  -t --test                  Check the input file & resources for possible
-                             errors.
+  -t --test                  Check the input template & its resourcFiles for
+                             possible errors.
   -h, --help                 display help for command
 
   Example: 

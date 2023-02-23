@@ -10,15 +10,14 @@ const node_process_1 = require("node:process");
 const log = common_1.appLog.extend('CLI');
 commander_1.program
     .name('includo')
-    .description('Inserts files (or their parts) into a text file.')
+    .description('Creates the result by replacing every directive in the input template with the content of the resourceFile mentioned in that directive.')
     .version(process.env.npm_package_version || '-')
-    .option('-i --inputFile <string>', 'File other files will be inserted into.' +
-    '\nIf not specified, standard input will be used.')
-    .option('-o --outputFile <string>', 'File where to output the result.' +
-    '\nIf not specified, standard output will be used.')
-    .option('-r --resourceDir <string>', 'Directory where to include files from.' +
+    .option('-i --inputFile <string>', 'The input template' + '\nIf not specified, standard input will be used.')
+    .option('-o --outputFile <string>', 'A result file.' +
+    '\nIf not specified, the result will be sent to a standard output.')
+    .option('-r --resourceDir <string>', 'Directory where to look for resourceFiles.' +
     '\nIf not specified, current working dir (.) will be used.')
-    .option('-t --test', 'Check the input file & resources for possible errors.')
+    .option('-t --test', 'Check the input template & its resourcFiles for possible errors.')
     .addHelpText('after', `
   Example: 
   includo -i README.template.md -o README.md -r assets`);
