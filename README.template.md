@@ -145,9 +145,10 @@ The source of this example can be found at [examples/example_2/](examples/exampl
   **Part** always points to a continuous sequence of lines in the **resourceFile**.
 - **Mark**  
   A special line in the **resourceFile**, introducing the beginning of its **part**.  
+  Consists of a special character sequence, can contain a name and further comment.  
   All the lines between two **marks** creates a **content** of one **part**.  
   **Mark** can have a name - can be then referenced as a named **part** of its **resourceFile**, from a **directive** in the **template**.  
-  Typically marks are hidden behind a line comment so they don't interfere with the code in the **resourceFile**.
+  Typically **marks** are hidden behind a line comment so they don't interfere with the code in the **resourceFile**.
 - **Command**  
   A function in the **directive** that further manipulates with the **content** provided by a **selector**. A **command** can have zero or more parameters.  
   **Commands** can be chained by a pipe operator, each **command** giving its output to the next one.  
@@ -155,13 +156,49 @@ The source of this example can be found at [examples/example_2/](examples/exampl
 
 ### Part & Mark
 
-`//< fun1` is an example of a named mark with a name "fun1", in some javascript
+In general, marks are written as `<`, behind a line comment:
+
+- `//< fun1` is an example of a named mark with a name "fun1", in some Javascript file.
+- `#< fun2 some comment` is an example of a named mark with a name "fun2", in a Python file. Only the first word is recognized as a part name!
+- `#<` is an example of an anonymous mark in a Python file.
+
+A valid part name is case sensitive and consists of alphabetical characters, digits, "\_" and "-" character. Cannot starts with a digit.  
+For example, `the_firstExample-1` is a valid part name.
+
+There is no concept of nested marks, nor begin-end marks. Instead, a mark behaves like a section - in a flat linear manner:
+
+```
+  line 1
+//< section-1
+  line 3
+  line 4
+//< section-2
+  line 6
+//<
+  line 8
+```
+
+There are two named parts:
+
+1. `section-1`, which contains lines "line 3" and "line 4"
+2. `section-2`, with the line "line 6"
+
+"line 1" and "line 8" are unreachable by any part selector.
 
 ### Directive
 
+- `@@ code.js`  
+  is an example of a simple directive, to include a whole `code.js` file content.
+- `@@ code.js : example-1`  
+  is an example of a simple directive, to include an `example-1` part of the `code.js` file content.
+- `@@ code.js | first 3`  
+  include the first 3 lines of the `code.js` file content.
+- `@@ code.js : example-1 | first 3`  
+  include the first 3 lines of `example-1` part of the `code.js` file content.
+
 ### Command
 
-### Command list
+### List of commands
 
 #### first
 
