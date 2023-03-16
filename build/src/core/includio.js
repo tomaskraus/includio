@@ -1,23 +1,23 @@
 "use strict";
 /**
- * IncludoProcessor
+ * IncludioProcessor
  *
  * Reads input (from file/stream) line by line and replaces tagged lines with some content.
  *   Source of that content and further instructions are written on that tagged line.
  * Writes the result to the output (file/stream).
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createTestIncludoProcessor = exports.createIncludoProcessor = exports.DEFAULT_INCLUDO_OPTIONS = void 0;
+exports.createTestIncludioProcessor = exports.createIncludioProcessor = exports.DEFAULT_INCLUDIO_OPTIONS = void 0;
 const line_transform_machines_1 = require("line-transform-machines");
 const insertion_dispatcher_1 = require("./insertion_dispatcher");
 const common_1 = require("./common");
-Object.defineProperty(exports, "DEFAULT_INCLUDO_OPTIONS", { enumerable: true, get: function () { return common_1.DEFAULT_INCLUDO_OPTIONS; } });
+Object.defineProperty(exports, "DEFAULT_INCLUDIO_OPTIONS", { enumerable: true, get: function () { return common_1.DEFAULT_INCLUDIO_OPTIONS; } });
 const first_matcher_1 = require("../utils/first_matcher");
 const log = common_1.appLog.extend('processor');
-const createIncludoLineCallback = (options) => {
+const createIncludioLineCallback = (options) => {
     const insertionTagMatcher = (0, first_matcher_1.createFirstMatcher)(options.tagInsert);
     const insertionDispatcher = (0, insertion_dispatcher_1.createInsertionDispatcher)(options);
-    log(`CREATE includoCallback for tag [${options.tagInsert}] `);
+    log(`CREATE includioCallback for tag [${options.tagInsert}] `);
     return (line) => {
         if (insertionTagMatcher.test(line)) {
             return insertionDispatcher(insertionTagMatcher.tail(line));
@@ -25,16 +25,16 @@ const createIncludoLineCallback = (options) => {
         return Promise.resolve(line);
     };
 };
-const createIncludoProcessor = (options) => {
-    const opts = { ...common_1.DEFAULT_INCLUDO_OPTIONS, ...options };
-    log('CREATE includo processor');
-    return (0, line_transform_machines_1.createAsyncLineMachine)(createIncludoLineCallback(opts));
+const createIncludioProcessor = (options) => {
+    const opts = { ...common_1.DEFAULT_INCLUDIO_OPTIONS, ...options };
+    log('CREATE includio processor');
+    return (0, line_transform_machines_1.createAsyncLineMachine)(createIncludioLineCallback(opts));
 };
-exports.createIncludoProcessor = createIncludoProcessor;
-const createTestIncludoLineCallback = (options) => {
+exports.createIncludioProcessor = createIncludioProcessor;
+const createTestIncludioLineCallback = (options) => {
     const insertionTagMatcher = (0, first_matcher_1.createFirstMatcher)(options.tagInsert);
     const insertionDispatcher = (0, insertion_dispatcher_1.createInsertionDispatcher)(options);
-    log(`CREATE testIncludoCallback for tag [${options.tagInsert}] `);
+    log(`CREATE testIncludioCallback for tag [${options.tagInsert}] `);
     return async (line, lineNumber, fileLineInfo) => {
         if (insertionTagMatcher.test(line)) {
             try {
@@ -48,10 +48,10 @@ const createTestIncludoLineCallback = (options) => {
         return null;
     };
 };
-const createTestIncludoProcessor = (options) => {
-    const opts = { ...common_1.DEFAULT_INCLUDO_OPTIONS, ...options };
-    log('CREATE testIncludo processor');
-    return (0, line_transform_machines_1.createAsyncLineMachine)(createTestIncludoLineCallback(opts));
+const createTestIncludioProcessor = (options) => {
+    const opts = { ...common_1.DEFAULT_INCLUDIO_OPTIONS, ...options };
+    log('CREATE testIncludio processor');
+    return (0, line_transform_machines_1.createAsyncLineMachine)(createTestIncludioLineCallback(opts));
 };
-exports.createTestIncludoProcessor = createTestIncludoProcessor;
-//# sourceMappingURL=includo.js.map
+exports.createTestIncludioProcessor = createTestIncludioProcessor;
+//# sourceMappingURL=includio.js.map

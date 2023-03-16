@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DEFAULT_INCLUDO_OPTIONS = exports.createTestIncludoProcessor = exports.createIncludoProcessor = void 0;
-var includo_1 = require("./core/includo");
-Object.defineProperty(exports, "createIncludoProcessor", { enumerable: true, get: function () { return includo_1.createIncludoProcessor; } });
-Object.defineProperty(exports, "createTestIncludoProcessor", { enumerable: true, get: function () { return includo_1.createTestIncludoProcessor; } });
-Object.defineProperty(exports, "DEFAULT_INCLUDO_OPTIONS", { enumerable: true, get: function () { return includo_1.DEFAULT_INCLUDO_OPTIONS; } });
+exports.DEFAULT_INCLUDIO_OPTIONS = exports.createTestIncludioProcessor = exports.createIncludioProcessor = void 0;
+var includio_1 = require("./core/includio");
+Object.defineProperty(exports, "createIncludioProcessor", { enumerable: true, get: function () { return includio_1.createIncludioProcessor; } });
+Object.defineProperty(exports, "createTestIncludioProcessor", { enumerable: true, get: function () { return includio_1.createTestIncludioProcessor; } });
+Object.defineProperty(exports, "DEFAULT_INCLUDIO_OPTIONS", { enumerable: true, get: function () { return includio_1.DEFAULT_INCLUDIO_OPTIONS; } });
 //# sourceMappingURL=index.js.map

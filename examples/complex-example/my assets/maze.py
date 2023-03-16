@@ -18,7 +18,7 @@ def check_direction(direction):
     if direction not in [1,2,3,4]:
          raise ValueError(f'Invalid direction: [{direction}]')
 
-#< example1    -- this is example of includo part in python
+#< example1    -- this is example of includio part in python
 def direction_name(direction):
     """
     >>> direction_name(2)

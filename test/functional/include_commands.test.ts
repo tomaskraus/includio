@@ -1,9 +1,9 @@
 import mock from 'mock-fs';
 
 import {
-  createIncludoProcessor,
-  DEFAULT_INCLUDO_OPTIONS,
-} from '../../src/core/includo';
+  createIncludioProcessor,
+  DEFAULT_INCLUDIO_OPTIONS,
+} from '../../src/core/includio';
 import stream from 'stream';
 
 import * as mStream from 'memory-streams';
@@ -67,14 +67,14 @@ afterEach(() => {
 
 describe('command: common behavior', () => {
   test('accepts more arguments than necessary', async () => {
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
 
     await p('first-cmd-more-args.txt', output);
     expect(output.toString()).toEqual('Hello, \n m1 line1 \n..\nWorld!\n');
   });
 
   test('supports command chaining via pipeline', async () => {
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
 
     await p('first-cmd-chaining.txt', output);
     expect(output.toString()).toEqual('Hello, \n m1 line1 \nWorld!\n');
@@ -83,7 +83,7 @@ describe('command: common behavior', () => {
 
 describe('command: first', () => {
   test('view more than provided', async () => {
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
 
     await p('first-cmd-view-more.txt', output);
     expect(output.toString()).toEqual(
@@ -92,7 +92,7 @@ describe('command: first', () => {
   });
 
   test('view less than provided', async () => {
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
 
     await p('first-cmd-view-less.txt', output);
     expect(output.toString()).toEqual(
@@ -101,7 +101,7 @@ describe('command: first', () => {
   });
 
   test('view less than provided, with less-mark parameter', async () => {
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
 
     await p('first-cmd-view-less-param.txt', output);
     expect(output.toString()).toEqual(
@@ -110,7 +110,7 @@ describe('command: first', () => {
   });
 
   test('view exactly the line count what provided', async () => {
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
 
     await p('first-cmd-view-exact.txt', output);
     expect(output.toString()).toEqual(
@@ -122,7 +122,7 @@ describe('command: first', () => {
 describe('command: first - errors', () => {
   test('no args', async () => {
     expect.assertions(3);
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
     try {
       await p('first-cmd-no-args.txt', output);
     } catch (e) {
@@ -136,7 +136,7 @@ describe('command: first - errors', () => {
 
   test('invalid args', async () => {
     expect.assertions(3);
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
     try {
       await p('first-cmd-invalid-args.txt', output);
     } catch (e) {
@@ -148,7 +148,7 @@ describe('command: first - errors', () => {
 
   test('out of range args', async () => {
     expect.assertions(3);
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
     try {
       await p('first-cmd-out-of-range-args.txt', output);
     } catch (e) {
@@ -161,7 +161,7 @@ describe('command: first - errors', () => {
 
 describe('command: last', () => {
   test('view more than provided', async () => {
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
 
     await p('last-cmd-view-more.txt', output);
     expect(output.toString()).toEqual(
@@ -170,7 +170,7 @@ describe('command: last', () => {
   });
 
   test('view less than provided', async () => {
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
 
     await p('last-cmd-view-less.txt', output);
     expect(output.toString()).toEqual(
@@ -179,7 +179,7 @@ describe('command: last', () => {
   });
 
   test('view less than provided, with less-mark parameter', async () => {
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
 
     await p('last-cmd-view-less-param.txt', output);
     expect(output.toString()).toEqual(
@@ -188,7 +188,7 @@ describe('command: last', () => {
   });
 
   test('view exactly the line count what provided', async () => {
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
 
     await p('last-cmd-view-exact.txt', output);
     expect(output.toString()).toEqual(
@@ -200,7 +200,7 @@ describe('command: last', () => {
 describe('general error handling', () => {
   test('empty pipe 1', async () => {
     expect.assertions(2);
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
     try {
       await p('empty-pipe-1.txt', output);
     } catch (e) {
@@ -213,7 +213,7 @@ describe('general error handling', () => {
 
   test('empty pipe 2', async () => {
     expect.assertions(2);
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
     try {
       await p('empty-pipe-2.txt', output);
     } catch (e) {
@@ -226,7 +226,7 @@ describe('general error handling', () => {
 
   test('invalid command name', async () => {
     expect.assertions(3);
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
     try {
       await p('invalid-cmd.txt', output);
     } catch (e) {
@@ -237,7 +237,7 @@ describe('general error handling', () => {
   });
   test('unknown command', async () => {
     expect.assertions(3);
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
     try {
       await p('unknown-cmd.txt', output);
     } catch (e) {

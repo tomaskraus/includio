@@ -6,7 +6,7 @@
  *
  * @example
  ```ts
-    const startCommentTagProvider = createCommentManager({DEFAULT_INCLUDO_OPTIONS}).startTag;
+    const startCommentTagProvider = createCommentManager({DEFAULT_INCLUDIO_OPTIONS}).startTag;
     startCommentTagProvider('test.ts') === '//';
     startCommentTagProvider('anotherTest.sh') === '#';
  ```

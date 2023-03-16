@@ -27,7 +27,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mock_fs_1 = __importDefault(require("mock-fs"));
-const includo_1 = require("../../src/core/includo");
+const includio_1 = require("../../src/core/includio");
 const mStream = __importStar(require("memory-streams"));
 const line_transform_machines_1 = require("line-transform-machines");
 let output;
@@ -67,37 +67,37 @@ afterEach(() => {
 });
 describe('normal ops', () => {
     test('valid existent part name', async () => {
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         const res = await p('part-valid-exists.txt', output);
         expect(res.lineNumber).toEqual(4);
         expect(output.toString()).toEqual('Hello, \n m1 line1 \nm1 line2\nWorld!\n');
     });
     test('valid existent part name, quoted file name', async () => {
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         const res = await p('part-valid-exists-quoted-file.txt', output);
         expect(res.lineNumber).toEqual(4);
         expect(output.toString()).toEqual('Hello, \n m1 line1 \nm1 line2\nWorld!\n');
     });
     test('more text after part name in input', async () => {
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         const res = await p('part-more-text-after-partname.txt', output);
         expect(res.lineNumber).toEqual(4);
         expect(output.toString()).toEqual('Hello, \n m1 line1 \nm1 line2\nWorld!\n');
     });
     test('more text after part name in source file', async () => {
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         const res = await p('part-more-text-after-partname-in-source.txt', output);
         expect(res.lineNumber).toEqual(4);
         expect(output.toString()).toEqual('Hello, \n m1 line1 \nm1 line2\nWorld!\n');
     });
     test('valid existent part name, empty part content - inserts empty line', async () => {
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         const res = await p('part-valid-exists-empty-content.txt', output);
         expect(res.lineNumber).toEqual(4);
         expect(output.toString()).toEqual('Hello, \n\nWorld!\n');
     });
     test('empty part name in source file - processes without error', async () => {
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         const res = await p('part-valid-exists-source-with-empty-part-name.txt', output);
         expect(res.lineNumber).toEqual(4);
         expect(output.toString()).toEqual('Hello, \n m1 line1 \nm1 line2\nWorld!\n');
@@ -106,7 +106,7 @@ describe('normal ops', () => {
 describe('error handling', () => {
     test('nonexistent part name', async () => {
         expect.assertions(2);
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         try {
             await p('part-valid-nonexistent.txt', output);
         }
@@ -117,7 +117,7 @@ describe('error handling', () => {
     });
     test('empty part name', async () => {
         expect.assertions(2);
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         try {
             await p('part-empty.txt', output);
         }
@@ -128,7 +128,7 @@ describe('error handling', () => {
     });
     test('invalid part name in resource file (contains forbidden characters)', async () => {
         expect.assertions(4);
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         try {
             await p('part-valid-source-part-invalid.txt', output);
         }
@@ -141,7 +141,7 @@ describe('error handling', () => {
     });
     test('duplicit part name in resource file (contains forbidden characters)', async () => {
         expect.assertions(4);
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         try {
             await p('part-valid-source-part-duplicit.txt', output);
         }
@@ -154,7 +154,7 @@ describe('error handling', () => {
     });
     test('use part from file that contains no parts', async () => {
         expect.assertions(2);
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         try {
             await p('part-valid-source-with-no-parts.txt', output);
         }
@@ -165,7 +165,7 @@ describe('error handling', () => {
     });
     test('use part from file that contains no parts. Custom resourceDir', async () => {
         expect.assertions(2);
-        const p = (0, includo_1.createIncludoProcessor)({ resourceDir: 'dir-for-insert' });
+        const p = (0, includio_1.createIncludioProcessor)({ resourceDir: 'dir-for-insert' });
         try {
             await p('part-valid-source-with-no-parts.txt', output);
         }
@@ -176,7 +176,7 @@ describe('error handling', () => {
     });
     test('invalid part name in input file', async () => {
         expect.assertions(2);
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         try {
             await p('part-invalid.txt', output);
         }
@@ -187,7 +187,7 @@ describe('error handling', () => {
     });
     test('Non-existent file for insertion', async () => {
         expect.assertions(2);
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         try {
             await p('tag-nonexistent-file-name.txt', output);
         }
@@ -198,7 +198,7 @@ describe('error handling', () => {
     });
     test('Non-existent resourceDir', async () => {
         expect.assertions(3);
-        const p = (0, includo_1.createIncludoProcessor)({ resourceDir: 'abc' });
+        const p = (0, includio_1.createIncludioProcessor)({ resourceDir: 'abc' });
         try {
             await p('part-valid-exists.txt', output);
         }
@@ -210,7 +210,7 @@ describe('error handling', () => {
     });
     test('more parts at once', async () => {
         expect.assertions(2);
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         try {
             await p('part-more-at-once.txt', output);
         }

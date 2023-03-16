@@ -1,5 +1,5 @@
 /**
- * shared functions & types for the Includo app
+ * shared functions & types for the Includio app
  */
 import Debug from 'debug';
 export declare const appLog: Debug.Debugger;
@@ -7,9 +7,9 @@ export declare const VAR_NAME_REGEXP: RegExp;
 export declare const PART_NAME_REGEXP: RegExp;
 export declare const COMMAND_NAME_REGEXP: RegExp;
 /**
- * Options for Includo
+ * Options for Includio
  */
-export type TIncludoOptions = {
+export type TIncludioOptions = {
     /**
      * A string which represents a tag for insert "file or its part"
      */
@@ -28,7 +28,7 @@ export type TIncludoOptions = {
      */
     defaultCommentPair: [string, string];
 };
-export declare const DEFAULT_INCLUDO_OPTIONS: TIncludoOptions;
+export declare const DEFAULT_INCLUDIO_OPTIONS: TIncludioOptions;
 export declare const createFileNameResolver: (resourceDir: string) => (fileName: string) => string;
 export declare const parseFileName: (line: string) => string;
 export declare const getFileLineInfoStr: (fileName: string, lineNumber: number) => string;

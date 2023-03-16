@@ -1,4 +1,4 @@
-Usage: includo [options]
+Usage: includio [options]
 
 Creates the result by replacing every directive in the input template with the
 content of the resourceFile mentioned in that directive.
@@ -18,4 +18,4 @@ Options:
   -h, --help                 display help for command
 
   Example: 
-  includo -i README.template.md -o README.md -r assets
+  includio -i README.template.md -o README.md -r assets

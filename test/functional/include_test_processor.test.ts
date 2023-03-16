@@ -1,9 +1,9 @@
 import mock from 'mock-fs';
 
 import {
-  createTestIncludoProcessor,
-  DEFAULT_INCLUDO_OPTIONS,
-} from '../../src/core/includo';
+  createTestIncludioProcessor,
+  DEFAULT_INCLUDIO_OPTIONS,
+} from '../../src/core/includio';
 import stream from 'stream';
 import fs from 'node:fs';
 import * as mStream from 'memory-streams';
@@ -28,7 +28,7 @@ afterEach(() => {
 
 describe('normal ops', () => {
   test('test input that contains errors - from file', async () => {
-    const t = createTestIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const t = createTestIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
 
     await t('error-file.txt', output);
 
@@ -39,7 +39,7 @@ describe('normal ops', () => {
   });
 
   test('test input that contains errors - from stream', async () => {
-    const t = createTestIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const t = createTestIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
 
     const input = fs.createReadStream('error-file.txt');
     await t(input, output);

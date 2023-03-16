@@ -1,20 +1,20 @@
 /**
- * shared functions & types for the Includo app
+ * shared functions & types for the Includio app
  */
 
 import Debug from 'debug';
 import {join, normalize} from 'node:path';
 
-export const appLog = Debug('includo');
+export const appLog = Debug('includio');
 
 export const VAR_NAME_REGEXP = /[a-zA-z]+[\w\d]*/;
 export const PART_NAME_REGEXP = /[_a-zA-z]+[-\w\d]*/;
 export const COMMAND_NAME_REGEXP = VAR_NAME_REGEXP;
 
 /**
- * Options for Includo
+ * Options for Includio
  */
-export type TIncludoOptions = {
+export type TIncludioOptions = {
   /**
    * A string which represents a tag for insert "file or its part"
    */
@@ -36,7 +36,7 @@ export type TIncludoOptions = {
   defaultCommentPair: [string, string];
 };
 
-export const DEFAULT_INCLUDO_OPTIONS: TIncludoOptions = {
+export const DEFAULT_INCLUDIO_OPTIONS: TIncludioOptions = {
   tagInsert: '@@',
   resourceDir: '',
   commentPairMap: [

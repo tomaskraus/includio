@@ -9,7 +9,7 @@ import {
   appLog,
   PART_NAME_REGEXP,
   COMMAND_NAME_REGEXP,
-  TIncludoOptions,
+  TIncludioOptions,
   createFileNameResolver,
   parseFileName,
 } from './common';
@@ -23,7 +23,7 @@ import {createFirstMatcher} from '../utils/first_matcher';
 
 const log = appLog.extend('insertionDispatcher');
 
-export const createInsertionDispatcher = (options: TIncludoOptions) => {
+export const createInsertionDispatcher = (options: TIncludioOptions) => {
   log(`CREATE insertionDispatcher. resourceDir: [${options.resourceDir}]`);
 
   const getLines = createGetLines(options, PART_NAME_REGEXP);
@@ -46,7 +46,7 @@ export const createInsertionDispatcher = (options: TIncludoOptions) => {
 
 //---------------------------------------------------------------------------------------
 
-const createGetLines = (options: TIncludoOptions, partNameRegexp: RegExp) => {
+const createGetLines = (options: TIncludioOptions, partNameRegexp: RegExp) => {
   const partMapProvider = createPartMapProvider(
     fileContentProvider,
     createCommentManager(options).startTag,

@@ -1,6 +1,6 @@
 <!--- Comments are Fun --->
 
-# includo
+# includio
 
 A simple file insertion preprocessor for text-based files. Inserts files (or their parts) to the resulting file.  
 It is great for keeping your documentation up-to-date.
@@ -8,7 +8,7 @@ It is great for keeping your documentation up-to-date.
 ## General Usage
 
 1. Make a template from your documentation - by adding `@@ ` lines with (at least) a file name you want to include to it.
-2. Run `Includo` command line app over it.
+2. Run `Includio` command line app over it.
 3. Check the result.
 
 ## Example 1
@@ -34,16 +34,16 @@ TBD...
 
 ## First Example
 
-![Includo schema simple](./my%20assets/includo-simple.png)
+![Includio schema simple](./my%20assets/includio-simple.png)
 
 A more detailed view:
 
-![Includo schema](./my%20assets/includo.png)
+![Includio schema](./my%20assets/includio.png)
 
 ### CLI usage:
 
 ```sh
-Usage: includo [options]
+Usage: includio [options]
 
 Inserts files (or their parts) into a text file.
 
@@ -60,14 +60,14 @@ Options:
                              errors.
   -h, --help                 display help for command
 
-  Example: 
-  includo -i README.template.md -o README.md -r assets
+  Example:
+  includio -i README.template.md -o README.md -r assets
 
 ```
 
 ### How it works:
 
-1. create a template. That can contain lines beginning with `@@`. These lines will be replaced by `Includo`, according the instructions on that line.
+1. create a template. That can contain lines beginning with `@@`. These lines will be replaced by `Includio`, according the instructions on that line.
 
 For example, a template file for the content you are reading now, looks like:
 
@@ -75,24 +75,24 @@ For example, a template file for the content you are reading now, looks like:
 //@@ README.md.template //do not include it, as its triple \`\`\` marks can do mess in the final markdown
 ```
 
-That line which contains the `@@ help.txt`, tells `Includo` to insert the `help.txt` file. Which looks like:
+That line which contains the `@@ help.txt`, tells `Includio` to insert the `help.txt` file. Which looks like:
 
 ```
-Usage: includo [options]
+Usage: includio [options]
 
 Inserts files (or their parts) into a text file.
 ```
 
 ## API
 
-    Create includo engine this way:
+    Create includio engine this way:
 
 ```ts
-import {createIncludoProcessor} from 'includo';
+import {createIncludioProcessor} from 'includio';
 
 import {stdin, stdout} from 'node:process';
 
-createIncludoProcessor()(stdin, stdout)
+createIncludioProcessor()(stdin, stdout)
   .then(result => {
     console.log(`lines read: ${result.lineNumber}`);
   })
@@ -102,13 +102,13 @@ createIncludoProcessor()(stdin, stdout)
 ### API usage
 
 ```ts
-import {createIncludoProcessor} from 'includo';
+import {createIncludioProcessor} from 'includio';
 ```
 
 function header:
 
 ```ts
-createIncludoProcessor()(stdin, stdout)
+createIncludioProcessor()(stdin, stdout);
 ```
 
 a bit of code:
@@ -116,10 +116,9 @@ a bit of code:
 ```ts
 import {stdin, stdout} from 'node:process';
 
-createIncludoProcessor()(stdin, stdout)
-  .then(result => {
-    console.log(`lines read: ${result.lineNumber}`);
-  })
+createIncludioProcessor()(stdin, stdout).then(result => {
+  console.log(`lines read: ${result.lineNumber}`);
+});
 //...
 ```
 

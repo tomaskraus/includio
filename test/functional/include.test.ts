@@ -1,9 +1,9 @@
 import mock from 'mock-fs';
 
 import {
-  createIncludoProcessor,
-  DEFAULT_INCLUDO_OPTIONS,
-} from '../../src/core/includo';
+  createIncludioProcessor,
+  DEFAULT_INCLUDIO_OPTIONS,
+} from '../../src/core/includio';
 import stream from 'stream';
 
 import * as mStream from 'memory-streams';
@@ -30,7 +30,7 @@ afterEach(() => {
 
 describe('normal ops', () => {
   test('empty input', async () => {
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
 
     const res = await p('empty-file.txt', output);
     expect(res.lineNumber).toEqual(0);
@@ -38,7 +38,7 @@ describe('normal ops', () => {
   });
 
   test('input without tags', async () => {
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
 
     const res = await p('no-tag-file.txt', output);
     expect(res.lineNumber).toEqual(2);
@@ -49,7 +49,7 @@ describe('normal ops', () => {
 describe('error handling', () => {
   test('Nonexistent input file', async () => {
     expect.assertions(1);
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
     try {
       await p('non-existent-file.txt', output);
     } catch (e) {
@@ -59,7 +59,7 @@ describe('error handling', () => {
 
   test('Empty tag: Include line value, file name & line number and Error message', async () => {
     expect.assertions(6);
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
     try {
       await p('error-file.txt', output);
     } catch (e) {

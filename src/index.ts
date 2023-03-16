@@ -1,5 +1,5 @@
 export {
-  createIncludoProcessor,
-  createTestIncludoProcessor,
-  DEFAULT_INCLUDO_OPTIONS,
-} from './core/includo';
+  createIncludioProcessor,
+  createTestIncludioProcessor,
+  DEFAULT_INCLUDIO_OPTIONS,
+} from './core/includio';

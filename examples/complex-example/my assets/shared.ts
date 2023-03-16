@@ -1,6 +1,6 @@
 /*
-//< import_includo
-import {createIncludoProcessor} from 'includo';
+//< import_includio
+import {createIncludioProcessor} from 'includio';
 //<
 */
 

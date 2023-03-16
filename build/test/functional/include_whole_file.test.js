@@ -27,7 +27,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mock_fs_1 = __importDefault(require("mock-fs"));
-const includo_1 = require("../../src/core/includo");
+const includio_1 = require("../../src/core/includio");
 const mStream = __importStar(require("memory-streams"));
 const line_transform_machines_1 = require("line-transform-machines");
 // import * as fs from 'fs';
@@ -60,31 +60,31 @@ afterEach(() => {
 });
 describe('normal ops', () => {
     test('input with valid file name tag', async () => {
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         const res = await p('tag-valid-file-name.txt', output);
         expect(res.lineNumber).toEqual(4);
         expect(output.toString()).toEqual('Hello, \n-- text insert --\n-- text line2 --\n\nWorld!\n');
     });
     test('input with valid file name tag, using non-empty resourceDir', async () => {
-        const p = (0, includo_1.createIncludoProcessor)({ resourceDir: 'dir-for-insert' });
+        const p = (0, includio_1.createIncludioProcessor)({ resourceDir: 'dir-for-insert' });
         const res = await p('tag-valid-file-name.txt', output);
         expect(res.lineNumber).toEqual(4);
         expect(output.toString()).toEqual('Hello, \n-- dir text insert --\n-- dir text line2 --\n\nWorld!\n');
     });
     test('input with valid file name (in double-quotes) tag', async () => {
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         const res = await p('tag-valid-file-name-in-double-quotes.txt', output);
         expect(res.lineNumber).toEqual(4);
         expect(output.toString()).toEqual('Hello, \n-- "text" insert --\n-- text line2 --\n\nWorld!\n');
     });
     test('input with empty file with valid name tag adds empty line', async () => {
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         const res = await p('tag-empty-file.txt', output);
         expect(res.lineNumber).toEqual(4);
         expect(output.toString()).toEqual('Hello, \n\nWorld!\n');
     });
     test('input with valid file name (including a path) tag', async () => {
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         const res = await p('tag-valid-file-path.txt', output);
         expect(res.lineNumber).toEqual(4);
         expect(output.toString()).toEqual('Hello, \n-- text insert --\n-- text line2 --\n\nWorld!\n');
@@ -93,7 +93,7 @@ describe('normal ops', () => {
 describe('error handling', () => {
     test('Invalid file name for insertion (with invalid characters in file name)', async () => {
         expect.assertions(2);
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         try {
             await p('tag-invalid-file-name.txt', output);
         }
@@ -104,7 +104,7 @@ describe('error handling', () => {
     });
     test('Non-existent file for insertion', async () => {
         expect.assertions(2);
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         try {
             await p('tag-nonexistent-file-name.txt', output);
         }
@@ -115,7 +115,7 @@ describe('error handling', () => {
     });
     test('Non-existent file for insertion, in existent resourceDir', async () => {
         expect.assertions(2);
-        const p = (0, includo_1.createIncludoProcessor)({ resourceDir: 'dir-for-insert' });
+        const p = (0, includio_1.createIncludioProcessor)({ resourceDir: 'dir-for-insert' });
         try {
             await p('tag-nonexistent-file-name.txt', output);
         }
@@ -126,7 +126,7 @@ describe('error handling', () => {
     });
     test('Non-existent resourceDir', async () => {
         expect.assertions(2);
-        const p = (0, includo_1.createIncludoProcessor)({ resourceDir: 'abc' });
+        const p = (0, includio_1.createIncludioProcessor)({ resourceDir: 'abc' });
         try {
             await p('tag-valid-file-name.txt', output);
         }

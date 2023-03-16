@@ -11,7 +11,7 @@
 
 import {createIntegerValidator} from '../utils/integer_validator';
 
-export type TIncludoCommand = (lines: string[], ...args: string[]) => string[];
+export type TIncludioCommand = (lines: string[], ...args: string[]) => string[];
 
 const positiveIntegerValidator = createIntegerValidator(1);
 
@@ -23,7 +23,7 @@ const positiveIntegerValidator = createIntegerValidator(1);
  * @param moreContentMark adds this string at the end if input has more lines than n
  * @returns first n input lines
  */
-export const cmdFirst: TIncludoCommand = (
+export const cmdFirst: TIncludioCommand = (
   lines: string[],
   countStr: string,
   moreContentMark?: string
@@ -47,7 +47,7 @@ export const cmdFirst: TIncludoCommand = (
  * @param moreContentMark adds this string at the beginning if input has more lines than n
  * @returns last n input lines
  */
-export const cmdLast: TIncludoCommand = (
+export const cmdLast: TIncludioCommand = (
   lines: string[],
   countStr: string,
   moreContentMark?: string

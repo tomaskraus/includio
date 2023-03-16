@@ -1,7 +1,7 @@
 "use strict";
 /*
-//< import_includo
-import {createIncludoProcessor} from 'includo';
+//< import_includio
+import {createIncludioProcessor} from 'includio';
 //<
 */
 console.log('this code runs');

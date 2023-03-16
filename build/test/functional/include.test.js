@@ -27,7 +27,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mock_fs_1 = __importDefault(require("mock-fs"));
-const includo_1 = require("../../src/core/includo");
+const includio_1 = require("../../src/core/includio");
 const mStream = __importStar(require("memory-streams"));
 const line_transform_machines_1 = require("line-transform-machines");
 // import * as fs from 'fs';
@@ -47,13 +47,13 @@ afterEach(() => {
 });
 describe('normal ops', () => {
     test('empty input', async () => {
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         const res = await p('empty-file.txt', output);
         expect(res.lineNumber).toEqual(0);
         expect(output.toString()).toEqual('');
     });
     test('input without tags', async () => {
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         const res = await p('no-tag-file.txt', output);
         expect(res.lineNumber).toEqual(2);
         expect(output.toString()).toEqual('Hello, \nWorld!');
@@ -62,7 +62,7 @@ describe('normal ops', () => {
 describe('error handling', () => {
     test('Nonexistent input file', async () => {
         expect.assertions(1);
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         try {
             await p('non-existent-file.txt', output);
         }
@@ -72,7 +72,7 @@ describe('error handling', () => {
     });
     test('Empty tag: Include line value, file name & line number and Error message', async () => {
         expect.assertions(6);
-        const p = (0, includo_1.createIncludoProcessor)(includo_1.DEFAULT_INCLUDO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         try {
             await p('error-file.txt', output);
         }

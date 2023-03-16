@@ -1,21 +1,21 @@
 /*
 //< txt
-    Create includo engine this way:
+    Create includio engine this way:
 //>
 */
 
 /*
 //< import
-import {createIncludoProcessor} from 'includo';
+import {createIncludioProcessor} from 'includio';
 //>
 */
 
-import {createIncludoProcessor} from './core/includo';
+import {createIncludioProcessor} from './core/includio';
 
 //< code
 import {stdin, stdout} from 'node:process';
 
-createIncludoProcessor()(stdin, stdout)
+createIncludioProcessor()(stdin, stdout)
   .then(result => {
     console.log(`lines read: ${result.lineNumber}`);
   })

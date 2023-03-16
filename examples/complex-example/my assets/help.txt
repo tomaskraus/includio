@@ -1,4 +1,4 @@
-Usage: includo [options]
+Usage: includio [options]
 
 Inserts files (or their parts) into a text file.
 
@@ -16,4 +16,4 @@ Options:
   -h, --help                 display help for command
 
   Example: 
-  includo -i README.template.md -o README.md -r assets
+  includio -i README.template.md -o README.md -r assets

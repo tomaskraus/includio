@@ -1,5 +1,5 @@
 /**
- * IncludoProcessor
+ * IncludioProcessor
  *
  * Reads input (from file/stream) line by line and replaces tagged lines with some content.
  *   Source of that content and further instructions are written on that tagged line.
@@ -13,20 +13,20 @@ import {
 } from 'line-transform-machines';
 import type {TAsyncLineCallback} from 'line-transform-machines';
 import {createInsertionDispatcher} from './insertion_dispatcher';
-import {DEFAULT_INCLUDO_OPTIONS, appLog} from './common';
-import type {TIncludoOptions} from './common';
+import {DEFAULT_INCLUDIO_OPTIONS, appLog} from './common';
+import type {TIncludioOptions} from './common';
 import {createFirstMatcher} from '../utils/first_matcher';
 
 const log = appLog.extend('processor');
 
-export {DEFAULT_INCLUDO_OPTIONS};
+export {DEFAULT_INCLUDIO_OPTIONS};
 
-const createIncludoLineCallback = (
-  options: TIncludoOptions
+const createIncludioLineCallback = (
+  options: TIncludioOptions
 ): TAsyncLineCallback => {
   const insertionTagMatcher = createFirstMatcher(options.tagInsert);
   const insertionDispatcher = createInsertionDispatcher(options);
-  log(`CREATE includoCallback for tag [${options.tagInsert}] `);
+  log(`CREATE includioCallback for tag [${options.tagInsert}] `);
 
   return (line: string): Promise<string> => {
     if (insertionTagMatcher.test(line)) {
@@ -36,20 +36,20 @@ const createIncludoLineCallback = (
   };
 };
 
-export const createIncludoProcessor = (
-  options?: Partial<TIncludoOptions>
+export const createIncludioProcessor = (
+  options?: Partial<TIncludioOptions>
 ): TFileProcessor<TFileLineContext> => {
-  const opts = {...DEFAULT_INCLUDO_OPTIONS, ...options};
-  log('CREATE includo processor');
-  return createAsyncLineMachine(createIncludoLineCallback(opts));
+  const opts = {...DEFAULT_INCLUDIO_OPTIONS, ...options};
+  log('CREATE includio processor');
+  return createAsyncLineMachine(createIncludioLineCallback(opts));
 };
 
-const createTestIncludoLineCallback = (
-  options: TIncludoOptions
+const createTestIncludioLineCallback = (
+  options: TIncludioOptions
 ): TAsyncLineCallback => {
   const insertionTagMatcher = createFirstMatcher(options.tagInsert);
   const insertionDispatcher = createInsertionDispatcher(options);
-  log(`CREATE testIncludoCallback for tag [${options.tagInsert}] `);
+  log(`CREATE testIncludioCallback for tag [${options.tagInsert}] `);
 
   return async (
     line: string,
@@ -68,10 +68,10 @@ const createTestIncludoLineCallback = (
   };
 };
 
-export const createTestIncludoProcessor = (
-  options?: Partial<TIncludoOptions>
+export const createTestIncludioProcessor = (
+  options?: Partial<TIncludioOptions>
 ): TFileProcessor<TFileLineContext> => {
-  const opts = {...DEFAULT_INCLUDO_OPTIONS, ...options};
-  log('CREATE testIncludo processor');
-  return createAsyncLineMachine(createTestIncludoLineCallback(opts));
+  const opts = {...DEFAULT_INCLUDIO_OPTIONS, ...options};
+  log('CREATE testIncludio processor');
+  return createAsyncLineMachine(createTestIncludioLineCallback(opts));
 };

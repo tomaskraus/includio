@@ -1,11 +1,11 @@
 {
-  "name": "includo",
+  "name": "includio",
   "version": "0.1.0",
   "description": "A simple file(part) includer.",
   "types": "build/src/index.d.ts",
   "main": "build/src/index.js",
   "bin": {
-    "includo": "bin/cli.js"
+    "includio": "bin/cli.js"
   },
   "files": [
     "build/src",
@@ -27,7 +27,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/tomaskraus/includo"
+    "url": "https://github.com/tomaskraus/includio"
   },
   "engines": {
     "node": ">=12.0.0"

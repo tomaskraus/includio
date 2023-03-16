@@ -1,9 +1,9 @@
 import mock from 'mock-fs';
 
 import {
-  createIncludoProcessor,
-  DEFAULT_INCLUDO_OPTIONS,
-} from '../../src/core/includo';
+  createIncludioProcessor,
+  DEFAULT_INCLUDIO_OPTIONS,
+} from '../../src/core/includio';
 import stream from 'stream';
 
 import * as mStream from 'memory-streams';
@@ -68,7 +68,7 @@ afterEach(() => {
 
 describe('normal ops', () => {
   test('valid existent part name', async () => {
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
 
     const res = await p('part-valid-exists.txt', output);
     expect(res.lineNumber).toEqual(4);
@@ -78,7 +78,7 @@ describe('normal ops', () => {
   });
 
   test('valid existent part name, quoted file name', async () => {
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
 
     const res = await p('part-valid-exists-quoted-file.txt', output);
     expect(res.lineNumber).toEqual(4);
@@ -88,7 +88,7 @@ describe('normal ops', () => {
   });
 
   test('more text after part name in input', async () => {
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
     const res = await p('part-more-text-after-partname.txt', output);
     expect(res.lineNumber).toEqual(4);
     expect(output.toString()).toEqual(
@@ -97,7 +97,7 @@ describe('normal ops', () => {
   });
 
   test('more text after part name in source file', async () => {
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
     const res = await p('part-more-text-after-partname-in-source.txt', output);
     expect(res.lineNumber).toEqual(4);
     expect(output.toString()).toEqual(
@@ -106,7 +106,7 @@ describe('normal ops', () => {
   });
 
   test('valid existent part name, empty part content - inserts empty line', async () => {
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
 
     const res = await p('part-valid-exists-empty-content.txt', output);
     expect(res.lineNumber).toEqual(4);
@@ -114,7 +114,7 @@ describe('normal ops', () => {
   });
 
   test('empty part name in source file - processes without error', async () => {
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
 
     const res = await p(
       'part-valid-exists-source-with-empty-part-name.txt',
@@ -130,7 +130,7 @@ describe('normal ops', () => {
 describe('error handling', () => {
   test('nonexistent part name', async () => {
     expect.assertions(2);
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
     try {
       await p('part-valid-nonexistent.txt', output);
     } catch (e) {
@@ -143,7 +143,7 @@ describe('error handling', () => {
 
   test('empty part name', async () => {
     expect.assertions(2);
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
     try {
       await p('part-empty.txt', output);
     } catch (e) {
@@ -154,7 +154,7 @@ describe('error handling', () => {
 
   test('invalid part name in resource file (contains forbidden characters)', async () => {
     expect.assertions(4);
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
     try {
       await p('part-valid-source-part-invalid.txt', output);
     } catch (e) {
@@ -169,7 +169,7 @@ describe('error handling', () => {
 
   test('duplicit part name in resource file (contains forbidden characters)', async () => {
     expect.assertions(4);
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
     try {
       await p('part-valid-source-part-duplicit.txt', output);
     } catch (e) {
@@ -184,7 +184,7 @@ describe('error handling', () => {
 
   test('use part from file that contains no parts', async () => {
     expect.assertions(2);
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
     try {
       await p('part-valid-source-with-no-parts.txt', output);
     } catch (e) {
@@ -195,7 +195,7 @@ describe('error handling', () => {
 
   test('use part from file that contains no parts. Custom resourceDir', async () => {
     expect.assertions(2);
-    const p = createIncludoProcessor({resourceDir: 'dir-for-insert'});
+    const p = createIncludioProcessor({resourceDir: 'dir-for-insert'});
     try {
       await p('part-valid-source-with-no-parts.txt', output);
     } catch (e) {
@@ -206,7 +206,7 @@ describe('error handling', () => {
 
   test('invalid part name in input file', async () => {
     expect.assertions(2);
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
     try {
       await p('part-invalid.txt', output);
     } catch (e) {
@@ -217,7 +217,7 @@ describe('error handling', () => {
 
   test('Non-existent file for insertion', async () => {
     expect.assertions(2);
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
     try {
       await p('tag-nonexistent-file-name.txt', output);
     } catch (e) {
@@ -228,7 +228,7 @@ describe('error handling', () => {
 
   test('Non-existent resourceDir', async () => {
     expect.assertions(3);
-    const p = createIncludoProcessor({resourceDir: 'abc'});
+    const p = createIncludioProcessor({resourceDir: 'abc'});
     try {
       await p('part-valid-exists.txt', output);
     } catch (e) {
@@ -240,7 +240,7 @@ describe('error handling', () => {
 
   test('more parts at once', async () => {
     expect.assertions(2);
-    const p = createIncludoProcessor(DEFAULT_INCLUDO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
     try {
       await p('part-more-at-once.txt', output);
     } catch (e) {

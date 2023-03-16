@@ -8,7 +8,7 @@
  *
  * Insertion commands can be pipelined.
  */
-export type TIncludoCommand = (lines: string[], ...args: string[]) => string[];
+export type TIncludioCommand = (lines: string[], ...args: string[]) => string[];
 /**
  * Returns first n input lines.
  *
@@ -17,7 +17,7 @@ export type TIncludoCommand = (lines: string[], ...args: string[]) => string[];
  * @param moreContentMark adds this string at the end if input has more lines than n
  * @returns first n input lines
  */
-export declare const cmdFirst: TIncludoCommand;
+export declare const cmdFirst: TIncludioCommand;
 /**
  * Returns last n input lines.
  *
@@ -26,4 +26,4 @@ export declare const cmdFirst: TIncludoCommand;
  * @param moreContentMark adds this string at the beginning if input has more lines than n
  * @returns last n input lines
  */
-export declare const cmdLast: TIncludoCommand;
+export declare const cmdLast: TIncludioCommand;

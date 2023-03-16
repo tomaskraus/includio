@@ -1,12 +1,12 @@
 /**
- * Includo command line app
+ * Includio command line app
  */
 import {program} from 'commander';
 
 import {
-  createIncludoProcessor,
-  createTestIncludoProcessor,
-} from './core/includo';
+  createIncludioProcessor,
+  createTestIncludioProcessor,
+} from './core/includio';
 import {appLog} from './core/common';
 
 import {stdin, stdout} from 'node:process';
@@ -14,7 +14,7 @@ import {stdin, stdout} from 'node:process';
 const log = appLog.extend('CLI');
 
 program
-  .name('includo')
+  .name('includio')
   .description(
     'Creates the result by replacing every directive in the input template with the content of the resourceFile mentioned in that directive.'
   )
@@ -41,7 +41,7 @@ program
     'after',
     `
   Example: 
-  includo -i README.template.md -o README.md -r assets`
+  includio -i README.template.md -o README.md -r assets`
   );
 
 program.parse();
@@ -51,11 +51,11 @@ const resourceDir = options.resourceDir || '';
 
 const proc = (() => {
   if (options.test) {
-    return createTestIncludoProcessor({
+    return createTestIncludioProcessor({
       resourceDir,
     });
   }
-  return createIncludoProcessor({
+  return createIncludioProcessor({
     resourceDir,
   });
 })();

@@ -5,13 +5,13 @@
  *
  * @example
  ```ts
-    const startCommentTagProvider = createCommentManager({DEFAULT_INCLUDO_OPTIONS}).startTag;
+    const startCommentTagProvider = createCommentManager({DEFAULT_INCLUDIO_OPTIONS}).startTag;
     startCommentTagProvider('test.ts') === '//';
     startCommentTagProvider('anotherTest.sh') === '#';
  ```
  */
-import { TIncludoOptions } from './common';
-export declare const createCommentManager: (options: TIncludoOptions) => {
+import { TIncludioOptions } from './common';
+export declare const createCommentManager: (options: TIncludioOptions) => {
     defaultStartComment: string;
     defaultEndComment: string;
     startTag: (fileName: string) => string;
