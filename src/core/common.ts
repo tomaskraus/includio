@@ -38,7 +38,7 @@ export type TIncludioOptions = {
 
 export const DEFAULT_INCLUDIO_OPTIONS: TIncludioOptions = {
   tagInsert: '@@',
-  resourceDir: '',
+  resourceDir: '.',
   commentPairMap: [
     ['js', '//', ''],
     ['ts', '//', ''],

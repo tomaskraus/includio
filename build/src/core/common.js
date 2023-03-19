@@ -15,7 +15,7 @@ exports.PART_NAME_REGEXP = /[_a-zA-z]+[-\w\d]*/;
 exports.COMMAND_NAME_REGEXP = exports.VAR_NAME_REGEXP;
 exports.DEFAULT_INCLUDIO_OPTIONS = {
     tagInsert: '@@',
-    resourceDir: '',
+    resourceDir: '.',
     commentPairMap: [
         ['js', '//', ''],
         ['ts', '//', ''],
