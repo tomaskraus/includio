@@ -28,7 +28,7 @@ const createIncludioLineCallback = (
   const insertionDispatcher = createInsertionDispatcher(options);
   log(`CREATE includioCallback for tag [${options.tagInsert}] `);
 
-  return (line: string): Promise<string> => {
+  return async (line: string): Promise<string> => {
     if (insertionTagMatcher.test(line)) {
       return insertionDispatcher(insertionTagMatcher.tail(line));
     }

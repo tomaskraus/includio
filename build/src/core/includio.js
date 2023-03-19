@@ -18,7 +18,7 @@ const createIncludioLineCallback = (options) => {
     const insertionTagMatcher = (0, first_matcher_1.createFirstMatcher)(options.tagInsert);
     const insertionDispatcher = (0, insertion_dispatcher_1.createInsertionDispatcher)(options);
     log(`CREATE includioCallback for tag [${options.tagInsert}] `);
-    return (line) => {
+    return async (line) => {
         if (insertionTagMatcher.test(line)) {
             return insertionDispatcher(insertionTagMatcher.tail(line));
         }
