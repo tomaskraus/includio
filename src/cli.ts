@@ -2,7 +2,7 @@
  * Includio command line app
  */
 import {program} from 'commander';
-import {normalize} from 'node:path';
+import {resolve} from 'node:path';
 
 import {
   createIncludioProcessor,
@@ -31,8 +31,8 @@ program
   )
   .option(
     '-r --resourceDir <string>',
-    'Directory where to look for resourceFiles.' +
-      '\nIf not specified, current working dir (.) will be used.'
+    'Directory where to look for resourceFiles.',
+    DEFAULT_INCLUDIO_OPTIONS.resourceDir
   )
   .option(
     '-t --test',
@@ -48,29 +48,28 @@ program
 program.parse();
 const options = program.opts();
 
-const resourceDir = options.resourceDir || DEFAULT_INCLUDIO_OPTIONS.resourceDir;
-console.error(`Includio: resource dir: (${normalize(resourceDir)})`);
+console.error(`Includio: resource dir: "${resolve(options.resourceDir)}"`);
 
 const proc = (() => {
   if (options.test) {
     return createTestIncludioProcessor({
-      resourceDir,
+      resourceDir: options.resourceDir,
     });
   }
   return createIncludioProcessor({
-    resourceDir,
+    resourceDir: options.resourceDir,
   });
 })();
 
 if (options.inputFile) {
-  const finalPath = normalize(options.inputFile);
-  console.error(`Includio: reading from (${finalPath})`);
+  const finalPath = resolve(options.inputFile);
+  console.error(`Includio: reading from: "${finalPath}"`);
 }
 
 proc(options.inputFile || stdin, options.outputFile || stdout).then(result => {
   if (options.outputFile) {
     console.error(
-      `Includio: saving result to (${normalize(options.outputFile)})`
+      `Includio: saving result to: "${resolve(options.outputFile)}"`
     );
   }
   console.error(''); // just enters a new line at console
