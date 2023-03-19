@@ -31,8 +31,8 @@ program
   )
   .option(
     '-r --resourceDir <string>',
-    'Directory where to look for resourceFiles.' +
-      '\nIf not specified, current working dir (.) will be used.'
+    'Directory where to look for resourceFiles.',
+    DEFAULT_INCLUDIO_OPTIONS.resourceDir
   )
   .option(
     '-t --test',
@@ -48,17 +48,16 @@ program
 program.parse();
 const options = program.opts();
 
-const resourceDir = options.resourceDir || DEFAULT_INCLUDIO_OPTIONS.resourceDir;
-console.error(`Includio: resource dir: (${normalize(resourceDir)})`);
+console.error(`Includio: resource dir: (${normalize(options.resourceDir)})`);
 
 const proc = (() => {
   if (options.test) {
     return createTestIncludioProcessor({
-      resourceDir,
+      resourceDir: options.resourceDir,
     });
   }
   return createIncludioProcessor({
-    resourceDir,
+    resourceDir: options.resourceDir,
   });
 })();
 

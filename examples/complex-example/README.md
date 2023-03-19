@@ -56,8 +56,7 @@ Options:
                              If not specified, the result will be sent to a
                              standard output.
   -r --resourceDir <string>  Directory where to look for resourceFiles.
-                             If not specified, current working dir (.) will be
-                             used.
+                             (default: ".")
   -t --test                  Check the input template & its resourcFiles for
                              possible errors.
   -h, --help                 display help for command

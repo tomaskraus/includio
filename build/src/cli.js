@@ -16,24 +16,22 @@ commander_1.program
     .option('-i --inputFile <string>', 'The input template' + '\nIf not specified, standard input will be used.')
     .option('-o --outputFile <string>', 'A result file.' +
     '\nIf not specified, the result will be sent to a standard output.')
-    .option('-r --resourceDir <string>', 'Directory where to look for resourceFiles.' +
-    '\nIf not specified, current working dir (.) will be used.')
+    .option('-r --resourceDir <string>', 'Directory where to look for resourceFiles.', common_1.DEFAULT_INCLUDIO_OPTIONS.resourceDir)
     .option('-t --test', 'Check the input template & its resourcFiles for possible errors.')
     .addHelpText('after', `
   Example: 
   includio -i README.template.md -o README.md -r assets`);
 commander_1.program.parse();
 const options = commander_1.program.opts();
-const resourceDir = options.resourceDir || common_1.DEFAULT_INCLUDIO_OPTIONS.resourceDir;
-console.error(`Includio: resource dir: (${(0, node_path_1.normalize)(resourceDir)})`);
+console.error(`Includio: resource dir: (${(0, node_path_1.normalize)(options.resourceDir)})`);
 const proc = (() => {
     if (options.test) {
         return (0, includio_1.createTestIncludioProcessor)({
-            resourceDir,
+            resourceDir: options.resourceDir,
         });
     }
     return (0, includio_1.createIncludioProcessor)({
-        resourceDir,
+        resourceDir: options.resourceDir,
     });
 })();
 if (options.inputFile) {
