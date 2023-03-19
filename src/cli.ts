@@ -2,12 +2,13 @@
  * Includio command line app
  */
 import {program} from 'commander';
+import {normalize} from 'node:path';
 
 import {
   createIncludioProcessor,
   createTestIncludioProcessor,
 } from './core/includio';
-import {appLog} from './core/common';
+import {appLog, DEFAULT_INCLUDIO_OPTIONS} from './core/common';
 
 import {stdin, stdout} from 'node:process';
 
@@ -47,7 +48,8 @@ program
 program.parse();
 const options = program.opts();
 
-const resourceDir = options.resourceDir || '';
+const resourceDir = options.resourceDir || DEFAULT_INCLUDIO_OPTIONS.resourceDir;
+console.error(`Includio: resource dir: (${normalize(resourceDir)})`);
 
 const proc = (() => {
   if (options.test) {
@@ -60,7 +62,17 @@ const proc = (() => {
   });
 })();
 
+if (options.inputFile) {
+  const finalPath = normalize(options.inputFile);
+  console.error(`Includio: reading from (${finalPath})`);
+}
+
 proc(options.inputFile || stdin, options.outputFile || stdout).then(result => {
+  if (options.outputFile) {
+    console.error(
+      `Includio: saving result to (${normalize(options.outputFile)})`
+    );
+  }
   console.error(''); // just enters a new line at console
   log(`lines read: ${result.lineNumber}`);
 });

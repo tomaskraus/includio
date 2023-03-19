@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Includio command line app
  */
 const commander_1 = require("commander");
+const node_path_1 = require("node:path");
 const includio_1 = require("./core/includio");
 const common_1 = require("./core/common");
 const node_process_1 = require("node:process");
@@ -23,7 +24,8 @@ commander_1.program
   includio -i README.template.md -o README.md -r assets`);
 commander_1.program.parse();
 const options = commander_1.program.opts();
-const resourceDir = options.resourceDir || '';
+const resourceDir = options.resourceDir || common_1.DEFAULT_INCLUDIO_OPTIONS.resourceDir;
+console.error(`Includio: resource dir: (${(0, node_path_1.normalize)(resourceDir)})`);
 const proc = (() => {
     if (options.test) {
         return (0, includio_1.createTestIncludioProcessor)({
@@ -34,7 +36,14 @@ const proc = (() => {
         resourceDir,
     });
 })();
+if (options.inputFile) {
+    const finalPath = (0, node_path_1.normalize)(options.inputFile);
+    console.error(`Includio: reading from (${finalPath})`);
+}
 proc(options.inputFile || node_process_1.stdin, options.outputFile || node_process_1.stdout).then(result => {
+    if (options.outputFile) {
+        console.error(`Includio: saving result to (${(0, node_path_1.normalize)(options.outputFile)})`);
+    }
     console.error(''); // just enters a new line at console
     log(`lines read: ${result.lineNumber}`);
 });
