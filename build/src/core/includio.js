@@ -14,23 +14,57 @@ const common_1 = require("./common");
 Object.defineProperty(exports, "DEFAULT_INCLUDIO_OPTIONS", { enumerable: true, get: function () { return common_1.DEFAULT_INCLUDIO_OPTIONS; } });
 const first_matcher_1 = require("../utils/first_matcher");
 const log = common_1.appLog.extend('processor');
-const createIncludioLineCallback = (options) => {
-    const insertionTagMatcher = (0, first_matcher_1.createFirstMatcher)(options.tagInsert);
+const createDefaultDirectiveLineCB = (options) => {
     const insertionDispatcher = (0, insertion_dispatcher_1.createInsertionDispatcher)(options);
-    log(`CREATE includioCallback for tag [${options.tagInsert}] `);
     return async (line) => {
-        if (insertionTagMatcher.test(line)) {
-            return insertionDispatcher(insertionTagMatcher.tail(line));
-        }
-        return Promise.resolve(line);
+        return insertionDispatcher(line);
     };
 };
-const createIncludioProcessor = (options) => {
-    const opts = { ...common_1.DEFAULT_INCLUDIO_OPTIONS, ...options };
+// const DEFAULT_INCLUDIO_CALLBACKS: TIncludioCallbacks = {
+//   directiveLine:
+// };
+const createIncludioProcessor = (options, callbacks) => {
     log('CREATE includio processor');
-    return (0, line_transform_machines_1.createAsyncLineMachine)(createIncludioLineCallback(opts));
+    const opts = { ...common_1.DEFAULT_INCLUDIO_OPTIONS, ...options };
+    const cbks = {
+        directiveLine: createDefaultDirectiveLineCB(opts),
+    };
+    const insertionTagMatcher = (0, first_matcher_1.createFirstMatcher)(opts.tagInsert);
+    const cb = async (line) => {
+        if (insertionTagMatcher.test(line)) {
+            return cbks.directiveLine(insertionTagMatcher.tail(line));
+        }
+        return line;
+    };
+    return (0, line_transform_machines_1.createAsyncLineMachine)(cb);
 };
 exports.createIncludioProcessor = createIncludioProcessor;
+// export const createIncludioProcessor = (
+//   options?: Partial<TIncludioOptions>
+// ): TFileProcessor<TFileLineContext> => {
+//   return createAsyncLineMachine(createIncludioLineCallback1(opts));
+// };
+//--------------------------------------------------------
+// const createIncludioLineCallback1 = (
+//   options: TIncludioOptions
+// ): TAsyncLineCallback => {
+//   const insertionTagMatcher = createFirstMatcher(options.tagInsert);
+//   const insertionDispatcher = createInsertionDispatcher(options);
+//   log(`CREATE includioCallback for tag [${options.tagInsert}] `);
+//   return async (line: string): Promise<string> => {
+//     if (insertionTagMatcher.test(line)) {
+//       return insertionDispatcher(insertionTagMatcher.tail(line));
+//     }
+//     return Promise.resolve(line);
+//   };
+// };
+// export const createIncludioProcessor1 = (
+//   options?: Partial<TIncludioOptions>
+// ): TFileProcessor<TFileLineContext> => {
+//   const opts = {...DEFAULT_INCLUDIO_OPTIONS, ...options};
+//   log('CREATE includio processor');
+//   return createAsyncLineMachine(createIncludioLineCallback1(opts));
+// };
 const createTestIncludioLineCallback = (options) => {
     const insertionTagMatcher = (0, first_matcher_1.createFirstMatcher)(options.tagInsert);
     const insertionDispatcher = (0, insertion_dispatcher_1.createInsertionDispatcher)(options);
