@@ -23,7 +23,7 @@ commander_1.program
   includio -i README.template.md -o README.md -r assets`);
 commander_1.program.parse();
 const options = commander_1.program.opts();
-console.error(`Includio: resource dir: (${(0, node_path_1.normalize)(options.resourceDir)})`);
+console.error(`Includio: resource dir: "${(0, node_path_1.resolve)(options.resourceDir)}"`);
 const proc = (() => {
     if (options.test) {
         return (0, includio_1.createTestIncludioProcessor)({
@@ -35,12 +35,12 @@ const proc = (() => {
     });
 })();
 if (options.inputFile) {
-    const finalPath = (0, node_path_1.normalize)(options.inputFile);
-    console.error(`Includio: reading from (${finalPath})`);
+    const finalPath = (0, node_path_1.resolve)(options.inputFile);
+    console.error(`Includio: reading from: "${finalPath}"`);
 }
 proc(options.inputFile || node_process_1.stdin, options.outputFile || node_process_1.stdout).then(result => {
     if (options.outputFile) {
-        console.error(`Includio: saving result to (${(0, node_path_1.normalize)(options.outputFile)})`);
+        console.error(`Includio: saving result to: "${(0, node_path_1.resolve)(options.outputFile)}"`);
     }
     console.error(''); // just enters a new line at console
     log(`lines read: ${result.lineNumber}`);
