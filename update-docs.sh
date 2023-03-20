@@ -1,6 +1,6 @@
 #!/bin/bash
 # exit when any command fails.
-set -e
+# set -e
 
 echo 'generating CLI help...'
 node ./bin/cli.js --help > "examples/assets/help.txt"
