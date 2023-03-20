@@ -3,14 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("../../src/core/common");
 const comment_manager_1 = require("../../src/core/comment_manager");
 describe('Commentmanager', () => {
-    const options = {
-        ...common_1.DEFAULT_INCLUDIO_OPTIONS,
+    const options = (0, common_1.mergeIncludioOptions)({
         defaultCommentPair: ['--', '-'],
         commentPairMap: [
             ['js', '/*', '*/'],
             ['html', '<!--', '-->'],
         ],
-    };
+    });
     const cm = (0, comment_manager_1.createCommentManager)(options);
     test('knows defaults', () => {
         expect(cm.defaultStartComment).toEqual('--');

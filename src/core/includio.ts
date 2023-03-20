@@ -13,7 +13,7 @@ import {
 } from 'line-transform-machines';
 import type {TAsyncLineCallback} from 'line-transform-machines';
 import {createInsertionDispatcher} from './insertion_dispatcher';
-import {DEFAULT_INCLUDIO_OPTIONS, appLog} from './common';
+import {DEFAULT_INCLUDIO_OPTIONS, appLog, mergeIncludioOptions} from './common';
 import type {TIncludioOptions} from './common';
 import {createFirstMatcher} from '../utils/first_matcher';
 
@@ -73,7 +73,7 @@ const raiseErrorHandlerCB = (err: Error) => {
 export const createIncludioProcessor = (
   options?: Partial<TIncludioOptions>
 ): TFileProcessor<TFileLineContext> => {
-  const opts: TIncludioOptions = {...DEFAULT_INCLUDIO_OPTIONS, ...options};
+  const opts = mergeIncludioOptions(options);
   log('CREATE Includio processor');
   return makeIncludioProcessor(
     {
@@ -105,7 +105,7 @@ const createSilentDispatchDirectiveLineCB = (options: TIncludioOptions) => {
 export const createTestIncludioProcessor = (
   options?: Partial<TIncludioOptions>
 ): TFileProcessor<TFileLineContext> => {
-  const opts: TIncludioOptions = {...DEFAULT_INCLUDIO_OPTIONS, ...options};
+  const opts = mergeIncludioOptions(options);
   log('CREATE testIncludio processor');
   return makeIncludioProcessor(
     {

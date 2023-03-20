@@ -67,6 +67,10 @@ export const DEFAULT_INCLUDIO_OPTIONS: TIncludioOptions = {
   defaultCommentPair: ['//', ''],
 };
 
+export const mergeIncludioOptions = (
+  opts?: Partial<TIncludioOptions>
+): TIncludioOptions => ({...DEFAULT_INCLUDIO_OPTIONS, ...opts});
+
 export const createFileNameResolver =
   (resourceDir: string) => (fileName: string) =>
     normalize(join(resourceDir, fileName));

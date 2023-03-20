@@ -41,7 +41,7 @@ const raiseErrorHandlerCB = (err) => {
     throw err;
 };
 const createIncludioProcessor = (options) => {
-    const opts = { ...common_1.DEFAULT_INCLUDIO_OPTIONS, ...options };
+    const opts = (0, common_1.mergeIncludioOptions)(options);
     log('CREATE Includio processor');
     return makeIncludioProcessor({
         directiveLine: createDispatchDirectiveLineCB(opts),
@@ -64,7 +64,7 @@ const createSilentDispatchDirectiveLineCB = (options) => {
     };
 };
 const createTestIncludioProcessor = (options) => {
-    const opts = { ...common_1.DEFAULT_INCLUDIO_OPTIONS, ...options };
+    const opts = (0, common_1.mergeIncludioOptions)(options);
     log('CREATE testIncludio processor');
     return makeIncludioProcessor({
         directiveLine: createSilentDispatchDirectiveLineCB(opts),

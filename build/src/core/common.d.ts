@@ -29,6 +29,7 @@ export type TIncludioOptions = {
     defaultCommentPair: [string, string];
 };
 export declare const DEFAULT_INCLUDIO_OPTIONS: TIncludioOptions;
+export declare const mergeIncludioOptions: (opts?: Partial<TIncludioOptions>) => TIncludioOptions;
 export declare const createFileNameResolver: (resourceDir: string) => (fileName: string) => string;
 export declare const parseFileName: (line: string) => string;
 export declare const getFileLineInfoStr: (fileName: string, lineNumber: number) => string;

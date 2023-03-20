@@ -1,18 +1,14 @@
-import {
-  DEFAULT_INCLUDIO_OPTIONS,
-  TIncludioOptions,
-} from '../../src/core/common';
+import {TIncludioOptions, mergeIncludioOptions} from '../../src/core/common';
 import {createCommentManager} from '../../src/core/comment_manager';
 
 describe('Commentmanager', () => {
-  const options: TIncludioOptions = {
-    ...DEFAULT_INCLUDIO_OPTIONS,
+  const options: TIncludioOptions = mergeIncludioOptions({
     defaultCommentPair: ['--', '-'],
     commentPairMap: [
       ['js', '/*', '*/'],
       ['html', '<!--', '-->'],
     ],
-  };
+  });
 
   const cm = createCommentManager(options);
 
