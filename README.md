@@ -165,6 +165,7 @@ Options:
                              (default: ".")
   -t --test                  Check the input template & its resourcFiles for
                              possible errors.
+  -l --list                  Lists all directives in the input.
   -h, --help                 display help for command
 
   Example: 

@@ -18,29 +18,32 @@ commander_1.program
     '\nIf not specified, the result will be sent to a standard output.')
     .option('-r --resourceDir <string>', 'Directory where to look for resourceFiles.', common_1.DEFAULT_INCLUDIO_OPTIONS.resourceDir)
     .option('-t --test', 'Check the input template & its resourcFiles for possible errors.')
+    .option('-l --list', 'Lists all directives in the input.')
     .addHelpText('after', `
   Example: 
   includio -i README.template.md -o README.md -r assets`);
 commander_1.program.parse();
-const options = commander_1.program.opts();
-console.error(`Includio: resource dir: "${(0, node_path_1.resolve)(options.resourceDir)}"`);
+const AppOptions = commander_1.program.opts();
+console.error(`Includio: resource dir: "${(0, node_path_1.resolve)(AppOptions.resourceDir)}"`);
+const opts = {
+    resourceDir: AppOptions.resourceDir,
+};
 const proc = (() => {
-    if (options.test) {
-        return (0, includio_1.createTestIncludioProcessor)({
-            resourceDir: options.resourceDir,
-        });
+    if (AppOptions.test) {
+        return (0, includio_1.createTestIncludioProcessor)(opts);
     }
-    return (0, includio_1.createIncludioProcessor)({
-        resourceDir: options.resourceDir,
-    });
+    if (AppOptions.list) {
+        return (0, includio_1.createListIncludioProcessor)(opts);
+    }
+    return (0, includio_1.createIncludioProcessor)(opts);
 })();
-if (options.inputFile) {
-    const finalPath = (0, node_path_1.resolve)(options.inputFile);
+if (AppOptions.inputFile) {
+    const finalPath = (0, node_path_1.resolve)(AppOptions.inputFile);
     console.error(`Includio: reading from: "${finalPath}"`);
 }
-proc(options.inputFile || node_process_1.stdin, options.outputFile || node_process_1.stdout).then(result => {
-    if (options.outputFile) {
-        console.error(`Includio: saving result to: "${(0, node_path_1.resolve)(options.outputFile)}"`);
+proc(AppOptions.inputFile || node_process_1.stdin, AppOptions.outputFile || node_process_1.stdout).then(result => {
+    if (AppOptions.outputFile) {
+        console.error(`Includio: saving result to: "${(0, node_path_1.resolve)(AppOptions.outputFile)}"`);
     }
     console.error(''); // just enters a new line at console
     log(`lines read: ${result.lineNumber}`);

@@ -11,3 +11,4 @@ import type { TIncludioOptions } from './common';
 export { DEFAULT_INCLUDIO_OPTIONS };
 export declare const createIncludioProcessor: (options?: Partial<TIncludioOptions>) => TFileProcessor<TFileLineContext>;
 export declare const createTestIncludioProcessor: (options?: Partial<TIncludioOptions>) => TFileProcessor<TFileLineContext>;
+export declare const createListIncludioProcessor: (options?: Partial<TIncludioOptions>) => TFileProcessor<TFileLineContext>;

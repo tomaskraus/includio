@@ -7,6 +7,7 @@ import {resolve} from 'node:path';
 import {
   createIncludioProcessor,
   createTestIncludioProcessor,
+  createListIncludioProcessor,
 } from './core/includio';
 import {appLog, DEFAULT_INCLUDIO_OPTIONS} from './core/common';
 
@@ -38,6 +39,7 @@ program
     '-t --test',
     'Check the input template & its resourcFiles for possible errors.'
   )
+  .option('-l --list', 'Lists all directives in the input.')
   .addHelpText(
     'after',
     `
@@ -46,32 +48,37 @@ program
   );
 
 program.parse();
-const options = program.opts();
+const AppOptions = program.opts();
 
-console.error(`Includio: resource dir: "${resolve(options.resourceDir)}"`);
+console.error(`Includio: resource dir: "${resolve(AppOptions.resourceDir)}"`);
+
+const opts = {
+  resourceDir: AppOptions.resourceDir,
+};
 
 const proc = (() => {
-  if (options.test) {
-    return createTestIncludioProcessor({
-      resourceDir: options.resourceDir,
-    });
+  if (AppOptions.test) {
+    return createTestIncludioProcessor(opts);
   }
-  return createIncludioProcessor({
-    resourceDir: options.resourceDir,
-  });
+  if (AppOptions.list) {
+    return createListIncludioProcessor(opts);
+  }
+  return createIncludioProcessor(opts);
 })();
 
-if (options.inputFile) {
-  const finalPath = resolve(options.inputFile);
+if (AppOptions.inputFile) {
+  const finalPath = resolve(AppOptions.inputFile);
   console.error(`Includio: reading from: "${finalPath}"`);
 }
 
-proc(options.inputFile || stdin, options.outputFile || stdout).then(result => {
-  if (options.outputFile) {
-    console.error(
-      `Includio: saving result to: "${resolve(options.outputFile)}"`
-    );
+proc(AppOptions.inputFile || stdin, AppOptions.outputFile || stdout).then(
+  result => {
+    if (AppOptions.outputFile) {
+      console.error(
+        `Includio: saving result to: "${resolve(AppOptions.outputFile)}"`
+      );
+    }
+    console.error(''); // just enters a new line at console
+    log(`lines read: ${result.lineNumber}`);
   }
-  console.error(''); // just enters a new line at console
-  log(`lines read: ${result.lineNumber}`);
-});
+);

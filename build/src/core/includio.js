@@ -7,7 +7,7 @@
  * Writes the result to the output (file/stream).
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createTestIncludioProcessor = exports.createIncludioProcessor = exports.DEFAULT_INCLUDIO_OPTIONS = void 0;
+exports.createListIncludioProcessor = exports.createTestIncludioProcessor = exports.createIncludioProcessor = exports.DEFAULT_INCLUDIO_OPTIONS = void 0;
 const line_transform_machines_1 = require("line-transform-machines");
 const insertion_dispatcher_1 = require("./insertion_dispatcher");
 const common_1 = require("./common");
@@ -30,16 +30,34 @@ const makeIncludioProcessor = (includioCallbacks, options) => {
     log('make Includio processor');
     return (0, line_transform_machines_1.createAsyncLineMachine)(callback);
 };
+// =====================
 const createDispatchDirectiveLineCB = (options) => {
     const insertionDispatcher = (0, insertion_dispatcher_1.createInsertionDispatcher)(options);
     return async (line) => {
         return await insertionDispatcher(line);
     };
 };
+const createSilentDispatchDirectiveLineCB = (options) => {
+    const insertionDispatcher = (0, insertion_dispatcher_1.createInsertionDispatcher)(options);
+    return async (line) => {
+        await insertionDispatcher(line);
+        return null;
+    };
+};
+const printDirectiveLineCB = async (line, fileLineInfo) => {
+    const flinfoStr = fileLineInfo || '';
+    return `"${flinfoStr}" ; ${line}`;
+};
 const identityLineCB = async (line) => line;
+const nullLineCB = async () => null;
+const printErrorHandlerCB = (err, fileLineInfo) => {
+    const flinfoStr = fileLineInfo || '';
+    return `"${flinfoStr}" ; ${err.message}`;
+};
 const raiseErrorHandlerCB = (err) => {
     throw err;
 };
+// --------------
 const createIncludioProcessor = (options) => {
     const opts = (0, common_1.mergeIncludioOptions)(options);
     log('CREATE Includio processor');
@@ -51,18 +69,6 @@ const createIncludioProcessor = (options) => {
 };
 exports.createIncludioProcessor = createIncludioProcessor;
 // ----------------
-const nullLineCB = async () => null;
-const printErrorHandlerCB = (err, fileLineInfo) => {
-    const flinfoStr = fileLineInfo || '';
-    return `"${flinfoStr}" ; ${err.message}`;
-};
-const createSilentDispatchDirectiveLineCB = (options) => {
-    const insertionDispatcher = (0, insertion_dispatcher_1.createInsertionDispatcher)(options);
-    return async (line) => {
-        await insertionDispatcher(line);
-        return null;
-    };
-};
 const createTestIncludioProcessor = (options) => {
     const opts = (0, common_1.mergeIncludioOptions)(options);
     log('CREATE testIncludio processor');
@@ -73,4 +79,15 @@ const createTestIncludioProcessor = (options) => {
     }, opts);
 };
 exports.createTestIncludioProcessor = createTestIncludioProcessor;
+// ------------------
+const createListIncludioProcessor = (options) => {
+    const opts = (0, common_1.mergeIncludioOptions)(options);
+    log('CREATE linkIncludio processor');
+    return makeIncludioProcessor({
+        directiveLine: printDirectiveLineCB,
+        normalLine: nullLineCB,
+        errorHandler: printErrorHandlerCB,
+    }, opts);
+};
+exports.createListIncludioProcessor = createListIncludioProcessor;
 //# sourceMappingURL=includio.js.map

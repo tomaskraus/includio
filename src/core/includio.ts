@@ -57,6 +57,8 @@ const makeIncludioProcessor = (
   return createAsyncLineMachine(callback);
 };
 
+// =====================
+
 const createDispatchDirectiveLineCB = (options: TIncludioOptions) => {
   const insertionDispatcher = createInsertionDispatcher(options);
   return async (line: string): Promise<string | null> => {
@@ -64,11 +66,36 @@ const createDispatchDirectiveLineCB = (options: TIncludioOptions) => {
   };
 };
 
+const createSilentDispatchDirectiveLineCB = (options: TIncludioOptions) => {
+  const insertionDispatcher = createInsertionDispatcher(options);
+  return async (line: string): Promise<string | null> => {
+    await insertionDispatcher(line);
+    return null;
+  };
+};
+
+const printDirectiveLineCB = async (
+  line: string,
+  fileLineInfo?: string
+): Promise<string | null> => {
+  const flinfoStr = fileLineInfo || '';
+  return `"${flinfoStr}" ; ${line}`;
+};
+
 const identityLineCB = async (line: string) => line;
+
+const nullLineCB = async () => null;
+
+const printErrorHandlerCB = (err: Error, fileLineInfo?: string) => {
+  const flinfoStr = fileLineInfo || '';
+  return `"${flinfoStr}" ; ${err.message}`;
+};
 
 const raiseErrorHandlerCB = (err: Error) => {
   throw err;
 };
+
+// --------------
 
 export const createIncludioProcessor = (
   options?: Partial<TIncludioOptions>
@@ -87,21 +114,6 @@ export const createIncludioProcessor = (
 
 // ----------------
 
-const nullLineCB = async () => null;
-
-const printErrorHandlerCB = (err: Error, fileLineInfo?: string) => {
-  const flinfoStr = fileLineInfo || '';
-  return `"${flinfoStr}" ; ${err.message}`;
-};
-
-const createSilentDispatchDirectiveLineCB = (options: TIncludioOptions) => {
-  const insertionDispatcher = createInsertionDispatcher(options);
-  return async (line: string): Promise<string | null> => {
-    await insertionDispatcher(line);
-    return null;
-  };
-};
-
 export const createTestIncludioProcessor = (
   options?: Partial<TIncludioOptions>
 ): TFileProcessor<TFileLineContext> => {
@@ -110,6 +122,23 @@ export const createTestIncludioProcessor = (
   return makeIncludioProcessor(
     {
       directiveLine: createSilentDispatchDirectiveLineCB(opts),
+      normalLine: nullLineCB,
+      errorHandler: printErrorHandlerCB,
+    },
+    opts
+  );
+};
+
+// ------------------
+
+export const createListIncludioProcessor = (
+  options?: Partial<TIncludioOptions>
+): TFileProcessor<TFileLineContext> => {
+  const opts = mergeIncludioOptions(options);
+  log('CREATE linkIncludio processor');
+  return makeIncludioProcessor(
+    {
+      directiveLine: printDirectiveLineCB,
       normalLine: nullLineCB,
       errorHandler: printErrorHandlerCB,
     },
