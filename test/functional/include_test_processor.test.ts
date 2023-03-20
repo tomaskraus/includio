@@ -13,7 +13,7 @@ let output: stream.Writable;
 beforeEach(() => {
   mock({
     'error-file.txt':
-      'Hello, \n@@ nonexistent.txt \nWorld!\n@@ source1.txt : p1',
+      'Hello, \n@@ nonexistent.txt \nWorld!\n@@ source1.txt : p1 \n@@ source1.txt',
 
     'source1.txt': 'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext',
   });

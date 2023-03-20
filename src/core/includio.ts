@@ -7,7 +7,6 @@
  */
 
 import {
-  LineMachineError,
   TFileLineContext,
   TFileProcessor,
   createAsyncLineMachine,
@@ -23,96 +22,82 @@ const log = appLog.extend('processor');
 export {DEFAULT_INCLUDIO_OPTIONS};
 
 type TIncludioCallbacks = {
-  directiveLine: (line: string) => Promise<string | null>;
-  // normalLine: TAsyncLineCallback;
-  // errorHandler: (lineError: LineMachineError) => string;
+  directiveLine: (
+    line: string,
+    fileLineInfo?: string
+  ) => Promise<string | null>;
+  normalLine: (line: string, fileLineInfo?: string) => Promise<string | null>;
+  errorHandler: (err: Error, fileLineInfo?: string) => string;
 };
 
-const createDefaultDirectiveLineCB = (options: TIncludioOptions) => {
-  const insertionDispatcher = createInsertionDispatcher(options);
-  return async (line: string): Promise<string | null> => {
-    return insertionDispatcher(line);
-  };
-};
-
-// const DEFAULT_INCLUDIO_CALLBACKS: TIncludioCallbacks = {
-//   directiveLine:
-// };
-
-export const createIncludioProcessor = (
-  options?: Partial<TIncludioOptions>,
-  callbacks?: Partial<TIncludioCallbacks>
-): TFileProcessor<TFileLineContext> => {
-  log('CREATE includio processor');
-  const opts: TIncludioOptions = {...DEFAULT_INCLUDIO_OPTIONS, ...options};
-  const cbks: TIncludioCallbacks = {
-    directiveLine: createDefaultDirectiveLineCB(opts),
-  };
-
-  const insertionTagMatcher = createFirstMatcher(opts.tagInsert);
-
-  const cb = async (line: string): Promise<string | null> => {
-    if (insertionTagMatcher.test(line)) {
-      return cbks.directiveLine(insertionTagMatcher.tail(line));
-    }
-    return line;
-  };
-
-  return createAsyncLineMachine(cb);
-};
-
-// export const createIncludioProcessor = (
-//   options?: Partial<TIncludioOptions>
-// ): TFileProcessor<TFileLineContext> => {
-
-//   return createAsyncLineMachine(createIncludioLineCallback1(opts));
-// };
-
-//--------------------------------------------------------
-
-// const createIncludioLineCallback1 = (
-//   options: TIncludioOptions
-// ): TAsyncLineCallback => {
-//   const insertionTagMatcher = createFirstMatcher(options.tagInsert);
-//   const insertionDispatcher = createInsertionDispatcher(options);
-//   log(`CREATE includioCallback for tag [${options.tagInsert}] `);
-
-//   return async (line: string): Promise<string> => {
-//     if (insertionTagMatcher.test(line)) {
-//       return insertionDispatcher(insertionTagMatcher.tail(line));
-//     }
-//     return Promise.resolve(line);
-//   };
-// };
-
-// export const createIncludioProcessor1 = (
-//   options?: Partial<TIncludioOptions>
-// ): TFileProcessor<TFileLineContext> => {
-//   const opts = {...DEFAULT_INCLUDIO_OPTIONS, ...options};
-//   log('CREATE includio processor');
-//   return createAsyncLineMachine(createIncludioLineCallback1(opts));
-// };
-
-const createTestIncludioLineCallback = (
+const makeIncludioProcessor = (
+  includioCallbacks: TIncludioCallbacks,
   options: TIncludioOptions
-): TAsyncLineCallback => {
+): TFileProcessor<TFileLineContext> => {
   const insertionTagMatcher = createFirstMatcher(options.tagInsert);
-  const insertionDispatcher = createInsertionDispatcher(options);
-  log(`CREATE testIncludioCallback for tag [${options.tagInsert}] `);
-
-  return async (
+  const callback: TAsyncLineCallback = async (
     line: string,
     lineNumber: number,
     fileLineInfo?: string
   ): Promise<string | null> => {
     if (insertionTagMatcher.test(line)) {
       try {
-        await insertionDispatcher(insertionTagMatcher.tail(line));
+        return await includioCallbacks.directiveLine(
+          insertionTagMatcher.tail(line),
+          fileLineInfo
+        );
       } catch (e) {
-        const flinfoStr = fileLineInfo || '';
-        return `"${flinfoStr}" ; ${(e as Error).message}`;
+        return includioCallbacks.errorHandler(e as Error, fileLineInfo);
       }
     }
+    return includioCallbacks.normalLine(line, fileLineInfo);
+  };
+
+  log('make Includio processor');
+  return createAsyncLineMachine(callback);
+};
+
+const createDispatchDirectiveLineCB = (options: TIncludioOptions) => {
+  const insertionDispatcher = createInsertionDispatcher(options);
+  return async (line: string): Promise<string | null> => {
+    return await insertionDispatcher(line);
+  };
+};
+
+const identityLineCB = async (line: string) => line;
+
+const raiseErrorHandlerCB = (err: Error) => {
+  throw err;
+};
+
+export const createIncludioProcessor = (
+  options?: Partial<TIncludioOptions>
+): TFileProcessor<TFileLineContext> => {
+  const opts: TIncludioOptions = {...DEFAULT_INCLUDIO_OPTIONS, ...options};
+  log('CREATE Includio processor');
+  return makeIncludioProcessor(
+    {
+      directiveLine: createDispatchDirectiveLineCB(opts),
+      normalLine: identityLineCB,
+      errorHandler: raiseErrorHandlerCB,
+    },
+    opts
+  );
+};
+
+// ----------------
+
+const nullLineCB = async () => null;
+
+const printErrorHandlerCB = (err: Error, fileLineInfo?: string) => {
+  const flinfoStr = fileLineInfo || '';
+  return `"${flinfoStr}" ; ${err.message}`;
+};
+
+const createSilentDispatchDirectiveLineCB = (options: TIncludioOptions) => {
+  const insertionDispatcher = createInsertionDispatcher(options);
+  return async (line: string): Promise<string | null> => {
+    await insertionDispatcher(line);
     return null;
   };
 };
@@ -120,7 +105,14 @@ const createTestIncludioLineCallback = (
 export const createTestIncludioProcessor = (
   options?: Partial<TIncludioOptions>
 ): TFileProcessor<TFileLineContext> => {
-  const opts = {...DEFAULT_INCLUDIO_OPTIONS, ...options};
+  const opts: TIncludioOptions = {...DEFAULT_INCLUDIO_OPTIONS, ...options};
   log('CREATE testIncludio processor');
-  return createAsyncLineMachine(createTestIncludioLineCallback(opts));
+  return makeIncludioProcessor(
+    {
+      directiveLine: createSilentDispatchDirectiveLineCB(opts),
+      normalLine: nullLineCB,
+      errorHandler: printErrorHandlerCB,
+    },
+    opts
+  );
 };

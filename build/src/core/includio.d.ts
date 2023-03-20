@@ -9,8 +9,5 @@ import { TFileLineContext, TFileProcessor } from 'line-transform-machines';
 import { DEFAULT_INCLUDIO_OPTIONS } from './common';
 import type { TIncludioOptions } from './common';
 export { DEFAULT_INCLUDIO_OPTIONS };
-type TIncludioCallbacks = {
-    directiveLine: (line: string) => Promise<string | null>;
-};
-export declare const createIncludioProcessor: (options?: Partial<TIncludioOptions>, callbacks?: Partial<TIncludioCallbacks>) => TFileProcessor<TFileLineContext>;
+export declare const createIncludioProcessor: (options?: Partial<TIncludioOptions>) => TFileProcessor<TFileLineContext>;
 export declare const createTestIncludioProcessor: (options?: Partial<TIncludioOptions>) => TFileProcessor<TFileLineContext>;

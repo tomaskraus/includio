@@ -33,7 +33,7 @@ const mStream = __importStar(require("memory-streams"));
 let output;
 beforeEach(() => {
     (0, mock_fs_1.default)({
-        'error-file.txt': 'Hello, \n@@ nonexistent.txt \nWorld!\n@@ source1.txt : p1',
+        'error-file.txt': 'Hello, \n@@ nonexistent.txt \nWorld!\n@@ source1.txt : p1 \n@@ source1.txt',
         'source1.txt': 'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext',
     });
     mock_fs_1.default.file();
