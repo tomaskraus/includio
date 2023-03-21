@@ -18,7 +18,7 @@ const log = appLog.extend('CLI');
 program
   .name('includio')
   .description(
-    'Creates the result by replacing every directive in the input template with the content of the resourceFile mentioned in that directive.'
+    'Creates the result output by replacing every directive in the input template with the content of the resourceFile (or its part) mentioned in that directive.'
   )
   .version(process.env.npm_package_version || '-')
   .option(

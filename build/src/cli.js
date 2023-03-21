@@ -11,7 +11,7 @@ const node_process_1 = require("node:process");
 const log = common_1.appLog.extend('CLI');
 commander_1.program
     .name('includio')
-    .description('Creates the result by replacing every directive in the input template with the content of the resourceFile mentioned in that directive.')
+    .description('Creates the result output by replacing every directive in the input template with the content of the resourceFile (or its part) mentioned in that directive.')
     .version(process.env.npm_package_version || '-')
     .option('-i --inputFile <string>', 'The input template' + '\nIf not specified, standard input will be used.')
     .option('-o --outputFile <string>', 'A result file.' +

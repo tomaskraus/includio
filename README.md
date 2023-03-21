@@ -151,8 +151,8 @@ The source of this example can be found at [examples/example_2/](examples/exampl
 ```
 Usage: includio [options]
 
-Creates the result by replacing every directive in the input template with the
-content of the resourceFile mentioned in that directive.
+Creates the result output by replacing every directive in the input template
+with the content of the resourceFile (or its part) mentioned in that directive.
 
 Options:
   -V, --version              output the version number
