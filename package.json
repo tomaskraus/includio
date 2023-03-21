@@ -58,7 +58,7 @@
     "@types/readline-transform": "^1.0.1",
     "commander": "^10.0.0",
     "debug": "^4.3.4",
-    "line-transform-machines": "github:tomaskraus/line-transform-machines",
+    "line-transform-machines": "^1.0.0",
     "readline-transform": "^1.0.0",
     "rxjs": "^7.8.0",
     "split-if": "^1.0.3"
