@@ -27,9 +27,7 @@ export const createPartMapProvider = (
   ): Promise<Map<string, string[]>> => {
     log(`creating part map from [${partsFileName}]`);
     const commentStr = commentTagProvider(partsFileName);
-    const commentTagRegex = new RegExp(
-      `^\\s*${commentStr}${partChar}\\s*(.*)$`
-    );
+    const markRegex = new RegExp(`^\\s*${commentStr}${partChar}\\s*(.*)$`);
 
     const lines = await fileContentProvider(partsFileName);
     const parts = new Map<string, string[]>();
@@ -39,13 +37,14 @@ export const createPartMapProvider = (
           // preserve line number
           map((s, i) => ({value: s, lineNumber: i + 1})),
           // split the lines by their part tags
-          splitIf(s => commentTagRegex.test(s.value)),
+          splitIf(s => markRegex.test(s.value)),
           // create a part record
           map(nLines => {
             const startLineNumber = nLines[0].lineNumber;
-            const matches: string[] = nLines[0].value.match(
-              commentTagRegex
-            ) || ['', ''];
+            const matches: string[] = nLines[0].value.match(markRegex) || [
+              '',
+              '',
+            ];
             const name = matches[1].trim();
             if (name.length > 0 && !partNameMatcher.test(name)) {
               throw new Error(

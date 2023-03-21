@@ -31,13 +31,13 @@ export const createInsertionDispatcher = (options: TIncludioOptions) => {
 
   const pipeSeparatorMatcher = createSeparatorMatcher('\\|');
 
-  return async (tagContent: string): Promise<string> => {
-    log(`call on [${tagContent}]`);
-    if (tagContent.trim().length === 0) {
-      return Promise.reject(new Error('empty tag not allowed!'));
+  return async (directiveContent: string): Promise<string> => {
+    log(`call on [${directiveContent}]`);
+    if (directiveContent.trim().length === 0) {
+      return Promise.reject(new Error('empty directive not allowed!'));
     }
     const [contentSelector, commands] =
-      pipeSeparatorMatcher.headTail(tagContent);
+      pipeSeparatorMatcher.headTail(directiveContent);
     const input = await getLines(contentSelector);
     const result = lineDispatcher(input, commands);
     return result.join('\n');

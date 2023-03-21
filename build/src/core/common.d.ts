@@ -13,7 +13,7 @@ export type TIncludioOptions = {
     /**
      * A string which represents a tag for insert "file or its part"
      */
-    tagInsert: string;
+    directiveTag: string;
     /**
      * A directory where to look for files for insertion
      */

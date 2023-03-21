@@ -34,16 +34,16 @@ const makeIncludioProcessor = (
   includioCallbacks: TIncludioCallbacks,
   options: TIncludioOptions
 ): TFileProcessor<TFileLineContext> => {
-  const insertionTagMatcher = createFirstMatcher(options.tagInsert);
+  const directiveMatcher = createFirstMatcher(options.directiveTag);
   const callback: TAsyncLineCallback = async (
     line: string,
     lineNumber: number,
     fileLineInfo?: string
   ): Promise<string | null> => {
-    if (insertionTagMatcher.test(line)) {
+    if (directiveMatcher.test(line)) {
       try {
         return await includioCallbacks.directiveLine(
-          insertionTagMatcher.tail(line),
+          directiveMatcher.tail(line),
           fileLineInfo
         );
       } catch (e) {

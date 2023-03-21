@@ -15,11 +15,11 @@ Object.defineProperty(exports, "DEFAULT_INCLUDIO_OPTIONS", { enumerable: true, g
 const first_matcher_1 = require("../utils/first_matcher");
 const log = common_1.appLog.extend('processor');
 const makeIncludioProcessor = (includioCallbacks, options) => {
-    const insertionTagMatcher = (0, first_matcher_1.createFirstMatcher)(options.tagInsert);
+    const directiveMatcher = (0, first_matcher_1.createFirstMatcher)(options.directiveTag);
     const callback = async (line, lineNumber, fileLineInfo) => {
-        if (insertionTagMatcher.test(line)) {
+        if (directiveMatcher.test(line)) {
             try {
-                return await includioCallbacks.directiveLine(insertionTagMatcher.tail(line), fileLineInfo);
+                return await includioCallbacks.directiveLine(directiveMatcher.tail(line), fileLineInfo);
             }
             catch (e) {
                 return includioCallbacks.errorHandler(e, fileLineInfo);

@@ -57,7 +57,7 @@ describe('error handling', () => {
     }
   });
 
-  test('Empty tag: Include line value, file name & line number and Error message', async () => {
+  test('Empty directive: Include line value, file name & line number and Error message', async () => {
     expect.assertions(6);
     const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
     try {
@@ -65,7 +65,7 @@ describe('error handling', () => {
     } catch (e) {
       expect(e).toBeInstanceOf(LineMachineError);
       const lerr = e as LineMachineError;
-      expect(lerr.message).toContain('empty tag not allowed');
+      expect(lerr.message).toContain('empty directive not allowed');
       expect(lerr.at).toContain('error-file.txt:2');
       expect(lerr.lineNumber).toEqual(2);
       expect(lerr.inputFileName).toEqual('error-file.txt');

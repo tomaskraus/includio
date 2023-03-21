@@ -21,7 +21,7 @@ const createPartMapProvider = (fileContentProvider, commentTagProvider, partName
     const _getMapFromFile = async (partsFileName) => {
         log(`creating part map from [${partsFileName}]`);
         const commentStr = commentTagProvider(partsFileName);
-        const commentTagRegex = new RegExp(`^\\s*${commentStr}${partChar}\\s*(.*)$`);
+        const markRegex = new RegExp(`^\\s*${commentStr}${partChar}\\s*(.*)$`);
         const lines = await fileContentProvider(partsFileName);
         const parts = new Map();
         return new Promise((resolve, reject) => {
@@ -30,11 +30,14 @@ const createPartMapProvider = (fileContentProvider, commentTagProvider, partName
             // preserve line number
             (0, rxjs_1.map)((s, i) => ({ value: s, lineNumber: i + 1 })), 
             // split the lines by their part tags
-            (0, split_if_1.splitIf)(s => commentTagRegex.test(s.value)), 
+            (0, split_if_1.splitIf)(s => markRegex.test(s.value)), 
             // create a part record
             (0, rxjs_1.map)(nLines => {
                 const startLineNumber = nLines[0].lineNumber;
-                const matches = nLines[0].value.match(commentTagRegex) || ['', ''];
+                const matches = nLines[0].value.match(markRegex) || [
+                    '',
+                    '',
+                ];
                 const name = matches[1].trim();
                 if (name.length > 0 && !partNameMatcher.test(name)) {
                     throw new Error(`Create part from ("${(0, common_1.getFileLineInfoStr)(partsFileName, startLineNumber)}"): invalid value: (${name})`);

@@ -21,12 +21,12 @@ const createInsertionDispatcher = (options) => {
     const getLines = createGetLines(options, common_1.PART_NAME_REGEXP);
     const lineDispatcher = (0, line_dispatcher_1.createLineDispatcher)(common_1.COMMAND_NAME_REGEXP);
     const pipeSeparatorMatcher = (0, separator_matcher_1.createSeparatorMatcher)('\\|');
-    return async (tagContent) => {
-        log(`call on [${tagContent}]`);
-        if (tagContent.trim().length === 0) {
-            return Promise.reject(new Error('empty tag not allowed!'));
+    return async (directiveContent) => {
+        log(`call on [${directiveContent}]`);
+        if (directiveContent.trim().length === 0) {
+            return Promise.reject(new Error('empty directive not allowed!'));
         }
-        const [contentSelector, commands] = pipeSeparatorMatcher.headTail(tagContent);
+        const [contentSelector, commands] = pipeSeparatorMatcher.headTail(directiveContent);
         const input = await getLines(contentSelector);
         const result = lineDispatcher(input, commands);
         return result.join('\n');
