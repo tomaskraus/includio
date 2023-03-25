@@ -5,13 +5,18 @@
 echo 'generating CLI help...'
 node ./bin/cli.js --help > "examples/assets/help.txt"
 
-echo 'generating example 1...'
-cd examples/example_1
+echo 'generating example first...'
+cd examples/example_first
 . run.sh
 cd ../../
 
-echo 'generating example 2...'
-cd examples/example_2
+# echo 'generating example 1...'
+# cd examples/example_1
+# . run.sh
+# cd ../../
+
+echo 'generating example partial...'
+cd examples/example_partial
 . run.sh
 cd ../../
 

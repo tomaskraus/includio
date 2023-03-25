@@ -5,136 +5,137 @@
 a simple yet thoughtful file insertion preprocessor for text-based files. Inserts files (or their parts) to the resulting file.  
 It is great for keeping your documentation up to date.
 
+## Installation
+
+```bash
+$ npm install includio
+```
+
+or
+
+```bash
+$ npm install -g includio
+```
+
+to install `includio` globally
+
 ## General Usage
 
-1. Make a template from your documentation - by adding `@@ ` lines with (at least) a file names you want to include to it.
+1. Make a template from your documentation: simply save your `README.md` file as `README.template.md` and add some **directives**.  
+   Directives are lines which start with `@@ ` and contains (at least) a file name you want to be included in the result.
+
+   README.template.md:
+
+   ```
+   The first example:
+   @@ assets/hello.js
+
+   ```
+
 2. Run `includio` command line app over it.
 
-```
-npx includio -i your.template.md > README.md
-```
+   ```
+   npx includio --i README.template.md > README.md
+   ```
 
-3. Check the result.  
-   In general, those lines starting with `@@ ` will be replaced by the file content (or its part).
+3. Check the result.
+
+   README.md:
+
+   ```
+   The first example:
+   console.log('Hello World!');
+
+
+   ```
+
+   In general, those **directives** will be replaced by the file content (or its part).
 
 ## Features
 
 - **Simple** & easy to use  
   The less features the better.
-- **Do one thing**: include files only  
-  There are full-blown preprocessors already.
+- **Do one thing**: include files only.  
+  If you want more, there are full-blown preprocessors already, such as [preprocess](https://www.npmjs.com/package/preprocess).
 - Extensive **error checks**,  
-   to prevent missing or wrong parts in auto-generated documentation.
+   to prevent missing or invalid parts in auto-generated documentation.
 - **CI** friendly  
   Works well within a **pipeline**.
 - Language **agnostic**  
   Not only for js & markdown.
 
-## Installation
-
-```
-npm install includio
-```
-
-or
-
-```
-npm install -g includio
-```
-
-to install `includio` globally
-
 ## Quick Start
 
-### Example 1: full insertion
+### Partial Insertion
 
-We want the content of the file `middle.txt` to be included in a resulting file `rhymes.txt`:
+We want the `inc` method from `my-lib.js` **resource** file to be included in `api.md`:
 
-1. `middle.txt` content:
+api.md:
 
-```
-Over the hill and far away.
-Mother duck said, “Quack, quack, quack, quack.”
-```
-
-2. Make a template `rhymes.template.txt`, which contains inclusion instruction line.
-
-`rhymes.template.txt`:
-
-```
-Five little ducks went out one day.
-@@ middle.txt
-But only four little ducks came back.
+```md
+## API
 ```
 
-3. Process the template with `includio` app to generate the `rhymes.txt` result:
-
-```sh
-npx includio -i rhymes.template.txt -o rhymes.txt
-```
-
-4. Result (`rhymes.txt`):
-
-```
-Five little ducks went out one day.
-Over the hill and far away.
-Mother duck said, “Quack, quack, quack, quack.”
-But only four little ducks came back.
-```
-
-The source of this example can be found at [examples/example_1/](examples/example_1/)
-
-### Example 2: partial insertion
-
-We want the `inc` method from `my-lib.js` to be included in `api.md`:
-
-1. `my-lib.js` content:
+my-lib.js:
 
 ```js
 const add = x => y => x + y;
 
-//< inc
 const inc = x => {
   return add(1)(x);
 };
-//<
 
-//< inc-example
 console.log(inc(10)); //=> 11
-
-//<
-
 ```
 
-There are two named parts: `inc` and `inc-example`, hidden behind `//<` comments.
+1. first, we shoud do a little edit of `my-lib.js`: add some named **mark** pair, surrounding the `inc` method code. Let's name the starting **mark** "inc".  
+    The "inc" **part** will contain everything between those two **marks**:
 
-2. In a file `api.template.md`, there is a `@@ ` line that contains a 'link' to that `inc` part of `my-lib.js` file.
+   my-lib.js (after edit):
+
+   ```js
+   const add = x => y => x + y;
+   ```
+
+//< inc
+const inc = x => {
+return add(1)(x);
+};
+//<
+
+console.log(inc(10)); //=> 11
+
+````
+
+There are two **marks**: the named one: `//< inc` and an anonymous: `//<`
+ These two **marks** form a **part**, with a name "inc".
+
+2. Create a file `api.template.md` from `api.md`, and add a **directive** which points to the "inc" **part** of the `my-lib.js` **resource** file:
+
+api.template.md:
 
 <!-- prettier-ignore -->
-~~~
+~~~md
 # API
-
-Inc: adds 1 to the argument:
 
 ```js
 @@ my-lib.js : inc
-```
+````
 
-~~~
+    ~~~
 
 3. Process the template with `includio` app to generate the `api.md` result:
 
-```sh
-npx includio -i api.template.md -o api.md
-```
+   ```sh
+   npx includio -i api.template.md -o api.md
+   ```
 
 4. Result (`api.md`):
 
-<!-- prettier-ignore -->
-~~~
-# API
+   <!-- prettier-ignore -->
+   ````md
 
-Inc: adds 1 to the argument:
+# API
 
 ```js
 const inc = x => {
@@ -142,9 +143,26 @@ const inc = x => {
 };
 ```
 
-~~~
+    ````
 
-The source of this example can be found at [examples/example_2/](examples/example_2/)
+### Selector
+
+Every **directive** starts with a `@@ `, followed by a **selector**. The **selector** consists of a **resource** file name (can contain a path), and an optional **part** name.
+
+Example: There is a **directive** with a **selector**, that returns the **content** of "greet" **part** of an `examples/hello.js` **resource** file.
+
+```
+@@ examples/hello.js : greet
+```
+
+The **selector** determines the **content** that will be inserted to the **result** output.
+
+### Commands
+
+#### Notes
+
+- There can be multiple named or anonymous **marks** in a **resource** file.
+- There is no concept of nested **marks**. Every **mark**, either named or anonymous, defines a section of the **resource** file.
 
 ## Command Line Help
 
@@ -168,7 +186,7 @@ Options:
   -l --list                  Lists all directives in the input.
   -h, --help                 display help for command
 
-  Example: 
+  Example:
   includio -i README.template.md -o README.md -r assets
 
 ```

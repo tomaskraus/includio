@@ -6,7 +6,4 @@ const inc = x => {
 };
 //<
 
-//< inc-example
 console.log(inc(10)); //=> 11
-
-//<
