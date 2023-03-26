@@ -152,6 +152,11 @@ console.log(inc(10)); //=> 11
     
     ````
 
+#### Notes
+
+- There can be multiple named or anonymous **marks** in a **resource** file.
+- There is no concept of nested **marks**. Every **mark**, either named or anonymous, defines a section of the **resource** file.
+
 ### Selector
 
 Every **directive** starts with a `@@ `, followed by a **selector**. The **selector** consists of a **resource** file name (can contain a path), and an optional **part** name.
@@ -165,11 +170,6 @@ Example: There is a **directive** with a **selector**, that returns the **conten
 The **selector** determines the **content** that will be inserted to the **result** output.
 
 ### Commands
-
-#### Notes
-
-- There can be multiple named or anonymous **marks** in a **resource** file.
-- There is no concept of nested **marks**. Every **mark**, either named or anonymous, defines a section of the **resource** file.
 
 ## Command Line Help
 
