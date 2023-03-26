@@ -1,2 +1,5 @@
 The first example:
-@@ assets/hello.js
+
+    @@ assets/hello.js
+
+--

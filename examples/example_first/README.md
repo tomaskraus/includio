@@ -1,3 +1,7 @@
 The first example:
-console.log('Hello World!');
 
+    console.log('Hello World!');
+    // Hello
+    
+
+--

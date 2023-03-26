@@ -28,7 +28,10 @@ to install `includio` globally
 
    ```
    The first example:
-   @@ assets/hello.js
+   
+       @@ assets/hello.js
+   
+   --
    
    ```
 
@@ -44,8 +47,12 @@ to install `includio` globally
 
    ```
    The first example:
-   console.log('Hello World!');
    
+       console.log('Hello World!');
+       // Hello
+       
+   
+   --
    
    ```
 
