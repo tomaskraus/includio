@@ -33,3 +33,4 @@ export declare const mergeIncludioOptions: (opts?: Partial<TIncludioOptions>) =>
 export declare const createFileNameResolver: (resourceDir: string) => (fileName: string) => string;
 export declare const parseFileName: (line: string) => string;
 export declare const getFileLineInfoStr: (fileName: string, lineNumber: number) => string;
+export declare const getIndentStr: (s: string) => string;

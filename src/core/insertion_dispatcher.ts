@@ -12,6 +12,7 @@ import {
   TIncludioOptions,
   createFileNameResolver,
   parseFileName,
+  getIndentStr,
 } from './common';
 import {fileContentProvider} from './file_content_provider';
 import {createPartMapProvider} from './part_map_provider';
@@ -29,18 +30,22 @@ export const createInsertionDispatcher = (options: TIncludioOptions) => {
   const getLines = createGetLines(options, PART_NAME_REGEXP);
   const lineDispatcher = createLineDispatcher(COMMAND_NAME_REGEXP);
 
+  const directiveMatcher = createFirstMatcher(options.directiveTag);
   const pipeSeparatorMatcher = createSeparatorMatcher('\\|');
 
-  return async (directiveContent: string): Promise<string> => {
-    log(`call on [${directiveContent}]`);
+  return async (directiveLine: string): Promise<string> => {
+    log(`call on [${directiveLine}]`);
+    const directiveContent = directiveMatcher.tail(directiveLine);
     if (directiveContent.trim().length === 0) {
       return Promise.reject(new Error('empty directive not allowed!'));
     }
+
+    const indentStr = getIndentStr(directiveLine);
     const [contentSelector, commands] =
       pipeSeparatorMatcher.headTail(directiveContent);
     const input = await getLines(contentSelector);
     const result = lineDispatcher(input, commands);
-    return result.join('\n');
+    return result.map(s => indentStr + s).join('\n');
   };
 };
 

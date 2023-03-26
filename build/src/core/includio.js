@@ -19,7 +19,7 @@ const makeIncludioProcessor = (includioCallbacks, options) => {
     const callback = async (line, lineNumber, fileLineInfo) => {
         if (directiveMatcher.test(line)) {
             try {
-                return await includioCallbacks.directiveLine(directiveMatcher.tail(line), fileLineInfo);
+                return await includioCallbacks.directiveLine(line, fileLineInfo);
             }
             catch (e) {
                 return includioCallbacks.errorHandler(e, fileLineInfo);
@@ -31,12 +31,6 @@ const makeIncludioProcessor = (includioCallbacks, options) => {
     return (0, line_transform_machines_1.createAsyncLineMachine)(callback);
 };
 // =====================
-const createDispatchDirectiveLineCB = (options) => {
-    const insertionDispatcher = (0, insertion_dispatcher_1.createInsertionDispatcher)(options);
-    return async (line) => {
-        return await insertionDispatcher(line);
-    };
-};
 const createSilentDispatchDirectiveLineCB = (options) => {
     const insertionDispatcher = (0, insertion_dispatcher_1.createInsertionDispatcher)(options);
     return async (line) => {
@@ -62,7 +56,7 @@ const createIncludioProcessor = (options) => {
     const opts = (0, common_1.mergeIncludioOptions)(options);
     log('CREATE Includio processor');
     return makeIncludioProcessor({
-        directiveLine: createDispatchDirectiveLineCB(opts),
+        directiveLine: (0, insertion_dispatcher_1.createInsertionDispatcher)(opts),
         normalLine: identityLineCB,
         errorHandler: raiseErrorHandlerCB,
     }, opts);

@@ -97,3 +97,13 @@ export const parseFileName = createParseFileName();
 
 export const getFileLineInfoStr = (fileName: string, lineNumber: number) =>
   `${fileName}:${lineNumber}`;
+
+const createGetIndentStr = () => {
+  const indentRegexp = /^(\s+).*$/;
+  return (s: string): string => {
+    const res = s.match(indentRegexp) || ['', ''];
+    return res[1];
+  };
+};
+
+export const getIndentStr = createGetIndentStr();

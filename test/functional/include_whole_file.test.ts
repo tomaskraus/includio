@@ -16,6 +16,7 @@ let output: stream.Writable;
 beforeEach(() => {
   mock({
     'tag-valid-file-name.txt': 'Hello, \n@@ source1.txt \nWorld!\n',
+    'tag-valid-file-name-indented.txt': 'Hello, \n   @@ source1.txt \nWorld!\n',
     // 'tag-valid-file-name-in-single-quotes.txt':
     //   "Hello, \n@@ 'someFile 2.txt' \nWorld!\n",
     'tag-valid-file-path.txt': 'Hello, \n@@ ./source1.txt \nWorld!\n',
@@ -51,6 +52,16 @@ describe('normal ops', () => {
     expect(res.lineNumber).toEqual(4);
     expect(output.toString()).toEqual(
       'Hello, \n-- text insert --\n-- text line2 --\n\nWorld!\n'
+    );
+  });
+
+  test('input with valid file name tag, indented', async () => {
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
+
+    const res = await p('tag-valid-file-name-indented.txt', output);
+    expect(res.lineNumber).toEqual(4);
+    expect(output.toString()).toEqual(
+      'Hello, \n   -- text insert --\n   -- text line2 --\n   \nWorld!\n'
     );
   });
 

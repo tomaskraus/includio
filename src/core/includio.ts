@@ -42,10 +42,7 @@ const makeIncludioProcessor = (
   ): Promise<string | null> => {
     if (directiveMatcher.test(line)) {
       try {
-        return await includioCallbacks.directiveLine(
-          directiveMatcher.tail(line),
-          fileLineInfo
-        );
+        return await includioCallbacks.directiveLine(line, fileLineInfo);
       } catch (e) {
         return includioCallbacks.errorHandler(e as Error, fileLineInfo);
       }
@@ -58,14 +55,6 @@ const makeIncludioProcessor = (
 };
 
 // =====================
-
-const createDispatchDirectiveLineCB = (options: TIncludioOptions) => {
-  const insertionDispatcher = createInsertionDispatcher(options);
-  return async (line: string): Promise<string | null> => {
-    // TODO: add content indentation the same as the @@
-    return await insertionDispatcher(line);
-  };
-};
 
 const createSilentDispatchDirectiveLineCB = (options: TIncludioOptions) => {
   const insertionDispatcher = createInsertionDispatcher(options);
@@ -105,7 +94,7 @@ export const createIncludioProcessor = (
   log('CREATE Includio processor');
   return makeIncludioProcessor(
     {
-      directiveLine: createDispatchDirectiveLineCB(opts),
+      directiveLine: createInsertionDispatcher(opts),
       normalLine: identityLineCB,
       errorHandler: raiseErrorHandlerCB,
     },

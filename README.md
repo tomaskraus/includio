@@ -29,7 +29,7 @@ to install `includio` globally
    ```
    The first example:
    @@ assets/hello.js
-
+   
    ```
 
 2. Run `includio` command line app over it.
@@ -45,8 +45,8 @@ to install `includio` globally
    ```
    The first example:
    console.log('Hello World!');
-
-
+   
+   
    ```
 
    In general, those **directives** will be replaced by the file content (or its part).
@@ -74,6 +74,7 @@ api.md:
 
 ```md
 ## API
+
 ```
 
 my-lib.js:
@@ -86,42 +87,42 @@ const inc = x => {
 };
 
 console.log(inc(10)); //=> 11
+
 ```
 
 1. first, we shoud do a little edit of `my-lib.js`: add some named **mark** pair, surrounding the `inc` method code. Let's name the starting **mark** "inc".  
-    The "inc" **part** will contain everything between those two **marks**:
+   The "inc" **part** will contain everything between those two **marks**:
 
    my-lib.js (after edit):
 
    ```js
    const add = x => y => x + y;
+   
+   //< inc
+   const inc = x => {
+     return add(1)(x);
+   };
+   //<
+   
+   console.log(inc(10)); //=> 11
+   
    ```
 
-//< inc
-const inc = x => {
-return add(1)(x);
-};
-//<
-
-console.log(inc(10)); //=> 11
-
-````
-
-There are two **marks**: the named one: `//< inc` and an anonymous: `//<`
- These two **marks** form a **part**, with a name "inc".
+   There are two **marks**: the named one: `//< inc` and an anonymous: `//<`  
+    These two **marks** form a **part**, with a name "inc".
 
 2. Create a file `api.template.md` from `api.md`, and add a **directive** which points to the "inc" **part** of the `my-lib.js` **resource** file:
 
-api.template.md:
+   api.template.md:
 
-<!-- prettier-ignore -->
-~~~md
-# API
-
-```js
-@@ my-lib.js : inc
-````
-
+   <!-- prettier-ignore -->
+   ~~~md
+    # API
+    
+    ```js
+    @@ my-lib.js : inc
+    ```
+    
     ~~~
 
 3. Process the template with `includio` app to generate the `api.md` result:
@@ -134,15 +135,14 @@ api.template.md:
 
    <!-- prettier-ignore -->
    ````md
-
-# API
-
-```js
-const inc = x => {
-  return add(1)(x);
-};
-```
-
+    # API
+    
+    ```js
+    const inc = x => {
+      return add(1)(x);
+    };
+    ```
+    
     ````
 
 ### Selector
@@ -186,7 +186,7 @@ Options:
   -l --list                  Lists all directives in the input.
   -h, --help                 display help for command
 
-  Example:
+  Example: 
   includio -i README.template.md -o README.md -r assets
 
 ```

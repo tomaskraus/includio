@@ -20,16 +20,19 @@ const createInsertionDispatcher = (options) => {
     log(`CREATE insertionDispatcher. resourceDir: [${options.resourceDir}]`);
     const getLines = createGetLines(options, common_1.PART_NAME_REGEXP);
     const lineDispatcher = (0, line_dispatcher_1.createLineDispatcher)(common_1.COMMAND_NAME_REGEXP);
+    const directiveMatcher = (0, first_matcher_1.createFirstMatcher)(options.directiveTag);
     const pipeSeparatorMatcher = (0, separator_matcher_1.createSeparatorMatcher)('\\|');
-    return async (directiveContent) => {
-        log(`call on [${directiveContent}]`);
+    return async (directiveLine) => {
+        log(`call on [${directiveLine}]`);
+        const directiveContent = directiveMatcher.tail(directiveLine);
         if (directiveContent.trim().length === 0) {
             return Promise.reject(new Error('empty directive not allowed!'));
         }
+        const indentStr = (0, common_1.getIndentStr)(directiveLine);
         const [contentSelector, commands] = pipeSeparatorMatcher.headTail(directiveContent);
         const input = await getLines(contentSelector);
         const result = lineDispatcher(input, commands);
-        return result.join('\n');
+        return result.map(s => indentStr + s).join('\n');
     };
 };
 exports.createInsertionDispatcher = createInsertionDispatcher;

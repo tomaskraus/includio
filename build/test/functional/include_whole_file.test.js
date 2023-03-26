@@ -36,6 +36,7 @@ let output;
 beforeEach(() => {
     (0, mock_fs_1.default)({
         'tag-valid-file-name.txt': 'Hello, \n@@ source1.txt \nWorld!\n',
+        'tag-valid-file-name-indented.txt': 'Hello, \n   @@ source1.txt \nWorld!\n',
         // 'tag-valid-file-name-in-single-quotes.txt':
         //   "Hello, \n@@ 'someFile 2.txt' \nWorld!\n",
         'tag-valid-file-path.txt': 'Hello, \n@@ ./source1.txt \nWorld!\n',
@@ -64,6 +65,12 @@ describe('normal ops', () => {
         const res = await p('tag-valid-file-name.txt', output);
         expect(res.lineNumber).toEqual(4);
         expect(output.toString()).toEqual('Hello, \n-- text insert --\n-- text line2 --\n\nWorld!\n');
+    });
+    test('input with valid file name tag, indented', async () => {
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const res = await p('tag-valid-file-name-indented.txt', output);
+        expect(res.lineNumber).toEqual(4);
+        expect(output.toString()).toEqual('Hello, \n   -- text insert --\n   -- text line2 --\n   \nWorld!\n');
     });
     test('input with valid file name tag, using non-empty resourceDir', async () => {
         const p = (0, includio_1.createIncludioProcessor)({ resourceDir: 'dir-for-insert' });

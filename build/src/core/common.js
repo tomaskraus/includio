@@ -6,7 +6,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getFileLineInfoStr = exports.parseFileName = exports.createFileNameResolver = exports.mergeIncludioOptions = exports.DEFAULT_INCLUDIO_OPTIONS = exports.COMMAND_NAME_REGEXP = exports.PART_NAME_REGEXP = exports.VAR_NAME_REGEXP = exports.appLog = void 0;
+exports.getIndentStr = exports.getFileLineInfoStr = exports.parseFileName = exports.createFileNameResolver = exports.mergeIncludioOptions = exports.DEFAULT_INCLUDIO_OPTIONS = exports.COMMAND_NAME_REGEXP = exports.PART_NAME_REGEXP = exports.VAR_NAME_REGEXP = exports.appLog = void 0;
 const debug_1 = __importDefault(require("debug"));
 const node_path_1 = require("node:path");
 exports.appLog = (0, debug_1.default)('includio');
@@ -66,4 +66,12 @@ const createParseFileName = () => {
 exports.parseFileName = createParseFileName();
 const getFileLineInfoStr = (fileName, lineNumber) => `${fileName}:${lineNumber}`;
 exports.getFileLineInfoStr = getFileLineInfoStr;
+const createGetIndentStr = () => {
+    const indentRegexp = /^(\s+).*$/;
+    return (s) => {
+        const res = s.match(indentRegexp) || ['', ''];
+        return res[1];
+    };
+};
+exports.getIndentStr = createGetIndentStr();
 //# sourceMappingURL=common.js.map
