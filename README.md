@@ -22,7 +22,7 @@ to install `includio` globally
 ## General Usage
 
 1. Make a template from your documentation: simply save your `README.md` file as `README.template.md` and add some **directives**.  
-   Directives are lines which start with `@@ ` and contains (at least) a file name you want to be included in the result.
+   Directives are lines which start with `@@ ` directive mark and contains (at least) a file name you want to be included in the result.
 
    README.template.md:
 
