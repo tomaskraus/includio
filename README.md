@@ -21,8 +21,18 @@ to install `includio` globally
 
 ## General Usage
 
+**Example:** We want to "link" the content of `/assets/hello.js` file to our `README.md` documentation, so that whenever that `hello.js` changes, we can update the `README.md` documentation very easily by running `includio` app.
+
+assets/hello.ts:
+
+```
+console.log('Hello World!');
+// Hello
+
+```
+
 1. Make a template from your documentation: simply save your `README.md` file as `README.template.md` and add some **directives**.  
-   Directives are lines which start with `@@ ` directive mark and contains (at least) a file name you want to be included in the result.
+   Directives are lines which start with `@@` directive mark and contains (at least) a file name you want to be included in the result.
 
    README.template.md:
 
@@ -35,7 +45,7 @@ to install `includio` globally
    
    ```
 
-2. Run `includio` command line app over it.
+2. Run `includio` command line app over the template to update the `README.md` file.
 
    ```
    npx includio --i README.template.md > README.md
@@ -56,7 +66,10 @@ to install `includio` globally
    
    ```
 
-   In general, those **directives** will be replaced by the file content (or its part).
+You see, that in the resulting `README.md` file:
+
+1. The directive from the `README.template.md` was replaced by the content of `assets/hello.ts` file.
+2. The content of the `assets/hello.ts` file inserted is aligned in the same way as the directive in `README.template.md`.
 
 ## Features
 
