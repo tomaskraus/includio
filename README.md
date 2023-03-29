@@ -48,7 +48,7 @@ console.log('Hello World!');
 2. Run `includio` command line app over the template to update the `README.md` file.
 
    ```
-   npx includio --i README.template.md > README.md
+   npx includio -i README.template.md > README.md
    ```
 
 3. Check the result.
