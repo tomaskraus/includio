@@ -54,7 +54,7 @@ export const DEFAULT_INCLUDIO_OPTIONS: TIncludioOptions = {
     ['swift', '//', ''],
     ['go', '//', ''],
     ['html', '<!--', '-->'],
-    ['md', '<!---', '--->'],
+    ['md', '<!--', '-->'], // intentionally: not a tripe dash. We want that comment to be included in the resulting html.
     ['css', '/*', '*/'],
     ['php', '//', ''],
     ['py', '#', ''],
