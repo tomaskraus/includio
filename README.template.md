@@ -131,15 +131,40 @@ my-lib.js:
 
 Every **directive** starts with a `@@ `, followed by a **selector**. The **selector** consists of a **resource** file name (can contain a path), and an optional **part** name.
 
-Example: There is a **directive** with a **selector**, that returns the **content** of "greet" **part** of an `examples/hello.js` **resource** file.
+**Example:**
 
 ```
-@@ examples/selector-example.txt
+@@ examples/directive-examples.md : selector
 ```
+
+This is a **directive** with a **selector**, that returns the **content** of the "greet" **part** of an `examples/hello.js` **resource** file.
 
 The **selector** determines the **content** that will be inserted to the **result** output.
 
 ### Commands
+
+The **command** is an optional part of a directive, that further manipulates the content to be inserted. The command is separated by a "|" (pipe) character from the **selector**. The command can have parameters, separated by a comma (,).
+
+**Example:**
+
+```
+@@ examples/directive-examples.md : one-command
+```
+
+This is a **directive** with a **selector**, that returns the **content** of the "greet" **part** of an `examples/hello.js` **resource** file.  
+Only the first 2 lines of the "greet" **part** will be inserted.
+
+#### Command Chain
+
+In one directive, multiple commands can be chained via the pipe operator (|). In that pipeline, the current command will send its result to the next one.
+
+**Example:**
+
+```
+@@ examples/directive-examples.md : command-pipeline
+```
+
+This is a **directive** returns the last but one line of the "greet" **part** of an `examples/hello.js` file.
 
 ## Command Line Help
 
