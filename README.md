@@ -2,7 +2,7 @@
 
 # includio
 
-a simple yet thoughtful file insertion preprocessor for text-based files. Inserts files (or their parts) to the resulting file.  
+A simple yet thoughtful file insertion preprocessor for text-based files. Inserts files (or their parts) to the resulting file.  
 It is great for keeping your documentation up to date.
 
 ## Installation
