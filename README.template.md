@@ -219,11 +219,3 @@ There are two named parts:
   include the first 3 lines of the `code.js` file content.
 - `@@ code.js : example-1 | first 3`  
   include the first 3 lines of `example-1` part of the `code.js` file content.
-
-### Command
-
-### List of commands
-
-#### first
-
-#### last
