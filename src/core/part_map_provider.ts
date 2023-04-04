@@ -14,7 +14,8 @@ const log = appLog.extend('partMapProvider');
 
 export const createPartMapProvider = (
   fileContentProvider: (filename: string) => Promise<string[]>,
-  commentTagProvider: (filename: string) => string,
+  startCommentTagGetter: (filename: string) => string,
+  endCommentTagGetter: (filename: string) => string,
   partNameRegexp: RegExp
   // partChar: string
 ) => {
@@ -26,8 +27,9 @@ export const createPartMapProvider = (
     partsFileName: string
   ): Promise<Map<string, string[]>> => {
     log(`creating part map from [${partsFileName}]`);
-    const commentStr = commentTagProvider(partsFileName);
-    const markRegex = new RegExp(`^\\s*${commentStr}${partChar}\\s*(.*)$`);
+    const startCommentStr = startCommentTagGetter(partsFileName);
+    const endCommentStr = endCommentTagGetter(partsFileName);
+    const markRegex = new RegExp(`^\\s*${startCommentStr}${partChar}\\s*(.*)$`);
 
     const lines = await fileContentProvider(partsFileName);
     const parts = new Map<string, string[]>();
@@ -45,17 +47,21 @@ export const createPartMapProvider = (
               '',
               '',
             ];
-            const name = matches[1].trim();
-            if (name.length > 0 && !partNameMatcher.test(name)) {
+            let partName = matches[1].trim();
+            if (partName.length > 0 && partName === endCommentStr) {
+              // if a non empty end commment mark is right after the start comment mark, treat that as an anonymous part
+              partName = '';
+            }
+            if (partName.length > 0 && !partNameMatcher.test(partName)) {
               throw new Error(
                 `Create part from ("${getFileLineInfoStr(
                   partsFileName,
                   startLineNumber
-                )}"): invalid value: (${name})`
+                )}"): invalid value: (${partName})`
               );
             }
             return {
-              name: partNameMatcher.head(name),
+              name: partNameMatcher.head(partName),
               value: nLines.slice(1).map(ln => ln.value),
               startLineNumber,
             };

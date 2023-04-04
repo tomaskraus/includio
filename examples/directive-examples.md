@@ -10,4 +10,4 @@
 
 @@ examples/hello.js : greet | last 2 | first 1
 
-<!--< end -->
+<!--< -->

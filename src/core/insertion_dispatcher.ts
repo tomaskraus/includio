@@ -52,9 +52,12 @@ export const createInsertionDispatcher = (options: TIncludioOptions) => {
 //---------------------------------------------------------------------------------------
 
 const createGetLines = (options: TIncludioOptions, partNameRegexp: RegExp) => {
+  const commentManager = createCommentManager(options);
+
   const partMapProvider = createPartMapProvider(
     fileContentProvider,
-    createCommentManager(options).startTag,
+    commentManager.startTag,
+    commentManager.endTag,
     partNameRegexp
   );
   const partContentProvider = createPartContentProvider(

@@ -14,6 +14,8 @@ let output: stream.Writable;
 beforeEach(() => {
   mock({
     'part-valid-exists.txt': 'Hello, \n@@ source1.txt : part-1 \nWorld!\n',
+    'part-valid-exists-html.txt':
+      'Hello, \n@@ source1.html : part-1 \nWorld!\n',
     'part-valid-exists-empty-content.txt':
       'Hello, \n@@ source-empty-content-part.txt : part1 \nWorld!\n',
     'part-empty.txt': 'Hello, \n@@ source1.txt :  \nWorld!\n',
@@ -41,6 +43,8 @@ beforeEach(() => {
       'Hello, \n@@ nonexistentfile.txt : part1 \nWorld!',
 
     'source1.txt': 'text1 \n //< part-1 \n m1 line1 \nm1 line2\n//< \ntext2',
+    'source1.html':
+      'text1 \n <!--< part-1 --> \n m1 line1 \nm1 line2\n<!--< -->\ntext2',
     'source1-text-after-part-name.txt':
       'text1 \n //< part1 text> \n m1 line1 \nm1 line2\n//< \ntext2',
     'source 1.txt': 'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2',
@@ -71,6 +75,16 @@ describe('normal ops', () => {
     const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
 
     const res = await p('part-valid-exists.txt', output);
+    expect(res.lineNumber).toEqual(4);
+    expect(output.toString()).toEqual(
+      'Hello, \n m1 line1 \nm1 line2\nWorld!\n'
+    );
+  });
+
+  test('valid existent part name - resource with pair marks', async () => {
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
+
+    const res = await p('part-valid-exists-html.txt', output);
     expect(res.lineNumber).toEqual(4);
     expect(output.toString()).toEqual(
       'Hello, \n m1 line1 \nm1 line2\nWorld!\n'

@@ -38,7 +38,8 @@ const createInsertionDispatcher = (options) => {
 exports.createInsertionDispatcher = createInsertionDispatcher;
 //---------------------------------------------------------------------------------------
 const createGetLines = (options, partNameRegexp) => {
-    const partMapProvider = (0, part_map_provider_1.createPartMapProvider)(file_content_provider_1.fileContentProvider, (0, comment_manager_1.createCommentManager)(options).startTag, partNameRegexp);
+    const commentManager = (0, comment_manager_1.createCommentManager)(options);
+    const partMapProvider = (0, part_map_provider_1.createPartMapProvider)(file_content_provider_1.fileContentProvider, commentManager.startTag, commentManager.endTag, partNameRegexp);
     const partContentProvider = (0, part_content_provider_1.createPartContentProvider)(partMapProvider, partNameRegexp);
     const fileNameResolver = (0, common_1.createFileNameResolver)(options.resourceDir);
     /**

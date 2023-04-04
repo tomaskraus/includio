@@ -34,6 +34,7 @@ let output;
 beforeEach(() => {
     (0, mock_fs_1.default)({
         'part-valid-exists.txt': 'Hello, \n@@ source1.txt : part-1 \nWorld!\n',
+        'part-valid-exists-html.txt': 'Hello, \n@@ source1.html : part-1 \nWorld!\n',
         'part-valid-exists-empty-content.txt': 'Hello, \n@@ source-empty-content-part.txt : part1 \nWorld!\n',
         'part-empty.txt': 'Hello, \n@@ source1.txt :  \nWorld!\n',
         'part-more-text-after-partname.txt': 'Hello, \n@@ source1.txt : part-1 some text >> \nWorld!\n',
@@ -48,6 +49,7 @@ beforeEach(() => {
         'part-valid-source-part-duplicit.txt': 'Hello, \na second\n@@ source-duplicit-part-name.txt : p2 \nWorld!',
         'tag-nonexistent-file-name.txt': 'Hello, \n@@ nonexistentfile.txt : part1 \nWorld!',
         'source1.txt': 'text1 \n //< part-1 \n m1 line1 \nm1 line2\n//< \ntext2',
+        'source1.html': 'text1 \n <!--< part-1 --> \n m1 line1 \nm1 line2\n<!--< -->\ntext2',
         'source1-text-after-part-name.txt': 'text1 \n //< part1 text> \n m1 line1 \nm1 line2\n//< \ntext2',
         'source 1.txt': 'text1 \n //< part1 \n m1 line1 \nm1 line2\n//< \ntext2',
         'source-empty-content-part.txt': 'text1 \n //< part1\n//< \ntext2 \n //< part2 \n m1 line1 \nm1 line2\n//< ',
@@ -69,6 +71,12 @@ describe('normal ops', () => {
     test('valid existent part name', async () => {
         const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
         const res = await p('part-valid-exists.txt', output);
+        expect(res.lineNumber).toEqual(4);
+        expect(output.toString()).toEqual('Hello, \n m1 line1 \nm1 line2\nWorld!\n');
+    });
+    test('valid existent part name - resource with pair marks', async () => {
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const res = await p('part-valid-exists-html.txt', output);
         expect(res.lineNumber).toEqual(4);
         expect(output.toString()).toEqual('Hello, \n m1 line1 \nm1 line2\nWorld!\n');
     });

@@ -3,4 +3,4 @@
  *
  * for a file, extract its parts contents to a map
  */
-export declare const createPartMapProvider: (fileContentProvider: (filename: string) => Promise<string[]>, commentTagProvider: (filename: string) => string, partNameRegexp: RegExp) => (value: string) => Promise<Map<string, string[]>>;
+export declare const createPartMapProvider: (fileContentProvider: (filename: string) => Promise<string[]>, startCommentTagGetter: (filename: string) => string, endCommentTagGetter: (filename: string) => string, partNameRegexp: RegExp) => (value: string) => Promise<Map<string, string[]>>;
