@@ -1,8 +1,13 @@
 /**
- * InsertionDispatcher
+ * DirectiveDispatcher
  *
- * gets an input line,
- * returns a string content that depends on a command on that input line
+ * Gets an input line,
+ *   returns a string content that depends on a directive on that input line.
+ *
+ * Directive's BNF:
+ *   <directive> ::= "@@" <selector> | "@@" <selector> "|" <commands>
+ *   <selector> ::= <file-name> | <file-name> ":" <part-name>
+ *   <commands> ::= <command> | <commands> "|" <command>
  */
 
 import {
@@ -18,17 +23,17 @@ import {fileContentProvider} from './file_content_provider';
 import {createPartMapProvider} from './part_map_provider';
 import {createPartContentProvider} from './part_content_provider';
 import {createCommentManager} from './comment_manager';
-import {createLineDispatcher} from './line_dispatcher';
+import {createDirectiveProcessor} from './directive_processor';
 import {createSeparatorMatcher} from '../utils/separator_matcher';
 import {createFirstMatcher} from '../utils/first_matcher';
 
 const log = appLog.extend('insertionDispatcher');
 
-export const createInsertionDispatcher = (options: TIncludioOptions) => {
+export const createDirectiveDispatcher = (options: TIncludioOptions) => {
   log(`CREATE insertionDispatcher. resourceDir: [${options.resourceDir}]`);
 
-  const getLines = createGetLines(options, PART_NAME_REGEXP);
-  const lineDispatcher = createLineDispatcher(COMMAND_NAME_REGEXP);
+  const getContent = createGetContent(options, PART_NAME_REGEXP);
+  const directiveProcessor = createDirectiveProcessor(COMMAND_NAME_REGEXP);
 
   const directiveMatcher = createFirstMatcher(options.directiveTag);
   const pipeSeparatorMatcher = createSeparatorMatcher('\\|');
@@ -43,15 +48,18 @@ export const createInsertionDispatcher = (options: TIncludioOptions) => {
     const indentStr = getIndentStr(directiveLine);
     const [contentSelector, commands] =
       pipeSeparatorMatcher.headTail(directiveContent);
-    const input = await getLines(contentSelector);
-    const result = lineDispatcher(input, commands);
+    const inputLines = await getContent(contentSelector);
+    const result = directiveProcessor(inputLines, commands);
     return result.map(s => indentStr + s).join('\n');
   };
 };
 
 //---------------------------------------------------------------------------------------
 
-const createGetLines = (options: TIncludioOptions, partNameRegexp: RegExp) => {
+const createGetContent = (
+  options: TIncludioOptions,
+  partNameRegexp: RegExp
+) => {
   const commentManager = createCommentManager(options);
 
   const partMapProvider = createPartMapProvider(
@@ -67,8 +75,8 @@ const createGetLines = (options: TIncludioOptions, partNameRegexp: RegExp) => {
   const fileNameResolver = createFileNameResolver(options.resourceDir);
 
   /**
-   * contentSelector consists of:
-   *   fileName : part
+   * contentSelector (a.k.a selector):
+   *   BNF: <selector> ::= <file-name> | <file-name> ":" <part-name>
    */
   return async (contentSelector: string): Promise<string[]> => {
     const tokens = contentSelector.split(':');

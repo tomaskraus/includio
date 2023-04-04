@@ -1,25 +1,30 @@
 "use strict";
 /**
- * InsertionDispatcher
+ * DirectiveDispatcher
  *
- * gets an input line,
- * returns a string content that depends on a command on that input line
+ * Gets an input line,
+ *   returns a string content that depends on a directive on that input line.
+ *
+ * Directive's BNF:
+ *   <directive> ::= "@@" <selector> | "@@" <selector> "|" <commands>
+ *   <selector> ::= <file-name> | <file-name> ":" <part-name>
+ *   <commands> ::= <command> | <commands> "|" <command>
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createInsertionDispatcher = void 0;
+exports.createDirectiveDispatcher = void 0;
 const common_1 = require("./common");
 const file_content_provider_1 = require("./file_content_provider");
 const part_map_provider_1 = require("./part_map_provider");
 const part_content_provider_1 = require("./part_content_provider");
 const comment_manager_1 = require("./comment_manager");
-const line_dispatcher_1 = require("./line_dispatcher");
+const directive_processor_1 = require("./directive_processor");
 const separator_matcher_1 = require("../utils/separator_matcher");
 const first_matcher_1 = require("../utils/first_matcher");
 const log = common_1.appLog.extend('insertionDispatcher');
-const createInsertionDispatcher = (options) => {
+const createDirectiveDispatcher = (options) => {
     log(`CREATE insertionDispatcher. resourceDir: [${options.resourceDir}]`);
-    const getLines = createGetLines(options, common_1.PART_NAME_REGEXP);
-    const lineDispatcher = (0, line_dispatcher_1.createLineDispatcher)(common_1.COMMAND_NAME_REGEXP);
+    const getContent = createGetContent(options, common_1.PART_NAME_REGEXP);
+    const directiveProcessor = (0, directive_processor_1.createDirectiveProcessor)(common_1.COMMAND_NAME_REGEXP);
     const directiveMatcher = (0, first_matcher_1.createFirstMatcher)(options.directiveTag);
     const pipeSeparatorMatcher = (0, separator_matcher_1.createSeparatorMatcher)('\\|');
     return async (directiveLine) => {
@@ -30,21 +35,21 @@ const createInsertionDispatcher = (options) => {
         }
         const indentStr = (0, common_1.getIndentStr)(directiveLine);
         const [contentSelector, commands] = pipeSeparatorMatcher.headTail(directiveContent);
-        const input = await getLines(contentSelector);
-        const result = lineDispatcher(input, commands);
+        const inputLines = await getContent(contentSelector);
+        const result = directiveProcessor(inputLines, commands);
         return result.map(s => indentStr + s).join('\n');
     };
 };
-exports.createInsertionDispatcher = createInsertionDispatcher;
+exports.createDirectiveDispatcher = createDirectiveDispatcher;
 //---------------------------------------------------------------------------------------
-const createGetLines = (options, partNameRegexp) => {
+const createGetContent = (options, partNameRegexp) => {
     const commentManager = (0, comment_manager_1.createCommentManager)(options);
     const partMapProvider = (0, part_map_provider_1.createPartMapProvider)(file_content_provider_1.fileContentProvider, commentManager.startTag, commentManager.endTag, partNameRegexp);
     const partContentProvider = (0, part_content_provider_1.createPartContentProvider)(partMapProvider, partNameRegexp);
     const fileNameResolver = (0, common_1.createFileNameResolver)(options.resourceDir);
     /**
-     * contentSelector consists of:
-     *   fileName : part
+     * contentSelector (a.k.a selector):
+     *   BNF: <selector> ::= <file-name> | <file-name> ":" <part-name>
      */
     return async (contentSelector) => {
         const tokens = contentSelector.split(':');
@@ -63,4 +68,4 @@ const createGetLines = (options, partNameRegexp) => {
         throw new Error(`Only one part allowed: (${contentSelector})`);
     };
 };
-//# sourceMappingURL=insertion_dispatcher.js.map
+//# sourceMappingURL=directive_dispatcher.js.map

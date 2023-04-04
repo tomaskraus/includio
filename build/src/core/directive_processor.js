@@ -3,13 +3,13 @@
  * processes insertion tag content
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createLineDispatcher = void 0;
+exports.createDirectiveProcessor = void 0;
 const common_1 = require("./common");
 const first_matcher_1 = require("../utils/first_matcher");
 const commands_1 = require("./commands");
 const separator_matcher_1 = require("../utils/separator_matcher");
 const log = common_1.appLog.extend('lineDispatcher');
-const createLineDispatcher = (cmdNameRegexp) => {
+const createDirectiveProcessor = (cmdNameRegexp) => {
     log('CREATE lineDispatcher');
     const pipeSeparatorMatcher = (0, separator_matcher_1.createSeparatorMatcher)('\\|');
     const cmdNameMatcher = (0, first_matcher_1.createFirstMatcher)(cmdNameRegexp);
@@ -37,7 +37,7 @@ const createLineDispatcher = (cmdNameRegexp) => {
     };
     return lineDispatcher;
 };
-exports.createLineDispatcher = createLineDispatcher;
+exports.createDirectiveProcessor = createDirectiveProcessor;
 const commandDispatcher = (input, commandName, commandArguments) => {
     log(`processing command [${commandName}] with arguments [${commandArguments}]`);
     if (commandName === 'first') {
@@ -48,4 +48,4 @@ const commandDispatcher = (input, commandName, commandArguments) => {
     }
     throw new Error(`Unknown command: (${commandName})`);
 };
-//# sourceMappingURL=line_dispatcher.js.map
+//# sourceMappingURL=directive_processor.js.map

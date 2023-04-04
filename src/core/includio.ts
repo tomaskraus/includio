@@ -1,8 +1,9 @@
 /**
  * IncludioProcessor
  *
- * Reads input (from file/stream) line by line and replaces tagged lines with some content.
- *   Source of that content and further instructions are written on that tagged line.
+ * Reads input (from file/stream) line by line and replaces 'directive lines' with some content.
+ * A directive line starts with a '@@' mark.
+ *   Source of that content and further instructions are written on that directive line.
  * Writes the result to the output (file/stream).
  */
 
@@ -12,7 +13,7 @@ import {
   createAsyncLineMachine,
 } from 'line-transform-machines';
 import type {TAsyncLineCallback} from 'line-transform-machines';
-import {createInsertionDispatcher} from './insertion_dispatcher';
+import {createDirectiveDispatcher} from './directive_dispatcher';
 import {DEFAULT_INCLUDIO_OPTIONS, appLog, mergeIncludioOptions} from './common';
 import type {TIncludioOptions} from './common';
 import {createFirstMatcher} from '../utils/first_matcher';
@@ -57,7 +58,7 @@ const makeIncludioProcessor = (
 // =====================
 
 const createSilentDispatchDirectiveLineCB = (options: TIncludioOptions) => {
-  const insertionDispatcher = createInsertionDispatcher(options);
+  const insertionDispatcher = createDirectiveDispatcher(options);
   return async (line: string): Promise<string | null> => {
     await insertionDispatcher(line);
     return null;
@@ -94,7 +95,7 @@ export const createIncludioProcessor = (
   log('CREATE Includio processor');
   return makeIncludioProcessor(
     {
-      directiveLine: createInsertionDispatcher(opts),
+      directiveLine: createDirectiveDispatcher(opts),
       normalLine: identityLineCB,
       errorHandler: raiseErrorHandlerCB,
     },

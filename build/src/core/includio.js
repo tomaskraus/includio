@@ -2,14 +2,15 @@
 /**
  * IncludioProcessor
  *
- * Reads input (from file/stream) line by line and replaces tagged lines with some content.
- *   Source of that content and further instructions are written on that tagged line.
+ * Reads input (from file/stream) line by line and replaces 'directive lines' with some content.
+ * A directive line starts with a '@@' mark.
+ *   Source of that content and further instructions are written on that directive line.
  * Writes the result to the output (file/stream).
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createListIncludioProcessor = exports.createTestIncludioProcessor = exports.createIncludioProcessor = exports.DEFAULT_INCLUDIO_OPTIONS = void 0;
 const line_transform_machines_1 = require("line-transform-machines");
-const insertion_dispatcher_1 = require("./insertion_dispatcher");
+const directive_dispatcher_1 = require("./directive_dispatcher");
 const common_1 = require("./common");
 Object.defineProperty(exports, "DEFAULT_INCLUDIO_OPTIONS", { enumerable: true, get: function () { return common_1.DEFAULT_INCLUDIO_OPTIONS; } });
 const first_matcher_1 = require("../utils/first_matcher");
@@ -32,7 +33,7 @@ const makeIncludioProcessor = (includioCallbacks, options) => {
 };
 // =====================
 const createSilentDispatchDirectiveLineCB = (options) => {
-    const insertionDispatcher = (0, insertion_dispatcher_1.createInsertionDispatcher)(options);
+    const insertionDispatcher = (0, directive_dispatcher_1.createDirectiveDispatcher)(options);
     return async (line) => {
         await insertionDispatcher(line);
         return null;
@@ -56,7 +57,7 @@ const createIncludioProcessor = (options) => {
     const opts = (0, common_1.mergeIncludioOptions)(options);
     log('CREATE Includio processor');
     return makeIncludioProcessor({
-        directiveLine: (0, insertion_dispatcher_1.createInsertionDispatcher)(opts),
+        directiveLine: (0, directive_dispatcher_1.createDirectiveDispatcher)(opts),
         normalLine: identityLineCB,
         errorHandler: raiseErrorHandlerCB,
     }, opts);

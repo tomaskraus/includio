@@ -10,7 +10,7 @@ import {createSeparatorMatcher} from '../utils/separator_matcher';
 
 const log = appLog.extend('lineDispatcher');
 
-export const createLineDispatcher = (cmdNameRegexp: RegExp) => {
+export const createDirectiveProcessor = (cmdNameRegexp: RegExp) => {
   log('CREATE lineDispatcher');
 
   const pipeSeparatorMatcher = createSeparatorMatcher('\\|');

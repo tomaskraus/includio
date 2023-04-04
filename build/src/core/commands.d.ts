@@ -1,12 +1,7 @@
 /**
- * Insertion command. Tells what to do with the source before it is inserted.
+ * Directive command. Tells what to do with the resource content before it is inserted.
  *
- * Insertion line consists of three parts:
- * - insertion tag
- * - source selector
- * - insertion command(s) (not mandatory)
- *
- * Insertion commands can be pipelined.
+ * Directive commands can be pipelined.
  */
 export type TIncludioCommand = (lines: string[], ...args: string[]) => string[];
 /**
