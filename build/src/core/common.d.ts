@@ -19,7 +19,9 @@ export type TIncludioOptions = {
      */
     resourceDir: string;
     /**
+     * Serves to indicate the part mark line in the resource file.
      * Comment pair map. Start comment, end comment.
+     * Should be introduced by a comment valid for that resource file type, to not interfere with the resource file content.
      * Most comments, such as JS line comments, don't have end part. Some others do, such as html comment.
      */
     commentPairMap: Array<[string, string, string]>;

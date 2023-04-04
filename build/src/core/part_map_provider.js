@@ -16,13 +16,13 @@ const createPartMapProvider = (fileContentProvider, startCommentTagGetter, endCo
 // partChar: string
 ) => {
     log('CREATE partMapProvider');
-    const partChar = '<';
+    // const partChar = '<';
     const partNameMatcher = (0, first_matcher_1.createFirstMatcher)(partNameRegexp);
     const _getMapFromFile = async (partsFileName) => {
         log(`creating part map from [${partsFileName}]`);
         const startCommentStr = startCommentTagGetter(partsFileName);
         const endCommentStr = endCommentTagGetter(partsFileName);
-        const markRegex = new RegExp(`^\\s*${startCommentStr}${partChar}\\s*(.*)$`);
+        const markRegex = new RegExp(`^\\s*${startCommentStr}\\s*(.*)$`);
         const lines = await fileContentProvider(partsFileName);
         const parts = new Map();
         return new Promise((resolve, reject) => {

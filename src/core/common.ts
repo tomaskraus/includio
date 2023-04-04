@@ -25,7 +25,9 @@ export type TIncludioOptions = {
   resourceDir: string;
 
   /**
+   * Serves to indicate the part mark line in the resource file.
    * Comment pair map. Start comment, end comment.
+   * Should be introduced by a comment valid for that resource file type, to not interfere with the resource file content.
    * Most comments, such as JS line comments, don't have end part. Some others do, such as html comment.
    */
   commentPairMap: Array<[string, string, string]>; // key, startComment, endComment
@@ -40,31 +42,31 @@ export const DEFAULT_INCLUDIO_OPTIONS: TIncludioOptions = {
   directiveTag: '@@',
   resourceDir: '.',
   commentPairMap: [
-    ['js', '//', ''],
-    ['ts', '//', ''],
-    ['jsx', '//', ''],
-    ['tsx', '//', ''],
-    ['java', '//', ''],
-    ['c', '//', ''],
-    ['cpp', '//', ''],
-    ['h', '//', ''],
-    ['ino', '//', ''],
-    ['cs', '//', ''],
-    ['kf', '//', ''], // Kotlin
-    ['swift', '//', ''],
-    ['go', '//', ''],
-    ['html', '<!--', '-->'],
-    ['md', '<!--', '-->'], // intentionally: not a tripe dash. We want that comment to be included in the resulting html.
-    ['css', '/*', '*/'],
-    ['php', '//', ''],
-    ['py', '#', ''],
-    ['sh', '#', ''],
-    ['sql', '--', ''],
-    ['ini', ';', ''],
-    ['bat', 'REM', ''],
-    ['vb', "'", ''],
+    ['js', '//<', ''],
+    ['ts', '//<', ''],
+    ['jsx', '//<', ''],
+    ['tsx', '//<', ''],
+    ['php', '//<', ''],
+    ['java', '//<', ''],
+    ['c', '//<', ''],
+    ['cpp', '//<', ''],
+    ['h', '//<', ''],
+    ['ino', '//<', ''],
+    ['cs', '//<', ''],
+    ['kf', '//<', ''], // Kotlin
+    ['swift', '//<', ''],
+    ['go', '//<', ''],
+    ['html', '<!--<', '-->'],
+    ['md', '<!--<', '-->'], // intentionally: not a tripe dash. We want that comment to be included in the resulting html.
+    ['css', '/*<', '*/'],
+    ['py', '#<', ''],
+    ['sh', '#<', ''],
+    ['sql', '--<', ''],
+    ['ini', ';<', ''],
+    ['bat', 'REM<', ''],
+    ['vb', "'<", ''],
   ],
-  defaultCommentPair: ['//', ''],
+  defaultCommentPair: ['//<', ''],
 };
 
 export const mergeIncludioOptions = (

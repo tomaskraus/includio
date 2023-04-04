@@ -20,7 +20,7 @@ export const createPartMapProvider = (
   // partChar: string
 ) => {
   log('CREATE partMapProvider');
-  const partChar = '<';
+  // const partChar = '<';
 
   const partNameMatcher = createFirstMatcher(partNameRegexp);
   const _getMapFromFile = async (
@@ -29,7 +29,7 @@ export const createPartMapProvider = (
     log(`creating part map from [${partsFileName}]`);
     const startCommentStr = startCommentTagGetter(partsFileName);
     const endCommentStr = endCommentTagGetter(partsFileName);
-    const markRegex = new RegExp(`^\\s*${startCommentStr}${partChar}\\s*(.*)$`);
+    const markRegex = new RegExp(`^\\s*${startCommentStr}\\s*(.*)$`);
 
     const lines = await fileContentProvider(partsFileName);
     const parts = new Map<string, string[]>();
