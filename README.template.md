@@ -21,32 +21,27 @@ to install `includio` globally
 
 ## Example
 
-We want to "link" the content of `/assets/hello.js` file:
+1. Resource file (`/assets/hello.js`):
 
-```js
-@@ examples/example_first/assets/hello.js
-```
+   ```js
+   @@ examples/example_first/assets/hello.js
+   ```
 
-to our `README.md` documentation, so that whenever that `hello.js` changes, we can update the `README.md` documentation very easily by running **includio** app.
-
-1. Make a template from your documentation: simply save your `README.md` file as `README.template.md` and add some **directives**.  
-   Directives are lines which start with `@@` directive mark and contains (at least) a file name you want to be included in the result.
-
-   README.template.md:
+2. Template (`README.template.md`):
 
    ```
    @@ examples/example_first/README.template.md
    ```
 
-2. Run **includio** command line app over the template to update the `README.md` file.
+   There is a **directive** line in the template, which starts with `@@` directive mark and contains (at least) a file name you want to be included in the result.
+
+3. Run **includio** command line app over the template to (re)generate the `README.md` file.
 
    ```
    @@ examples/example_first/run.sh : Generate
    ```
 
-3. Check the result.
-
-   README.md:
+4. Result (`README.md`):
 
    ```
    @@ examples/example_first/README.md
