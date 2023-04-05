@@ -32,11 +32,13 @@ to install `includio` globally
 2. Template (`README.template.md`):
 
    ```
-   The first example:
+   ## The first example:
    
+       ```js
        @@ assets/hello.js
+       ```
    
-   --
+   That was it.
    
    ```
 
@@ -51,13 +53,15 @@ to install `includio` globally
 4. Result (`README.md`):
 
    ```
-   The first example:
+   ## The first example:
    
+       ```js
        console.log('Hello World!');
        // Hello
        
+       ```
    
-   --
+   That was it.
    
    ```
 

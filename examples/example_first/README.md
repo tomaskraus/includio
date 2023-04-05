@@ -1,7 +1,9 @@
-The first example:
+## The first example:
 
+    ```js
     console.log('Hello World!');
     // Hello
     
+    ```
 
---
+That was it.
