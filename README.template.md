@@ -21,7 +21,7 @@ to install `includio` globally
 
 ## Example
 
-1. Resource file (`/assets/hello.js`):
+1. Resource file (`./assets/hello.js`):
 
    ```js
    @@ examples/example_first/assets/hello.js

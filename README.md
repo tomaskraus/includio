@@ -21,7 +21,7 @@ to install `includio` globally
 
 ## Example
 
-1. Resource file (`/assets/hello.js`):
+1. Resource file (`./assets/hello.js`):
 
    ```js
    console.log('Hello World!');
