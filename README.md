@@ -23,7 +23,7 @@ to install `includio` globally
 
 We want to "link" the content of `/assets/hello.js` file:
 
-```
+```js
 console.log('Hello World!');
 // Hello
 
