@@ -10,10 +10,5 @@
     "esModuleInterop": true,
     "noImplicitThis": false
   },
-  "include": [
-    "src/**/*.ts",
-    "test/**/*.ts",
-    "examples/**/*.ts",
-    "src/core/comment_manager.ts"
-  ]
+  "include": ["src/**/*.ts", "test/**/*.ts", "examples/**/*.ts"]
 }
