@@ -155,11 +155,11 @@ In one directive, multiple commands can be chained via the pipe operator (|). In
 
 **Example:**
 
+This is a **directive** returns the last but one line of the "greet" **part** of an `examples/hello.js` file:
+
 ```
 @@ examples/directive-examples.md : command-pipeline
 ```
-
-This is a **directive** returns the last but one line of the "greet" **part** of an `examples/hello.js` file.
 
 ## Command List
 
