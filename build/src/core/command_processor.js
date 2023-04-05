@@ -1,19 +1,19 @@
 "use strict";
 /**
- * processes insertion tag content
+ * Processes a resource content through the command pipe.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createDirectiveProcessor = void 0;
+exports.createCommandProcessor = void 0;
 const common_1 = require("./common");
 const first_matcher_1 = require("../utils/first_matcher");
 const commands_1 = require("./commands");
 const separator_matcher_1 = require("../utils/separator_matcher");
-const log = common_1.appLog.extend('lineDispatcher');
-const createDirectiveProcessor = (cmdNameRegexp) => {
-    log('CREATE lineDispatcher');
+const log = common_1.appLog.extend('commandProcessor');
+const createCommandProcessor = (cmdNameRegexp) => {
+    log('CREATE commandProcessor');
     const pipeSeparatorMatcher = (0, separator_matcher_1.createSeparatorMatcher)('\\|');
     const cmdNameMatcher = (0, first_matcher_1.createFirstMatcher)(cmdNameRegexp);
-    const lineDispatcher = (previousResult, commands) => {
+    const commandProcessor = (previousResult, commands) => {
         log(`commands: [${commands}]`);
         if (commands.trim() === '') {
             return previousResult;
@@ -30,14 +30,14 @@ const createDirectiveProcessor = (cmdNameRegexp) => {
                     .split(',')
                     .map(s => s.trim());
                 const currentResult = commandDispatcher(previousResult, cmdName, cmdArgs);
-                return lineDispatcher(currentResult, tail);
+                return commandProcessor(currentResult, tail);
             }
             throw new Error(`Invalid command name: (${currentCmd})`);
         }
     };
-    return lineDispatcher;
+    return commandProcessor;
 };
-exports.createDirectiveProcessor = createDirectiveProcessor;
+exports.createCommandProcessor = createCommandProcessor;
 const commandDispatcher = (input, commandName, commandArguments) => {
     log(`processing command [${commandName}] with arguments [${commandArguments}]`);
     if (commandName === 'first') {
@@ -48,4 +48,4 @@ const commandDispatcher = (input, commandName, commandArguments) => {
     }
     throw new Error(`Unknown command: (${commandName})`);
 };
-//# sourceMappingURL=directive_processor.js.map
+//# sourceMappingURL=command_processor.js.map

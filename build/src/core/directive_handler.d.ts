@@ -1,5 +1,5 @@
 /**
- * DirectiveDispatcher
+ * DirectiveHandler
  *
  * Gets an input line,
  *   returns a string content that depends on a directive on that input line.
@@ -10,4 +10,4 @@
  *   <commands> ::= <command> | <commands> "|" <command>
  */
 import { TIncludioOptions } from './common';
-export declare const createDirectiveDispatcher: (options: TIncludioOptions) => (directiveLine: string) => Promise<string>;
+export declare const createDirectiveHandler: (options: TIncludioOptions) => (directiveLine: string) => Promise<string>;

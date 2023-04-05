@@ -10,7 +10,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createListIncludioProcessor = exports.createTestIncludioProcessor = exports.createIncludioProcessor = exports.DEFAULT_INCLUDIO_OPTIONS = void 0;
 const line_transform_machines_1 = require("line-transform-machines");
-const directive_dispatcher_1 = require("./directive_dispatcher");
+const directive_handler_1 = require("./directive_handler");
 const common_1 = require("./common");
 Object.defineProperty(exports, "DEFAULT_INCLUDIO_OPTIONS", { enumerable: true, get: function () { return common_1.DEFAULT_INCLUDIO_OPTIONS; } });
 const first_matcher_1 = require("../utils/first_matcher");
@@ -20,20 +20,20 @@ const makeIncludioProcessor = (includioCallbacks, options) => {
     const callback = async (line, lineNumber, fileLineInfo) => {
         if (directiveMatcher.test(line)) {
             try {
-                return await includioCallbacks.directiveLine(line, fileLineInfo);
+                return await includioCallbacks.directiveLineCB(line, fileLineInfo);
             }
             catch (e) {
-                return includioCallbacks.errorHandler(e, fileLineInfo);
+                return includioCallbacks.errorCB(e, fileLineInfo);
             }
         }
-        return includioCallbacks.normalLine(line, fileLineInfo);
+        return includioCallbacks.normalLineCB(line, fileLineInfo);
     };
     log('make Includio processor');
     return (0, line_transform_machines_1.createAsyncLineMachine)(callback);
 };
 // =====================
-const createSilentDispatchDirectiveLineCB = (options) => {
-    const insertionDispatcher = (0, directive_dispatcher_1.createDirectiveDispatcher)(options);
+const createSilenDirectiveHandler = (options) => {
+    const insertionDispatcher = (0, directive_handler_1.createDirectiveHandler)(options);
     return async (line) => {
         await insertionDispatcher(line);
         return null;
@@ -45,21 +45,21 @@ const printDirectiveLineCB = async (line, fileLineInfo) => {
 };
 const identityLineCB = async (line) => line;
 const nullLineCB = async () => null;
-const printErrorHandlerCB = (err, fileLineInfo) => {
+const printErrorCB = (err, fileLineInfo) => {
     const flinfoStr = fileLineInfo || '';
     return `"${flinfoStr}" ; ${err.message}`;
 };
-const raiseErrorHandlerCB = (err) => {
+const raiseErrorCB = (err) => {
     throw err;
 };
-// --------------
+// = = = = = = = = = = = = = = = = = = = = =
 const createIncludioProcessor = (options) => {
     const opts = (0, common_1.mergeIncludioOptions)(options);
     log('CREATE Includio processor');
     return makeIncludioProcessor({
-        directiveLine: (0, directive_dispatcher_1.createDirectiveDispatcher)(opts),
-        normalLine: identityLineCB,
-        errorHandler: raiseErrorHandlerCB,
+        directiveLineCB: (0, directive_handler_1.createDirectiveHandler)(opts),
+        normalLineCB: identityLineCB,
+        errorCB: raiseErrorCB,
     }, opts);
 };
 exports.createIncludioProcessor = createIncludioProcessor;
@@ -68,9 +68,9 @@ const createTestIncludioProcessor = (options) => {
     const opts = (0, common_1.mergeIncludioOptions)(options);
     log('CREATE testIncludio processor');
     return makeIncludioProcessor({
-        directiveLine: createSilentDispatchDirectiveLineCB(opts),
-        normalLine: nullLineCB,
-        errorHandler: printErrorHandlerCB,
+        directiveLineCB: createSilenDirectiveHandler(opts),
+        normalLineCB: nullLineCB,
+        errorCB: printErrorCB,
     }, opts);
 };
 exports.createTestIncludioProcessor = createTestIncludioProcessor;
@@ -79,9 +79,9 @@ const createListIncludioProcessor = (options) => {
     const opts = (0, common_1.mergeIncludioOptions)(options);
     log('CREATE linkIncludio processor');
     return makeIncludioProcessor({
-        directiveLine: printDirectiveLineCB,
-        normalLine: nullLineCB,
-        errorHandler: printErrorHandlerCB,
+        directiveLineCB: printDirectiveLineCB,
+        normalLineCB: nullLineCB,
+        errorCB: printErrorCB,
     }, opts);
 };
 exports.createListIncludioProcessor = createListIncludioProcessor;

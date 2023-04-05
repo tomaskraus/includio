@@ -2,7 +2,7 @@
 /**
  * partMapProvider
  *
- * for a file, extract its parts contents to a map
+ * for a file, extract its parts to a map
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createPartMapProvider = void 0;

@@ -1,5 +1,5 @@
 /**
- * processes insertion tag content
+ * Processes a resource content through the command pipe.
  */
 
 import {appLog} from './common';
@@ -8,15 +8,15 @@ import {createFirstMatcher} from '../utils/first_matcher';
 import {cmdFirst, cmdLast} from './commands';
 import {createSeparatorMatcher} from '../utils/separator_matcher';
 
-const log = appLog.extend('lineDispatcher');
+const log = appLog.extend('commandProcessor');
 
-export const createDirectiveProcessor = (cmdNameRegexp: RegExp) => {
-  log('CREATE lineDispatcher');
+export const createCommandProcessor = (cmdNameRegexp: RegExp) => {
+  log('CREATE commandProcessor');
 
   const pipeSeparatorMatcher = createSeparatorMatcher('\\|');
   const cmdNameMatcher = createFirstMatcher(cmdNameRegexp);
 
-  const lineDispatcher = (
+  const commandProcessor = (
     previousResult: string[],
     commands: string
   ): string[] => {
@@ -39,13 +39,13 @@ export const createDirectiveProcessor = (cmdNameRegexp: RegExp) => {
           cmdName,
           cmdArgs
         );
-        return lineDispatcher(currentResult, tail);
+        return commandProcessor(currentResult, tail);
       }
       throw new Error(`Invalid command name: (${currentCmd})`);
     }
   };
 
-  return lineDispatcher;
+  return commandProcessor;
 };
 
 const commandDispatcher = (

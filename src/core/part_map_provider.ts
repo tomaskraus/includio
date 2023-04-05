@@ -1,7 +1,7 @@
 /**
  * partMapProvider
  *
- * for a file, extract its parts contents to a map
+ * for a file, extract its parts to a map
  */
 
 import {appLog, getFileLineInfoStr} from './common';

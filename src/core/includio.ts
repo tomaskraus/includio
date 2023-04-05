@@ -13,7 +13,7 @@ import {
   createAsyncLineMachine,
 } from 'line-transform-machines';
 import type {TAsyncLineCallback} from 'line-transform-machines';
-import {createDirectiveDispatcher} from './directive_dispatcher';
+import {createDirectiveHandler} from './directive_handler';
 import {DEFAULT_INCLUDIO_OPTIONS, appLog, mergeIncludioOptions} from './common';
 import type {TIncludioOptions} from './common';
 import {createFirstMatcher} from '../utils/first_matcher';
@@ -23,12 +23,12 @@ const log = appLog.extend('processor');
 export {DEFAULT_INCLUDIO_OPTIONS};
 
 type TIncludioCallbacks = {
-  directiveLine: (
+  directiveLineCB: (
     line: string,
     fileLineInfo?: string
   ) => Promise<string | null>;
-  normalLine: (line: string, fileLineInfo?: string) => Promise<string | null>;
-  errorHandler: (err: Error, fileLineInfo?: string) => string;
+  normalLineCB: (line: string, fileLineInfo?: string) => Promise<string | null>;
+  errorCB: (err: Error, fileLineInfo?: string) => string;
 };
 
 const makeIncludioProcessor = (
@@ -43,12 +43,12 @@ const makeIncludioProcessor = (
   ): Promise<string | null> => {
     if (directiveMatcher.test(line)) {
       try {
-        return await includioCallbacks.directiveLine(line, fileLineInfo);
+        return await includioCallbacks.directiveLineCB(line, fileLineInfo);
       } catch (e) {
-        return includioCallbacks.errorHandler(e as Error, fileLineInfo);
+        return includioCallbacks.errorCB(e as Error, fileLineInfo);
       }
     }
-    return includioCallbacks.normalLine(line, fileLineInfo);
+    return includioCallbacks.normalLineCB(line, fileLineInfo);
   };
 
   log('make Includio processor');
@@ -57,8 +57,8 @@ const makeIncludioProcessor = (
 
 // =====================
 
-const createSilentDispatchDirectiveLineCB = (options: TIncludioOptions) => {
-  const insertionDispatcher = createDirectiveDispatcher(options);
+const createSilenDirectiveHandler = (options: TIncludioOptions) => {
+  const insertionDispatcher = createDirectiveHandler(options);
   return async (line: string): Promise<string | null> => {
     await insertionDispatcher(line);
     return null;
@@ -77,16 +77,16 @@ const identityLineCB = async (line: string) => line;
 
 const nullLineCB = async () => null;
 
-const printErrorHandlerCB = (err: Error, fileLineInfo?: string) => {
+const printErrorCB = (err: Error, fileLineInfo?: string) => {
   const flinfoStr = fileLineInfo || '';
   return `"${flinfoStr}" ; ${err.message}`;
 };
 
-const raiseErrorHandlerCB = (err: Error) => {
+const raiseErrorCB = (err: Error) => {
   throw err;
 };
 
-// --------------
+// = = = = = = = = = = = = = = = = = = = = =
 
 export const createIncludioProcessor = (
   options?: Partial<TIncludioOptions>
@@ -95,9 +95,9 @@ export const createIncludioProcessor = (
   log('CREATE Includio processor');
   return makeIncludioProcessor(
     {
-      directiveLine: createDirectiveDispatcher(opts),
-      normalLine: identityLineCB,
-      errorHandler: raiseErrorHandlerCB,
+      directiveLineCB: createDirectiveHandler(opts),
+      normalLineCB: identityLineCB,
+      errorCB: raiseErrorCB,
     },
     opts
   );
@@ -112,9 +112,9 @@ export const createTestIncludioProcessor = (
   log('CREATE testIncludio processor');
   return makeIncludioProcessor(
     {
-      directiveLine: createSilentDispatchDirectiveLineCB(opts),
-      normalLine: nullLineCB,
-      errorHandler: printErrorHandlerCB,
+      directiveLineCB: createSilenDirectiveHandler(opts),
+      normalLineCB: nullLineCB,
+      errorCB: printErrorCB,
     },
     opts
   );
@@ -129,9 +129,9 @@ export const createListIncludioProcessor = (
   log('CREATE linkIncludio processor');
   return makeIncludioProcessor(
     {
-      directiveLine: printDirectiveLineCB,
-      normalLine: nullLineCB,
-      errorHandler: printErrorHandlerCB,
+      directiveLineCB: printDirectiveLineCB,
+      normalLineCB: nullLineCB,
+      errorCB: printErrorCB,
     },
     opts
   );

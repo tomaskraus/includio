@@ -1,6 +1,6 @@
 "use strict";
 /**
- * DirectiveDispatcher
+ * DirectiveHandler
  *
  * Gets an input line,
  *   returns a string content that depends on a directive on that input line.
@@ -11,20 +11,20 @@
  *   <commands> ::= <command> | <commands> "|" <command>
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createDirectiveDispatcher = void 0;
+exports.createDirectiveHandler = void 0;
 const common_1 = require("./common");
 const file_content_provider_1 = require("./file_content_provider");
 const part_map_provider_1 = require("./part_map_provider");
 const part_content_provider_1 = require("./part_content_provider");
 const comment_manager_1 = require("./comment_manager");
-const directive_processor_1 = require("./directive_processor");
+const command_processor_1 = require("./command_processor");
 const separator_matcher_1 = require("../utils/separator_matcher");
 const first_matcher_1 = require("../utils/first_matcher");
-const log = common_1.appLog.extend('insertionDispatcher');
-const createDirectiveDispatcher = (options) => {
-    log(`CREATE insertionDispatcher. resourceDir: [${options.resourceDir}]`);
+const log = common_1.appLog.extend('directiveHandler');
+const createDirectiveHandler = (options) => {
+    log(`CREATE directiveHandler. resourceDir: [${options.resourceDir}]`);
     const getContent = createGetContent(options, common_1.PART_NAME_REGEXP);
-    const directiveProcessor = (0, directive_processor_1.createDirectiveProcessor)(common_1.COMMAND_NAME_REGEXP);
+    const commandProcessor = (0, command_processor_1.createCommandProcessor)(common_1.COMMAND_NAME_REGEXP);
     const directiveMatcher = (0, first_matcher_1.createFirstMatcher)(options.directiveTag);
     const pipeSeparatorMatcher = (0, separator_matcher_1.createSeparatorMatcher)('\\|');
     return async (directiveLine) => {
@@ -36,11 +36,11 @@ const createDirectiveDispatcher = (options) => {
         const indentStr = (0, common_1.getIndentStr)(directiveLine);
         const [contentSelector, commands] = pipeSeparatorMatcher.headTail(directiveContent);
         const inputLines = await getContent(contentSelector);
-        const result = directiveProcessor(inputLines, commands);
+        const result = commandProcessor(inputLines, commands);
         return result.map(s => indentStr + s).join('\n');
     };
 };
-exports.createDirectiveDispatcher = createDirectiveDispatcher;
+exports.createDirectiveHandler = createDirectiveHandler;
 //---------------------------------------------------------------------------------------
 const createGetContent = (options, partNameRegexp) => {
     const commentManager = (0, comment_manager_1.createCommentManager)(options);
@@ -68,4 +68,4 @@ const createGetContent = (options, partNameRegexp) => {
         throw new Error(`Only one part allowed: (${contentSelector})`);
     };
 };
-//# sourceMappingURL=directive_dispatcher.js.map
+//# sourceMappingURL=directive_handler.js.map

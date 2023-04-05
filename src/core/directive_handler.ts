@@ -1,5 +1,5 @@
 /**
- * DirectiveDispatcher
+ * DirectiveHandler
  *
  * Gets an input line,
  *   returns a string content that depends on a directive on that input line.
@@ -23,17 +23,17 @@ import {fileContentProvider} from './file_content_provider';
 import {createPartMapProvider} from './part_map_provider';
 import {createPartContentProvider} from './part_content_provider';
 import {createCommentManager} from './comment_manager';
-import {createDirectiveProcessor} from './directive_processor';
+import {createCommandProcessor} from './command_processor';
 import {createSeparatorMatcher} from '../utils/separator_matcher';
 import {createFirstMatcher} from '../utils/first_matcher';
 
-const log = appLog.extend('insertionDispatcher');
+const log = appLog.extend('directiveHandler');
 
-export const createDirectiveDispatcher = (options: TIncludioOptions) => {
-  log(`CREATE insertionDispatcher. resourceDir: [${options.resourceDir}]`);
+export const createDirectiveHandler = (options: TIncludioOptions) => {
+  log(`CREATE directiveHandler. resourceDir: [${options.resourceDir}]`);
 
   const getContent = createGetContent(options, PART_NAME_REGEXP);
-  const directiveProcessor = createDirectiveProcessor(COMMAND_NAME_REGEXP);
+  const commandProcessor = createCommandProcessor(COMMAND_NAME_REGEXP);
 
   const directiveMatcher = createFirstMatcher(options.directiveTag);
   const pipeSeparatorMatcher = createSeparatorMatcher('\\|');
@@ -49,7 +49,7 @@ export const createDirectiveDispatcher = (options: TIncludioOptions) => {
     const [contentSelector, commands] =
       pipeSeparatorMatcher.headTail(directiveContent);
     const inputLines = await getContent(contentSelector);
-    const result = directiveProcessor(inputLines, commands);
+    const result = commandProcessor(inputLines, commands);
     return result.map(s => indentStr + s).join('\n');
   };
 };
