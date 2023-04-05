@@ -109,7 +109,7 @@ console.log(inc(10)); //=> 11
 
 ```
 
-1. first, we shoud do a little edit of `my-lib.js`: add some named **mark** pair, surrounding the `inc` method code. Let's name the starting **mark** "inc".  
+1. First, we shoud do a little edit of `my-lib.js`: add some named **mark** pair, surrounding the `inc` method code. Let's name the starting **mark** "inc".  
    The "inc" **part** will contain everything between those two **marks**:
 
    my-lib.js (after edit):
@@ -171,17 +171,17 @@ console.log(inc(10)); //=> 11
 
 ### Selector
 
-Every **directive** starts with a `@@ `, followed by a **selector**. The **selector** consists of a **resource** file name (can contain a path), and an optional **part** name, separated by a ":" (colon).
+Every **directive** starts with a `@@`, followed by a **selector**. The **selector** consists of a **resource** file name (can contain a path), and an optional **part** name, separated by a ":" (colon).
 
 **Example:**
+
+This is a **directive** with a **selector**, that returns the **content** of the "greet" **part** of an `examples/hello.js` **resource** file:
 
 ```
 
 @@ examples/hello.js : greet
 
 ```
-
-This is a **directive** with a **selector**, that returns the **content** of the "greet" **part** of an `examples/hello.js` **resource** file.
 
 The **selector** determines the **content** that will be inserted to the **result** output.
 
@@ -191,14 +191,14 @@ The **command** is an optional part of a directive, that further manipulates the
 
 **Example:**
 
+This is a **directive** with a **selector**, that returns the **content** of the "greet" **part** of an `examples/hello.js` **resource** file.  
+Only the first 2 lines of the "greet" **part** will be inserted:
+
 ```
 
 @@ examples/hello.js : greet | first 2
 
 ```
-
-This is a **directive** with a **selector**, that returns the **content** of the "greet" **part** of an `examples/hello.js` **resource** file.  
-Only the first 2 lines of the "greet" **part** will be inserted.
 
 #### Command Chain
 
