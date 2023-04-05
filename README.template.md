@@ -29,7 +29,7 @@ to install `includio` globally
 
 2. Template (`README.template.md`):
 
-   ```
+   ```md
    @@ examples/example_first/README.template.md
    ```
 
@@ -43,7 +43,7 @@ to install `includio` globally
 
 4. Result (`README.md`):
 
-   ```
+   ```md
    @@ examples/example_first/README.md
    ```
 

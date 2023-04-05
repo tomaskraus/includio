@@ -4,4 +4,4 @@
     @@ assets/hello.js
     ```
 
-That was it.
+That was easy ;)

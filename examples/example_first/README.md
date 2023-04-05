@@ -6,4 +6,4 @@
     
     ```
 
-That was it.
+That was easy ;)
