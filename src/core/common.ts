@@ -16,9 +16,9 @@ export const COMMAND_NAME_REGEXP = VAR_NAME_REGEXP;
  */
 export type TIncludioOptions = {
   /**
-   * A string which represents a tag for insert "file or its part"
+   * A string which represents a mark for insert "file or its part"
    */
-  directiveTag: string;
+  directiveMark: string;
   /**
    * A directory where to look for files for insertion
    */
@@ -26,22 +26,22 @@ export type TIncludioOptions = {
 
   /**
    * Serves to indicate the part mark line in the resource file.
-   * Comment pair map. Start comment, end comment.
    * Should be introduced by a comment valid for that resource file type, to not interfere with the resource file content.
-   * Most comments, such as JS line comments, don't have end part. Some others do, such as html comment.
+   * Most comments, such as JS line comments, don't have end part.
+   *   Some others do, such as html comment.
    */
-  commentPairMap: Array<[string, string, string]>; // key, startComment, endComment
+  markPairMap: Array<[string, string, string]>; // fileNameExtension, startComment, endComment
 
   /**
    * default start comment string, end comment string
    */
-  defaultCommentPair: [string, string];
+  defaultMarkPair: [string, string];
 };
 
 export const DEFAULT_INCLUDIO_OPTIONS: TIncludioOptions = {
-  directiveTag: '@@',
+  directiveMark: '@@',
   resourceDir: '.',
-  commentPairMap: [
+  markPairMap: [
     ['js', '//<', ''],
     ['ts', '//<', ''],
     ['jsx', '//<', ''],
@@ -66,7 +66,7 @@ export const DEFAULT_INCLUDIO_OPTIONS: TIncludioOptions = {
     ['bat', 'REM<', ''],
     ['vb', "'<", ''],
   ],
-  defaultCommentPair: ['//<', ''],
+  defaultMarkPair: ['//<', ''],
 };
 
 export const mergeIncludioOptions = (

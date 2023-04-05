@@ -16,7 +16,7 @@ let output: stream.Writable;
 beforeEach(() => {
   mock({
     'empty-file.txt': '',
-    'no-tag-file.txt': 'Hello, \nWorld!',
+    'no-directive-file.txt': 'Hello, \nWorld!',
     'error-file.txt': 'Hello, \n@@  \nWorld!',
   });
   mock.file();
@@ -40,7 +40,7 @@ describe('normal ops', () => {
   test('input without tags', async () => {
     const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
 
-    const res = await p('no-tag-file.txt', output);
+    const res = await p('no-directive-file.txt', output);
     expect(res.lineNumber).toEqual(2);
     expect(output.toString()).toEqual('Hello, \nWorld!');
   });

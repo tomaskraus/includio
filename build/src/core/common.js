@@ -14,9 +14,9 @@ exports.VAR_NAME_REGEXP = /[a-zA-z]+[\w\d]*/;
 exports.PART_NAME_REGEXP = /[_a-zA-z]+[-\w\d]*/;
 exports.COMMAND_NAME_REGEXP = exports.VAR_NAME_REGEXP;
 exports.DEFAULT_INCLUDIO_OPTIONS = {
-    directiveTag: '@@',
+    directiveMark: '@@',
     resourceDir: '.',
-    commentPairMap: [
+    markPairMap: [
         ['js', '//<', ''],
         ['ts', '//<', ''],
         ['jsx', '//<', ''],
@@ -41,7 +41,7 @@ exports.DEFAULT_INCLUDIO_OPTIONS = {
         ['bat', 'REM<', ''],
         ['vb', "'<", ''],
     ],
-    defaultCommentPair: ['//<', ''],
+    defaultMarkPair: ['//<', ''],
 };
 const mergeIncludioOptions = (opts) => ({ ...exports.DEFAULT_INCLUDIO_OPTIONS, ...opts });
 exports.mergeIncludioOptions = mergeIncludioOptions;

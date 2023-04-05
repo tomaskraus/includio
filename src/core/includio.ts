@@ -35,7 +35,7 @@ const makeIncludioProcessor = (
   includioCallbacks: TIncludioCallbacks,
   options: TIncludioOptions
 ): TFileProcessor<TFileLineContext> => {
-  const directiveMatcher = createFirstMatcher(options.directiveTag);
+  const directiveMatcher = createFirstMatcher(options.directiveMark);
   const callback: TAsyncLineCallback = async (
     line: string,
     lineNumber: number,

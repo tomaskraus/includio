@@ -11,24 +11,24 @@ export declare const COMMAND_NAME_REGEXP: RegExp;
  */
 export type TIncludioOptions = {
     /**
-     * A string which represents a tag for insert "file or its part"
+     * A string which represents a mark for insert "file or its part"
      */
-    directiveTag: string;
+    directiveMark: string;
     /**
      * A directory where to look for files for insertion
      */
     resourceDir: string;
     /**
      * Serves to indicate the part mark line in the resource file.
-     * Comment pair map. Start comment, end comment.
      * Should be introduced by a comment valid for that resource file type, to not interfere with the resource file content.
-     * Most comments, such as JS line comments, don't have end part. Some others do, such as html comment.
+     * Most comments, such as JS line comments, don't have end part.
+     *   Some others do, such as html comment.
      */
-    commentPairMap: Array<[string, string, string]>;
+    markPairMap: Array<[string, string, string]>;
     /**
      * default start comment string, end comment string
      */
-    defaultCommentPair: [string, string];
+    defaultMarkPair: [string, string];
 };
 export declare const DEFAULT_INCLUDIO_OPTIONS: TIncludioOptions;
 export declare const mergeIncludioOptions: (opts?: Partial<TIncludioOptions>) => TIncludioOptions;

@@ -39,7 +39,7 @@ beforeEach(() => {
       'Hello, \na second\n@@ source-invalid-part-name.txt : part1 \nWorld!',
     'part-valid-source-part-duplicit.txt':
       'Hello, \na second\n@@ source-duplicit-part-name.txt : p2 \nWorld!',
-    'tag-nonexistent-file-name.txt':
+    'part-nonexistent-file-name.txt':
       'Hello, \n@@ nonexistentfile.txt : part1 \nWorld!',
 
     'source1.txt': 'text1 \n //< part-1 \n m1 line1 \nm1 line2\n//< \ntext2',
@@ -233,7 +233,7 @@ describe('error handling', () => {
     expect.assertions(2);
     const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
     try {
-      await p('tag-nonexistent-file-name.txt', output);
+      await p('part-nonexistent-file-name.txt', output);
     } catch (e) {
       expect(e).toBeInstanceOf(LineMachineError);
       expect((e as LineMachineError).message).toContain('ENOENT'); //err

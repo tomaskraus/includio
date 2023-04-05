@@ -4,8 +4,8 @@ const common_1 = require("../../src/core/common");
 const comment_manager_1 = require("../../src/core/comment_manager");
 describe('Commentmanager', () => {
     const options = (0, common_1.mergeIncludioOptions)({
-        defaultCommentPair: ['--', '-'],
-        commentPairMap: [
+        defaultMarkPair: ['--', '-'],
+        markPairMap: [
             ['js', '/*', '*/'],
             ['html', '<!--', '-->'],
         ],

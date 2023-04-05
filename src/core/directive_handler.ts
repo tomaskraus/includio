@@ -35,7 +35,7 @@ export const createDirectiveHandler = (options: TIncludioOptions) => {
   const getContent = createGetContent(options, PART_NAME_REGEXP);
   const commandProcessor = createCommandProcessor(COMMAND_NAME_REGEXP);
 
-  const directiveMatcher = createFirstMatcher(options.directiveTag);
+  const directiveMatcher = createFirstMatcher(options.directiveMark);
   const pipeSeparatorMatcher = createSeparatorMatcher('\\|');
 
   return async (directiveLine: string): Promise<string> => {

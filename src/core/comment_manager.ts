@@ -19,11 +19,11 @@ const log = appLog.extend('commentManager');
 export const createCommentManager = (options: TIncludioOptions) => {
   log('CREATE commentManager');
 
-  const defaultCommentPair = options.defaultCommentPair;
-  const defaultStartComment = options.defaultCommentPair[0];
-  const defaultEndComment = options.defaultCommentPair[1];
+  const defaultCommentPair = options.defaultMarkPair;
+  const defaultStartComment = options.defaultMarkPair[0];
+  const defaultEndComment = options.defaultMarkPair[1];
 
-  const commentPairMap = options.commentPairMap.reduce(
+  const commentPairMap = options.markPairMap.reduce(
     (acc, [key, startComment, endComment]) =>
       acc.set(key.toLowerCase(), [startComment, endComment]),
     new Map<string, [string, string]>()
@@ -38,7 +38,7 @@ export const createCommentManager = (options: TIncludioOptions) => {
       const startCommentTag = (commentPairMap.get(extension) ||
         defaultCommentPair)[0];
       log(
-        `start comment tag for [${fileName}] with extension [${extension}]: [${startCommentTag}]`
+        `start mark for [${fileName}] with extension [${extension}]: [${startCommentTag}]`
       );
       return startCommentTag;
     },
@@ -47,7 +47,7 @@ export const createCommentManager = (options: TIncludioOptions) => {
       const endCommentTag = (commentPairMap.get(extension) ||
         defaultCommentPair)[1];
       log(
-        `end comment tag for [${fileName}] with extension [${extension}]: [${endCommentTag}]`
+        `end mark for [${fileName}] with extension [${extension}]: [${endCommentTag}]`
       );
       return endCommentTag;
     },

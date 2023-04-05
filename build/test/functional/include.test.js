@@ -36,7 +36,7 @@ let output;
 beforeEach(() => {
     (0, mock_fs_1.default)({
         'empty-file.txt': '',
-        'no-tag-file.txt': 'Hello, \nWorld!',
+        'no-directive-file.txt': 'Hello, \nWorld!',
         'error-file.txt': 'Hello, \n@@  \nWorld!',
     });
     mock_fs_1.default.file();
@@ -54,7 +54,7 @@ describe('normal ops', () => {
     });
     test('input without tags', async () => {
         const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
-        const res = await p('no-tag-file.txt', output);
+        const res = await p('no-directive-file.txt', output);
         expect(res.lineNumber).toEqual(2);
         expect(output.toString()).toEqual('Hello, \nWorld!');
     });

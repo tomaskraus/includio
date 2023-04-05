@@ -25,7 +25,7 @@ const createDirectiveHandler = (options) => {
     log(`CREATE directiveHandler. resourceDir: [${options.resourceDir}]`);
     const getContent = createGetContent(options, common_1.PART_NAME_REGEXP);
     const commandProcessor = (0, command_processor_1.createCommandProcessor)(common_1.COMMAND_NAME_REGEXP);
-    const directiveMatcher = (0, first_matcher_1.createFirstMatcher)(options.directiveTag);
+    const directiveMatcher = (0, first_matcher_1.createFirstMatcher)(options.directiveMark);
     const pipeSeparatorMatcher = (0, separator_matcher_1.createSeparatorMatcher)('\\|');
     return async (directiveLine) => {
         log(`call on [${directiveLine}]`);

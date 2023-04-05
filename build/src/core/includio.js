@@ -16,7 +16,7 @@ Object.defineProperty(exports, "DEFAULT_INCLUDIO_OPTIONS", { enumerable: true, g
 const first_matcher_1 = require("../utils/first_matcher");
 const log = common_1.appLog.extend('processor');
 const makeIncludioProcessor = (includioCallbacks, options) => {
-    const directiveMatcher = (0, first_matcher_1.createFirstMatcher)(options.directiveTag);
+    const directiveMatcher = (0, first_matcher_1.createFirstMatcher)(options.directiveMark);
     const callback = async (line, lineNumber, fileLineInfo) => {
         if (directiveMatcher.test(line)) {
             try {

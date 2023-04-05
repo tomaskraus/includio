@@ -3,8 +3,8 @@ import {createCommentManager} from '../../src/core/comment_manager';
 
 describe('Commentmanager', () => {
   const options: TIncludioOptions = mergeIncludioOptions({
-    defaultCommentPair: ['--', '-'],
-    commentPairMap: [
+    defaultMarkPair: ['--', '-'],
+    markPairMap: [
       ['js', '/*', '*/'],
       ['html', '<!--', '-->'],
     ],
