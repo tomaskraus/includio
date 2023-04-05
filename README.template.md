@@ -19,15 +19,15 @@ $ npm install -g includio
 
 to install `includio` globally
 
-## General Usage
+## Example
 
-**Example:** We want to "link" the content of `/assets/hello.js` file to our `README.md` documentation, so that whenever that `hello.js` changes, we can update the `README.md` documentation very easily by running `includio` app.
-
-assets/hello.ts:
+We want to "link" the content of `/assets/hello.js` file:
 
 ```
 @@ examples/example_first/assets/hello.js
 ```
+
+to our `README.md` documentation, so that whenever that `hello.js` changes, we can update the `README.md` documentation very easily by running **includio** app.
 
 1. Make a template from your documentation: simply save your `README.md` file as `README.template.md` and add some **directives**.  
    Directives are lines which start with `@@` directive mark and contains (at least) a file name you want to be included in the result.
@@ -38,7 +38,7 @@ assets/hello.ts:
    @@ examples/example_first/README.template.md
    ```
 
-2. Run `includio` command line app over the template to update the `README.md` file.
+2. Run **includio** command line app over the template to update the `README.md` file.
 
    ```
    @@ examples/example_first/run.sh : Generate
