@@ -17,7 +17,7 @@ or
 $ npm install -g includio
 ```
 
-to install `includio` globally
+to install **includio** globally
 
 ## Example
 
@@ -54,14 +54,14 @@ You see, that in the resulting `README.md` file:
 
 ## Features
 
-- **Simple** & easy to use  
+- **Simple** & easy to use.  
   The less features the better.
-- **Do one thing**: include files only.  
+- **Do one thing**: the file inclusion stuff.  
   If you want more, there are full-blown preprocessors already, such as [preprocess](https://www.npmjs.com/package/preprocess).
 - Extensive **error checks**,  
    to prevent missing or invalid parts in auto-generated documentation.
-- **CI** friendly  
-  Works well within a **pipeline**.
+- **CI** friendly.  
+  Stdin/stdout. Works well within a **pipeline**.
 - Language **agnostic**  
   Not only for js & markdown.
 
@@ -104,7 +104,7 @@ my-lib.js:
     @@ examples/example_partial/api.template.md
     ~~~
 
-3. Process the template with `includio` app to generate the `api.md` result:
+3. Process the template with **includio** app to generate the `api.md` result:
 
    ```sh
    @@ examples/example_partial/run.sh : Generate
