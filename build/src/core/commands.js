@@ -8,38 +8,62 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.cmdLast = exports.cmdFirst = void 0;
 const integer_validator_1 = require("../utils/integer_validator");
 const positiveIntegerValidator = (0, integer_validator_1.createIntegerValidator)(1);
+/*
+//< first
+syntax:
+```
+first <count> [, <restMark>]
+```
+Returns the first _count_ lines of a content.
+
+//< first-example
+@@ example.js | first 2
+//<
+*/
 /**
- * Returns first n input lines.
+ * Returns first n lines of a content.
  *
- * @param lines input
- * @param countStr n (unparsed)
- * @param moreContentMark adds this string at the end if input has more lines than n
+ * @param content input
+ * @param count n (unparsed)
+ * @param restMark adds this string at the end if the content has more than n lines
  * @returns first n input lines
  */
-const cmdFirst = (lines, countStr, moreContentMark) => {
-    const maxLineCount = positiveIntegerValidator(countStr, 'first <number>, [<string>]');
-    const content = lines.slice(0, maxLineCount);
-    if (moreContentMark && maxLineCount < lines.length) {
-        return [...content, moreContentMark];
+const cmdFirst = (content, count, restMark) => {
+    const maxLineCount = positiveIntegerValidator(count, 'count');
+    const finalContent = content.slice(0, maxLineCount);
+    if (restMark && maxLineCount < content.length) {
+        return [...finalContent, restMark];
     }
-    return content;
+    return finalContent;
 };
 exports.cmdFirst = cmdFirst;
+/*
+//< last
+syntax:
+```
+last <count> [, <restMark>]
+```
+Returns the last _count_ lines of a content.
+
+//< last-example
+@@ example.js | last 2
+//<
+*/
 /**
- * Returns last n input lines.
+ * Returns last n lines of a content.
  *
- * @param lines input
- * @param countStr (unparsed)
- * @param moreContentMark adds this string at the beginning if input has more lines than n
+ * @param content input
+ * @param count n (unparsed)
+ * @param restMark adds this string at the beginning if the content has more than n lines
  * @returns last n input lines
  */
-const cmdLast = (lines, countStr, moreContentMark) => {
-    const maxLineCount = positiveIntegerValidator(countStr, 'last <number>, [<string>]');
-    const content = lines.slice(-maxLineCount);
-    if (moreContentMark && maxLineCount < lines.length) {
-        return [moreContentMark, ...content];
+const cmdLast = (content, count, restMark) => {
+    const maxLineCount = positiveIntegerValidator(count, 'count');
+    const finalContent = content.slice(-maxLineCount);
+    if (restMark && maxLineCount < content.length) {
+        return [restMark, ...finalContent];
     }
-    return content;
+    return finalContent;
 };
 exports.cmdLast = cmdLast;
 //# sourceMappingURL=commands.js.map

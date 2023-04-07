@@ -127,7 +127,7 @@ describe('command: first - errors', () => {
       await p('first-cmd-no-args.txt', output);
     } catch (e) {
       expect(e).toBeInstanceOf(LineMachineError);
-      expect((e as LineMachineError).message).toContain('first <number>'); //err
+      expect((e as LineMachineError).message).toContain('count'); //err
       expect((e as LineMachineError).message).toContain(
         'no integer value found'
       ); //err
@@ -141,7 +141,7 @@ describe('command: first - errors', () => {
       await p('first-cmd-invalid-args.txt', output);
     } catch (e) {
       expect(e).toBeInstanceOf(LineMachineError);
-      expect((e as LineMachineError).message).toContain('first <number>'); //err
+      expect((e as LineMachineError).message).toContain('count'); //err
       expect((e as LineMachineError).message).toContain('not a number'); //err
     }
   });
@@ -153,7 +153,7 @@ describe('command: first - errors', () => {
       await p('first-cmd-out-of-range-args.txt', output);
     } catch (e) {
       expect(e).toBeInstanceOf(LineMachineError);
-      expect((e as LineMachineError).message).toContain('first <number>'); //err
+      expect((e as LineMachineError).message).toContain('count'); //err
       expect((e as LineMachineError).message).toContain('(0) is lower than'); //err
     }
   });

@@ -49,7 +49,7 @@ export const createCommandProcessor = (cmdNameRegexp: RegExp) => {
 };
 
 const commandDispatcher = (
-  input: string[],
+  content: string[],
   commandName: string,
   commandArguments: string[]
 ): string[] => {
@@ -57,10 +57,10 @@ const commandDispatcher = (
     `processing command [${commandName}] with arguments [${commandArguments}]`
   );
   if (commandName === 'first') {
-    return cmdFirst(input, ...commandArguments);
+    return cmdFirst(content, ...commandArguments);
   }
   if (commandName === 'last') {
-    return cmdLast(input, ...commandArguments);
+    return cmdLast(content, ...commandArguments);
   }
 
   throw new Error(`Unknown command: (${commandName})`);

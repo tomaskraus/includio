@@ -38,13 +38,13 @@ const createCommandProcessor = (cmdNameRegexp) => {
     return commandProcessor;
 };
 exports.createCommandProcessor = createCommandProcessor;
-const commandDispatcher = (input, commandName, commandArguments) => {
+const commandDispatcher = (content, commandName, commandArguments) => {
     log(`processing command [${commandName}] with arguments [${commandArguments}]`);
     if (commandName === 'first') {
-        return (0, commands_1.cmdFirst)(input, ...commandArguments);
+        return (0, commands_1.cmdFirst)(content, ...commandArguments);
     }
     if (commandName === 'last') {
-        return (0, commands_1.cmdLast)(input, ...commandArguments);
+        return (0, commands_1.cmdLast)(content, ...commandArguments);
     }
     throw new Error(`Unknown command: (${commandName})`);
 };

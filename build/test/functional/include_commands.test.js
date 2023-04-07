@@ -104,7 +104,7 @@ describe('command: first - errors', () => {
         }
         catch (e) {
             expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);
-            expect(e.message).toContain('first <number>'); //err
+            expect(e.message).toContain('count'); //err
             expect(e.message).toContain('no integer value found'); //err
         }
     });
@@ -116,7 +116,7 @@ describe('command: first - errors', () => {
         }
         catch (e) {
             expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);
-            expect(e.message).toContain('first <number>'); //err
+            expect(e.message).toContain('count'); //err
             expect(e.message).toContain('not a number'); //err
         }
     });
@@ -128,7 +128,7 @@ describe('command: first - errors', () => {
         }
         catch (e) {
             expect(e).toBeInstanceOf(line_transform_machines_1.LineMachineError);
-            expect(e.message).toContain('first <number>'); //err
+            expect(e.message).toContain('count'); //err
             expect(e.message).toContain('(0) is lower than'); //err
         }
     });
