@@ -173,15 +173,15 @@ console.log(inc(10)); //=> 11
 
 Every **directive** starts with a `@@`, followed by a **selector**. The **selector** consists of a **resource** file name (can contain a path), and an optional **part** name, separated by a ":" (colon).
 
+
 **Example:**
 
 This is a **directive** with a **selector**, that returns the **content** of the "greet" **part** of an `examples/hello.js` **resource** file:
 
 ```
-
 @@ examples/hello.js : greet
-
 ```
+
 
 The **selector** determines the **content** that will be inserted to the **result** output.
 
@@ -189,40 +189,81 @@ The **selector** determines the **content** that will be inserted to the **resul
 
 The **command** is an optional part of a directive, that further manipulates the content to be inserted. The command is separated by a "|" (pipe) character from the **selector**. The command can have parameters, separated by a comma (,).
 
+
 **Example:**
 
 This is a **directive** with a **selector**, that returns the **content** of the "greet" **part** of an `examples/hello.js` **resource** file.  
 Only the first 2 lines of the "greet" **part** will be inserted:
 
 ```
-
 @@ examples/hello.js : greet | first 2
-
 ```
+
 
 #### Command Chain
 
 In one directive, multiple commands can be chained via the pipe operator (|). In that pipeline, the current command will send its result to the next one.
 
+
 **Example:**
 
-This is a **directive** returns the last but one line of the "greet" **part** of an `examples/hello.js` file:
+This is a **directive** that returns the 3rd line of the "greet" **part** of an `examples/hello.js` file:
 
 ```
-
-@@ examples/hello.js : greet | last 2 | first 1
-
+@@ examples/hello.js : greet | first 3 | last 1
 ```
+
 
 ## Command List
 
 ### First
 
-Returns the first _n_ lines of a content.
+syntax:
+```
+first <count> [, <restMark>]
+```
+Returns the first _count_ lines of a content.
+
+
+**Example:**
+
+```
+@@ example.js | first 2
+```
+
+
+Result:
+
+```js
+/**
+ * This is an example resource file.
+```
+
 
 ### Last
 
-Returns the last _n_ lines of a content.
+syntax:
+```
+last <count> [, <restMark>]
+```
+Returns the last _count_ lines of a content.
+
+
+**Example:**
+
+```
+@@ example.js | last 2
+
+```
+
+
+Result:
+
+```js
+//<
+
+```
+
 
 ## Details
 

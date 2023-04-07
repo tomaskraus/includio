@@ -126,13 +126,7 @@ my-lib.js:
 
 Every **directive** starts with a `@@`, followed by a **selector**. The **selector** consists of a **resource** file name (can contain a path), and an optional **part** name, separated by a ":" (colon).
 
-**Example:**
-
-This is a **directive** with a **selector**, that returns the **content** of the "greet" **part** of an `examples/hello.js` **resource** file:
-
-```
 @@ examples/directive-examples.md : selector
-```
 
 The **selector** determines the **content** that will be inserted to the **result** output.
 
@@ -140,36 +134,27 @@ The **selector** determines the **content** that will be inserted to the **resul
 
 The **command** is an optional part of a directive, that further manipulates the content to be inserted. The command is separated by a "|" (pipe) character from the **selector**. The command can have parameters, separated by a comma (,).
 
-**Example:**
-
-This is a **directive** with a **selector**, that returns the **content** of the "greet" **part** of an `examples/hello.js` **resource** file.  
-Only the first 2 lines of the "greet" **part** will be inserted:
-
-```
 @@ examples/directive-examples.md : one-command
-```
 
 #### Command Chain
 
 In one directive, multiple commands can be chained via the pipe operator (|). In that pipeline, the current command will send its result to the next one.
 
-**Example:**
-
-This is a **directive** returns the last but one line of the "greet" **part** of an `examples/hello.js` file:
-
-```
 @@ examples/directive-examples.md : command-pipeline
-```
 
 ## Command List
 
 ### First
 
-Returns the first _n_ lines of a content.
+@@ src/core/commands.ts : first  
+@@ examples/example_commands/examples.md : first  
+@@ examples/example_commands/results.md : first
 
 ### Last
 
-Returns the last _n_ lines of a content.
+@@ src/core/commands.ts : last  
+@@ examples/example_commands/examples.md : last  
+@@ examples/example_commands/results.md : last
 
 ## Details
 

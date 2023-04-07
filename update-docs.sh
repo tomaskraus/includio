@@ -20,6 +20,11 @@ cd examples/example_partial
 . run.sh
 cd ../../
 
+echo 'generating example commands...'
+cd examples/example_commands
+. run.sh
+cd ../../
+
 echo 'processing the main template...'
 DEBUG=* node ./bin/cli.js -i README.template.md  -o README.md
 if [ $? -eq 0 ]; 
