@@ -8,7 +8,7 @@ It is great for keeping your documentation up to date.
 - **Simple** & does **one** thing:  
   the file inclusion stuff. The less features the better.  
    If you want more, there are full-blown preprocessors already, such as [preprocess](https://www.npmjs.com/package/preprocess).
-- Extensive **error checks**,  
+- Extensive **error** checks,  
    to help find missing or invalid parts in auto-generated documentation easily.
 - **CI** friendly.  
   Stdin/stdout. Works well within a **pipeline**.
@@ -27,9 +27,18 @@ or (to install **includio** globally):
 $ npm install -g includio
 ```
 
+## How it works
+
+1. **Includio** command line app processes an iput file (or a standard input) line by line. This input acts as a **template**, which can contain **directives** - lines starting with "@@" and containing name of the file to be inserted, plus some optional commands.
+2. **Includio** then writes all but directive input lines to the output file or the standard output.  
+   Includio replaces each of those **directive** lines with the content of the file mentioned in that directive.
+   The replacement can be further refined by the optional **commands** in the directive line.
+
+**Note:** if there is no **directive** in the whole input, **Includio** just copies the input to output.
+
 ## Example 1: include whole file
 
-1. To include a file (let's say `assets/hello.js`) into the another file (for example: `README.template.md`), just insert a line with the `@@` directive mark at the appropriate place in the `README.template.md`, followed by the name (path) of the file you want to be included (in this case `assets/hello.js`):
+1. This `README.template.md` includes a whole `assets/hello.js` file:
 
    ```md
    @@ examples/example_first/README.template.md
@@ -47,10 +56,7 @@ $ npm install -g includio
    @@ examples/example_first/README.md
    ```
 
-You see, that in the resulting `README.md` file:
-
-1. The directive line from the `README.template.md` was replaced by the content of `assets/hello.ts` file.
-2. The content of the `assets/hello.ts` file inserted has the same left-spacing as the directive line in `README.template.md`.
+You see, that in the resulting `README.md` file, the content of the `assets/hello.ts` file inserted is aligned the same way as the directive line in `README.template.md`.
 
 ## Example 2: partial insertion
 
@@ -104,7 +110,7 @@ my-lib.js:
 
 ### Notes
 
-- There can be multiple named or anonymous **marks** in a **resource** file.
+- There can be multiple named or anonymous **marks** in the **resource** file.
 - There is no concept of nested, or opening/closing **marks**. Every **mark**, either named or anonymous, defines a section of the **resource** file:
 
   ```
@@ -127,7 +133,7 @@ my-lib.js:
 
 ## Commands
 
-The **command** is an optional part of a directive, that further manipulates the content to be inserted. The command is separated by a "|" (pipe) character from the **selector**. The command can have parameters, separated by a comma (,).
+The **command** is an optional part of a directive, that further manipulates the content to be inserted. The command is separated by a "|" (pipe) character from the file name. Command can have parameters, separated by a comma (,).
 
 @@ examples/directive-examples.md : one-command
 
