@@ -29,9 +29,9 @@ $ npm install -g includio
 
 ## How it works
 
-1. **Includio** command line app processes an iput file (or a standard input) line by line. This input acts as a **template**, which can contain **directives** - lines starting with "@@" and containing name of the file to be inserted, plus some optional commands.
+1. **Includio** command line app processes an iput file (or a standard input) line by line. This input acts as a **template**, which can contain **directives** - lines starting with "@@" and containing name of some **resource** file to be inserted, plus some optional commands.
 2. **Includio** then writes all but directive input lines to the output file or the standard output.  
-   Includio replaces each of those **directive** lines with the content of the file mentioned in that directive.
+   Includio replaces each of those **directive** lines with the content of the resource file mentioned in that directive.
    The replacement can be further refined by the optional **commands** in the directive line.
 
 **Note:** if there is no **directive** in the whole input, **Includio** just copies the input to output.
@@ -76,32 +76,22 @@ You see, that in the resulting `README.md` file, the content of the `assets/hell
 
 ## Example 2: partial insertion
 
-We want the `inc` method from `my-lib.js` **resource** file to be included in `api.md`:
+We want the `inc` method from `my-lib.js` **resource** file to be included in `api.md` file:
 
-api.md:
+1. `api.template.md` and `my-lib.js`:
 
-```md
-## API
+   api.template.md
+   <!-- prettier-ignore -->
+   ~~~md
+    # API
+    
+    ```js
+    @@ my-lib.js : inc
+    ```
+    
+    ~~~
 
-```
-
-my-lib.js:
-
-```js
-const add = x => y => x + y;
-
-const inc = x => {
-  return add(1)(x);
-};
-
-console.log(inc(10)); //=> 11
-
-```
-
-1. First, we shoud do a little edit of `my-lib.js`: add some named **mark** pair, surrounding the `inc` method code. Let's name the starting **mark** "inc".  
-   The "inc" **part** will contain everything between those two **marks**:
-
-   my-lib.js (after edit):
+   my-lib.js
 
    ```js
    const add = x => y => x + y;
@@ -116,30 +106,17 @@ console.log(inc(10)); //=> 11
    
    ```
 
-   There are two **marks**: the named one: `//< inc` and an anonymous: `//<`. Both marks starts as a javascript comment, to not interfere with the rest of the code.  
-    These two **marks** form a **part**, with a name "inc".
+   There are two **marks** in `my-lib.js` file: the named one: `//< inc` and an anonymous: `//<`.  
+   Both marks starts as a javascript comment, to not interfere with the rest of the code.  
+    These two **marks** form a **part**, with a name "inc". That named part we're referencing in the `api.template.md`.
 
-2. Create a file `api.template.md` from `api.md`, and add a **directive** which points to the "inc" **part** of the `my-lib.js` **resource** file:
-
-   api.template.md:
-
-   <!-- prettier-ignore -->
-   ~~~md
-    # API
-    
-    ```js
-    @@ my-lib.js : inc
-    ```
-    
-    ~~~
-
-3. Process the template with **includio** app to generate the `api.md` result:
+2. Process the template with **includio** app to generate the `api.md` result:
 
    ```sh
    npx includio -i api.template.md -o api.md
    ```
 
-4. Result (`api.md`):
+3. Result (`api.md`):
 
    <!-- prettier-ignore -->
    ````md
@@ -179,6 +156,12 @@ console.log(inc(10)); //=> 11
 ## Commands
 
 The **command** is an optional part of a directive, that further manipulates the content to be inserted. The command is separated by a "|" (pipe) character from the file name. Command can have parameters, separated by a comma (,).
+
+Whole directive consists up to three sections:
+
+1. Directive mark - "@@"
+2. **Selector** - either file name or file name and a named part, separated by ":"
+3. Command(s), separated by "|"
 
 
 **Example:**
