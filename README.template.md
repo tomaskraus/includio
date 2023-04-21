@@ -34,7 +34,7 @@ $ npm install -g includio
    Includio replaces each of those **directive** lines with the content of the resource file mentioned in that directive.
    The replacement can be further refined by the optional **commands** in the directive line.
 
-**Note:** if there is no **directive** in the whole input, **Includio** just copies the input to output.
+**Note:** if there is no **directive** in the whole input, **Includio** just copies the input to the output.
 
 ## Example 1: include whole file
 
@@ -118,7 +118,7 @@ We want the `inc` method from `my-lib.js` **resource** file to be included in `a
 
 ## Commands
 
-The **command** is an optional part of a directive, that further manipulates the content to be inserted. The command is separated by a "|" (pipe) character from the file name. Command can have parameters, separated by a comma (,).
+The **command** is an optional part of a directive, that further manipulates the content to be inserted. The command is separated by a "|" (pipe) character from the file name. Command can have parameters, separated by a comma ",".
 
 Whole directive consists up to three sections:
 
@@ -130,7 +130,7 @@ Whole directive consists up to three sections:
 
 ### Command Chain
 
-In one directive, multiple commands can be chained via the pipe operator (|). In that pipeline, the current command will send its result to the next one.
+In one directive, multiple commands can be chained via the pipe operator "|". In that pipeline, the current command will send its result to the next one.
 
 @@ examples/directive-examples.md : command-pipeline
 
