@@ -71,8 +71,9 @@ if (AppOptions.inputFile) {
   console.error(`Includio: reading from: "${finalPath}"`);
 }
 
-proc(AppOptions.inputFile || stdin, AppOptions.outputFile || stdout).then(
-  result => {
+proc
+  .lineMachine(AppOptions.inputFile || stdin, AppOptions.outputFile || stdout)
+  .then(result => {
     if (AppOptions.outputFile) {
       console.error(
         `Includio: saving result to: "${resolve(AppOptions.outputFile)}"`
@@ -80,5 +81,8 @@ proc(AppOptions.inputFile || stdin, AppOptions.outputFile || stdout).then(
     }
     console.error(''); // just enters a new line at console
     log(`lines read: ${result.lineNumber}`);
-  }
-);
+    log(`err count: ${proc.getErrorCount()}`);
+    if (proc.getErrorCount() > 0) {
+      throw new Error(`${proc.getErrorCount()} errors total.`);
+    }
+  });

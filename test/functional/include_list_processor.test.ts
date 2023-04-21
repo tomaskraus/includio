@@ -28,7 +28,7 @@ afterEach(() => {
 
 describe('normal ops', () => {
   test('test input that contains directives - from file', async () => {
-    const t = createListIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
+    const t = createListIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS).lineMachine;
 
     await t('error-file.txt', output);
 
@@ -43,7 +43,7 @@ describe('normal ops', () => {
   });
 
   test('test input that contains directives - from stream', async () => {
-    const t = createListIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
+    const t = createListIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS).lineMachine;
 
     const input = fs.createReadStream('error-file.txt');
     await t(input, output);

@@ -63,34 +63,34 @@ afterEach(() => {
 });
 describe('command: common behavior', () => {
     test('accepts more arguments than necessary', async () => {
-        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         await p('first-cmd-more-args.txt', output);
         expect(output.toString()).toEqual('Hello, \n m1 line1 \n..\nWorld!\n');
     });
     test('supports command chaining via pipeline', async () => {
-        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         await p('first-cmd-chaining.txt', output);
         expect(output.toString()).toEqual('Hello, \n m1 line1 \nWorld!\n');
     });
 });
 describe('command: first', () => {
     test('view more than provided', async () => {
-        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         await p('first-cmd-view-more.txt', output);
         expect(output.toString()).toEqual('Hello, \n m1 line1 \nm1 line2\nWorld!\n');
     });
     test('view less than provided', async () => {
-        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         await p('first-cmd-view-less.txt', output);
         expect(output.toString()).toEqual('Hello, \ntext1 \n //< part1 \n m1 line1 \n our\n World!\n');
     });
     test('view less than provided, with less-mark parameter', async () => {
-        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         await p('first-cmd-view-less-param.txt', output);
         expect(output.toString()).toEqual('Hello, \ntext1 \n //< part1 \n m1 line1 \n...\n our\n World!\n');
     });
     test('view exactly the line count what provided', async () => {
-        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         await p('first-cmd-view-exact.txt', output);
         expect(output.toString()).toEqual('Hello, \n m1 line1 \nm1 line2\nWorld!\n');
     });
@@ -98,7 +98,7 @@ describe('command: first', () => {
 describe('command: first - errors', () => {
     test('no args', async () => {
         expect.assertions(3);
-        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         try {
             await p('first-cmd-no-args.txt', output);
         }
@@ -110,7 +110,7 @@ describe('command: first - errors', () => {
     });
     test('invalid args', async () => {
         expect.assertions(3);
-        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         try {
             await p('first-cmd-invalid-args.txt', output);
         }
@@ -122,7 +122,7 @@ describe('command: first - errors', () => {
     });
     test('out of range args', async () => {
         expect.assertions(3);
-        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         try {
             await p('first-cmd-out-of-range-args.txt', output);
         }
@@ -135,22 +135,22 @@ describe('command: first - errors', () => {
 });
 describe('command: last', () => {
     test('view more than provided', async () => {
-        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         await p('last-cmd-view-more.txt', output);
         expect(output.toString()).toEqual('Hello, \n m1 line1 \nm1 line2\nWorld!\n');
     });
     test('view less than provided', async () => {
-        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         await p('last-cmd-view-less.txt', output);
         expect(output.toString()).toEqual('Hello, \nm1 line2\n//< \ntext2\n our\n World!\n');
     });
     test('view less than provided, with less-mark parameter', async () => {
-        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         await p('last-cmd-view-less-param.txt', output);
         expect(output.toString()).toEqual('Hello, \n...\nm1 line2\n//< \ntext2\n our\n World!\n');
     });
     test('view exactly the line count what provided', async () => {
-        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         await p('last-cmd-view-exact.txt', output);
         expect(output.toString()).toEqual('Hello, \n m1 line1 \nm1 line2\nWorld!\n');
     });
@@ -158,7 +158,7 @@ describe('command: last', () => {
 describe('general error handling', () => {
     test('empty pipe 1', async () => {
         expect.assertions(2);
-        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         try {
             await p('empty-pipe-1.txt', output);
         }
@@ -169,7 +169,7 @@ describe('general error handling', () => {
     });
     test('empty pipe 2', async () => {
         expect.assertions(2);
-        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         try {
             await p('empty-pipe-2.txt', output);
         }
@@ -180,7 +180,7 @@ describe('general error handling', () => {
     });
     test('invalid command name', async () => {
         expect.assertions(3);
-        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         try {
             await p('invalid-cmd.txt', output);
         }
@@ -192,7 +192,7 @@ describe('general error handling', () => {
     });
     test('unknown command', async () => {
         expect.assertions(3);
-        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         try {
             await p('unknown-cmd.txt', output);
         }

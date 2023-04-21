@@ -47,13 +47,13 @@ afterEach(() => {
 });
 describe('normal ops', () => {
     test('empty input', async () => {
-        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         const res = await p('empty-file.txt', output);
         expect(res.lineNumber).toEqual(0);
         expect(output.toString()).toEqual('');
     });
     test('input without tags', async () => {
-        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         const res = await p('no-directive-file.txt', output);
         expect(res.lineNumber).toEqual(2);
         expect(output.toString()).toEqual('Hello, \nWorld!');
@@ -62,7 +62,7 @@ describe('normal ops', () => {
 describe('error handling', () => {
     test('Nonexistent input file', async () => {
         expect.assertions(1);
-        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         try {
             await p('non-existent-file.txt', output);
         }
@@ -72,7 +72,7 @@ describe('error handling', () => {
     });
     test('Empty directive: Include line value, file name & line number and Error message', async () => {
         expect.assertions(6);
-        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const p = (0, includio_1.createIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         try {
             await p('error-file.txt', output);
         }

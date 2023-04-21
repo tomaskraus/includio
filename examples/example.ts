@@ -15,7 +15,8 @@ import {createIncludioProcessor} from './core/includio';
 //< code
 import {stdin, stdout} from 'node:process';
 
-createIncludioProcessor()(stdin, stdout)
+createIncludioProcessor()
+  .lineMachine(stdin, stdout)
   .then(result => {
     console.log(`lines read: ${result.lineNumber}`);
   })

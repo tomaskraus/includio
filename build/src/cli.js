@@ -41,11 +41,17 @@ if (AppOptions.inputFile) {
     const finalPath = (0, node_path_1.resolve)(AppOptions.inputFile);
     console.error(`Includio: reading from: "${finalPath}"`);
 }
-proc(AppOptions.inputFile || node_process_1.stdin, AppOptions.outputFile || node_process_1.stdout).then(result => {
+proc
+    .lineMachine(AppOptions.inputFile || node_process_1.stdin, AppOptions.outputFile || node_process_1.stdout)
+    .then(result => {
     if (AppOptions.outputFile) {
         console.error(`Includio: saving result to: "${(0, node_path_1.resolve)(AppOptions.outputFile)}"`);
     }
     console.error(''); // just enters a new line at console
     log(`lines read: ${result.lineNumber}`);
+    log(`err count: ${proc.getErrorCount()}`);
+    if (proc.getErrorCount() > 0) {
+        throw new Error(`${proc.getErrorCount()} errors total.`);
+    }
 });
 //# sourceMappingURL=cli.js.map

@@ -44,7 +44,7 @@ afterEach(() => {
 });
 describe('normal ops', () => {
     test('test input that contains directives - from file', async () => {
-        const t = (0, includio_1.createListIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const t = (0, includio_1.createListIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         await t('error-file.txt', output);
         const result = output.toString().split('\n');
         expect(result[0]).toContain('"error-file.txt:2"');
@@ -55,7 +55,7 @@ describe('normal ops', () => {
         expect(result[2]).toContain('source1.txt');
     });
     test('test input that contains directives - from stream', async () => {
-        const t = (0, includio_1.createListIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS);
+        const t = (0, includio_1.createListIncludioProcessor)(includio_1.DEFAULT_INCLUDIO_OPTIONS).lineMachine;
         const input = node_fs_1.default.createReadStream('error-file.txt');
         await t(input, output);
         const result = output.toString().split('\n');

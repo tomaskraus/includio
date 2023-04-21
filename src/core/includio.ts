@@ -31,11 +31,17 @@ type TIncludioCallbacks = {
   errorCB: (err: Error, fileLineInfo?: string) => string;
 };
 
+type TIncludioProcessor = {
+  lineMachine: TFileProcessor<TFileLineContext>;
+  getErrorCount: () => number;
+};
+
 const makeIncludioProcessor = (
   includioCallbacks: TIncludioCallbacks,
   options: TIncludioOptions
-): TFileProcessor<TFileLineContext> => {
+): TIncludioProcessor => {
   const directiveMatcher = createFirstMatcher(options.directiveMark);
+  let errorCount = 0;
   const callback: TAsyncLineCallback = async (
     line: string,
     lineNumber: number,
@@ -45,6 +51,7 @@ const makeIncludioProcessor = (
       try {
         return await includioCallbacks.directiveLineCB(line, fileLineInfo);
       } catch (e) {
+        errorCount++;
         return includioCallbacks.errorCB(e as Error, fileLineInfo);
       }
     }
@@ -52,7 +59,10 @@ const makeIncludioProcessor = (
   };
 
   log('make Includio processor');
-  return createAsyncLineMachine(callback);
+  return {
+    lineMachine: createAsyncLineMachine(callback),
+    getErrorCount: () => errorCount,
+  };
 };
 
 // =====================
@@ -90,7 +100,7 @@ const raiseErrorCB = (err: Error) => {
 
 export const createIncludioProcessor = (
   options?: Partial<TIncludioOptions>
-): TFileProcessor<TFileLineContext> => {
+): TIncludioProcessor => {
   const opts = mergeIncludioOptions(options);
   log('CREATE Includio processor');
   return makeIncludioProcessor(
@@ -107,7 +117,7 @@ export const createIncludioProcessor = (
 
 export const createTestIncludioProcessor = (
   options?: Partial<TIncludioOptions>
-): TFileProcessor<TFileLineContext> => {
+): TIncludioProcessor => {
   const opts = mergeIncludioOptions(options);
   log('CREATE testIncludio processor');
   return makeIncludioProcessor(
@@ -124,7 +134,7 @@ export const createTestIncludioProcessor = (
 
 export const createListIncludioProcessor = (
   options?: Partial<TIncludioOptions>
-): TFileProcessor<TFileLineContext> => {
+): TIncludioProcessor => {
   const opts = mergeIncludioOptions(options);
   log('CREATE linkIncludio processor');
   return makeIncludioProcessor(

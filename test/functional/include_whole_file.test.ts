@@ -48,7 +48,7 @@ afterEach(() => {
 
 describe('normal ops', () => {
   test('input with valid file name directive', async () => {
-    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS).lineMachine;
 
     const res = await p('directive-valid-file-name.txt', output);
     expect(res.lineNumber).toEqual(4);
@@ -58,7 +58,7 @@ describe('normal ops', () => {
   });
 
   test('input with valid file name directive, indented', async () => {
-    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS).lineMachine;
 
     const res = await p('directive-valid-file-name-indented.txt', output);
     expect(res.lineNumber).toEqual(4);
@@ -68,7 +68,9 @@ describe('normal ops', () => {
   });
 
   test('input with valid file name directive, using non-empty resourceDir', async () => {
-    const p = createIncludioProcessor({resourceDir: 'dir-for-insert'});
+    const p = createIncludioProcessor({
+      resourceDir: 'dir-for-insert',
+    }).lineMachine;
 
     const res = await p('directive-valid-file-name.txt', output);
     expect(res.lineNumber).toEqual(4);
@@ -78,7 +80,7 @@ describe('normal ops', () => {
   });
 
   test('input with valid file name (in double-quotes) directive', async () => {
-    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS).lineMachine;
 
     const res = await p(
       'directive-valid-file-name-in-double-quotes.txt',
@@ -91,7 +93,7 @@ describe('normal ops', () => {
   });
 
   test('input with empty file with valid name directive adds empty line', async () => {
-    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS).lineMachine;
 
     const res = await p('directive-empty-file.txt', output);
     expect(res.lineNumber).toEqual(4);
@@ -99,7 +101,7 @@ describe('normal ops', () => {
   });
 
   test('input with valid file name (including a path) directive', async () => {
-    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS).lineMachine;
 
     const res = await p('directive-valid-file-path.txt', output);
     expect(res.lineNumber).toEqual(4);
@@ -112,7 +114,7 @@ describe('normal ops', () => {
 describe('error handling', () => {
   test('Invalid file name for insertion (with invalid characters in file name)', async () => {
     expect.assertions(2);
-    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS).lineMachine;
     try {
       await p('directive-invalid-file-name.txt', output);
     } catch (e) {
@@ -123,7 +125,7 @@ describe('error handling', () => {
 
   test('Non-existent file for insertion', async () => {
     expect.assertions(2);
-    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS);
+    const p = createIncludioProcessor(DEFAULT_INCLUDIO_OPTIONS).lineMachine;
     try {
       await p('directive-nonexistent-file-name.txt', output);
     } catch (e) {
@@ -134,7 +136,9 @@ describe('error handling', () => {
 
   test('Non-existent file for insertion, in existent resourceDir', async () => {
     expect.assertions(2);
-    const p = createIncludioProcessor({resourceDir: 'dir-for-insert'});
+    const p = createIncludioProcessor({
+      resourceDir: 'dir-for-insert',
+    }).lineMachine;
     try {
       await p('directive-nonexistent-file-name.txt', output);
     } catch (e) {
@@ -145,7 +149,7 @@ describe('error handling', () => {
 
   test('Non-existent resourceDir', async () => {
     expect.assertions(2);
-    const p = createIncludioProcessor({resourceDir: 'abc'});
+    const p = createIncludioProcessor({resourceDir: 'abc'}).lineMachine;
     try {
       await p('directive-valid-file-name.txt', output);
     } catch (e) {

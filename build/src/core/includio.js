@@ -17,19 +17,24 @@ const first_matcher_1 = require("../utils/first_matcher");
 const log = common_1.appLog.extend('processor');
 const makeIncludioProcessor = (includioCallbacks, options) => {
     const directiveMatcher = (0, first_matcher_1.createFirstMatcher)(options.directiveMark);
+    let errorCount = 0;
     const callback = async (line, lineNumber, fileLineInfo) => {
         if (directiveMatcher.test(line)) {
             try {
                 return await includioCallbacks.directiveLineCB(line, fileLineInfo);
             }
             catch (e) {
+                errorCount++;
                 return includioCallbacks.errorCB(e, fileLineInfo);
             }
         }
         return includioCallbacks.normalLineCB(line, fileLineInfo);
     };
     log('make Includio processor');
-    return (0, line_transform_machines_1.createAsyncLineMachine)(callback);
+    return {
+        lineMachine: (0, line_transform_machines_1.createAsyncLineMachine)(callback),
+        getErrorCount: () => errorCount,
+    };
 };
 // =====================
 const createSilenDirectiveHandler = (options) => {

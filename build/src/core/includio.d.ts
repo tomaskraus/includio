@@ -10,6 +10,10 @@ import { TFileLineContext, TFileProcessor } from 'line-transform-machines';
 import { DEFAULT_INCLUDIO_OPTIONS } from './common';
 import type { TIncludioOptions } from './common';
 export { DEFAULT_INCLUDIO_OPTIONS };
-export declare const createIncludioProcessor: (options?: Partial<TIncludioOptions>) => TFileProcessor<TFileLineContext>;
-export declare const createTestIncludioProcessor: (options?: Partial<TIncludioOptions>) => TFileProcessor<TFileLineContext>;
-export declare const createListIncludioProcessor: (options?: Partial<TIncludioOptions>) => TFileProcessor<TFileLineContext>;
+type TIncludioProcessor = {
+    lineMachine: TFileProcessor<TFileLineContext>;
+    getErrorCount: () => number;
+};
+export declare const createIncludioProcessor: (options?: Partial<TIncludioOptions>) => TIncludioProcessor;
+export declare const createTestIncludioProcessor: (options?: Partial<TIncludioOptions>) => TIncludioProcessor;
+export declare const createListIncludioProcessor: (options?: Partial<TIncludioOptions>) => TIncludioProcessor;
