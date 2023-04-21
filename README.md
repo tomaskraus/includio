@@ -72,7 +72,7 @@ $ npm install -g includio
    
    ```
 
-You see, that in the resulting `README.md` file, the content of the `assets/hello.ts` file inserted is aligned the same way as the directive line in `README.template.md`.
+**Note:** in the resulting `README.md` file, the content of the `assets/hello.ts` file inserted is aligned the same way as the directive line in `README.template.md`.
 
 ## Example 2: partial insertion
 
