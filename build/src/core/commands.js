@@ -9,13 +9,16 @@ exports.cmdLast = exports.cmdFirst = void 0;
 const integer_validator_1 = require("../utils/integer_validator");
 const positiveIntegerValidator = (0, integer_validator_1.createIntegerValidator)(1);
 /*
+undocumented: first <count> [, <restMark>]
 //< first
 syntax:
 ```
-first <count> [, <restMark>]
+first <count>
 ```
 Returns the first _count_ lines of a content.
 
+//< first-resource
+@@ example.js
 //< first-example
 @@ example.js | first 2
 //<
@@ -38,15 +41,18 @@ const cmdFirst = (content, count, restMark) => {
 };
 exports.cmdFirst = cmdFirst;
 /*
+undocumented: last <count> [, <restMark>]
 //< last
 syntax:
 ```
-last <count> [, <restMark>]
+last <count>
 ```
-Returns the last _count_ lines of a content.
+Returns the last _count_ lines of a content. May return fewer lines if the content have less than _count_ lines.
 
+//< last-resource
+@@ example.js
 //< last-example
-@@ example.js | last 2
+@@ example.js | last 3
 //<
 */
 /**

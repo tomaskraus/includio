@@ -11,13 +11,16 @@ export type TIncludioCommand = (lines: string[], ...args: string[]) => string[];
 const positiveIntegerValidator = createIntegerValidator(1);
 
 /*
+undocumented: first <count> [, <restMark>]
 //< first
 syntax:
 ```
-first <count> [, <restMark>]
+first <count>
 ```
-Returns the first _count_ lines of a content.
+Returns the first _count_ lines of a content. May return fewer lines if the content has less than _count_ lines.
 
+//< first-resource
+@@ example.js
 //< first-example
 @@ example.js | first 2
 //<
@@ -44,15 +47,18 @@ export const cmdFirst: TIncludioCommand = (
 };
 
 /*
+undocumented: last <count> [, <restMark>]
 //< last
 syntax:
 ```
-last <count> [, <restMark>]
+last <count>
 ```
-Returns the last _count_ lines of a content.
+Returns the last _count_ lines of a content. May return fewer lines if the content has less than _count_ lines.
 
+//< last-resource
+@@ example.js
 //< last-example
-@@ example.js | last 2
+@@ example.js | last 3
 //<
 */
 /**

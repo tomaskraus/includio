@@ -11,7 +11,7 @@
 **Example:**
 
 ```
-@@ example.js | last 2
+@@ example.js | last 3
 
 ```
 

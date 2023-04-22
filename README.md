@@ -206,9 +206,9 @@ If no resource path is specified, the current working directory will be used as 
 
 syntax:
 ```
-first <count> [, <restMark>]
+first <count>
 ```
-Returns the first _count_ lines of a content.
+Returns the first _count_ lines of a content. May return fewer lines if the content has less than _count_ lines.
 
 
 **Example:**
@@ -221,8 +221,20 @@ Returns the first _count_ lines of a content.
 Result:
 
 ```js
-/**
- * This is an example resource file.
+//< add
+const add = x => y => x + y;
+```
+
+original resource file:
+
+```js
+//< add
+const add = x => y => x + y;
+//<
+//< main
+console.log('add(2)(3):', add(2)(3));
+//<
+
 ```
 
 
@@ -230,15 +242,15 @@ Result:
 
 syntax:
 ```
-last <count> [, <restMark>]
+last <count>
 ```
-Returns the last _count_ lines of a content.
+Returns the last _count_ lines of a content. May return fewer lines if the content has less than _count_ lines.
 
 
 **Example:**
 
 ```
-@@ example.js | last 2
+@@ example.js | last 3
 
 ```
 
@@ -246,6 +258,19 @@ Returns the last _count_ lines of a content.
 Result:
 
 ```js
+console.log('add(2)(3):', add(2)(3));
+//<
+
+```
+
+original resource file:
+
+```js
+//< add
+const add = x => y => x + y;
+//<
+//< main
+console.log('add(2)(3):', add(2)(3));
 //<
 
 ```
