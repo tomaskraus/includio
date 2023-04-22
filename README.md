@@ -51,9 +51,9 @@ $ npm install -g includio
    The First Example:
    
    Santa is coming,
-   @@ assets/refrain.txt
-   Santa is almost here!
-   @@ assets/refrain.txt
+     @@ assets/refrain.txt
+    Santa is almost here!
+      @@ assets/refrain.txt
    ```
 
 3. Run **includio** command line app over the `santa.template.txt` to (re)generate the `santa.txt` file:
@@ -68,14 +68,14 @@ $ npm install -g includio
    The First Example:
    
    Santa is coming,
-   Ho ho,
-   Ho ho ho...
-   Santa is almost here!
-   Ho ho,
-   Ho ho ho...
+     Ho ho,
+     Ho ho ho...
+    Santa is almost here!
+      Ho ho,
+      Ho ho ho...
    ```
 
-**Note:** in the resulting `README.md` file, the content of the `assets/hello.ts` file inserted is aligned the same way as the directive line in `README.template.md`.
+**Note:** in the resulting `santa.txt` file, the content of the `assets/refrain.txt` inserted file is aligned the same way as those directive lines in `santa.template.txt`.
 
 ## Example 2: partial insertion
 

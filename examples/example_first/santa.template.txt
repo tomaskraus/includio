@@ -1,6 +1,6 @@
 The First Example:
 
 Santa is coming,
-@@ assets/refrain.txt
-Santa is almost here!
-@@ assets/refrain.txt
+  @@ assets/refrain.txt
+ Santa is almost here!
+   @@ assets/refrain.txt

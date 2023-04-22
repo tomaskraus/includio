@@ -1,8 +1,8 @@
 The First Example:
 
 Santa is coming,
-Ho ho,
-Ho ho ho...
-Santa is almost here!
-Ho ho,
-Ho ho ho...
+  Ho ho,
+  Ho ho ho...
+ Santa is almost here!
+   Ho ho,
+   Ho ho ho...

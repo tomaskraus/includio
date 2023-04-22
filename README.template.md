@@ -62,7 +62,7 @@ $ npm install -g includio
    @@ examples/example_first/santa.txt
    ```
 
-**Note:** in the resulting `README.md` file, the content of the `assets/hello.ts` file inserted is aligned the same way as the directive line in `README.template.md`.
+**Note:** in the resulting `santa.txt` file, the content of the `assets/refrain.txt` inserted file is aligned the same way as those directive lines in `santa.template.txt`.
 
 ## Example 2: partial insertion
 
