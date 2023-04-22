@@ -188,6 +188,18 @@ This is a **directive** that returns the 3rd line of the "greet" **part** of an 
 ```
 
 
+## Custom Resource Directory
+
+You can set a common path for all the inclusion files found in your input template. Example:
+
+```
+includio -r resources/develop -i template.md
+```
+
+For every directive in `template.md`, includio will prefix directive's selector with "./resources/develop/"
+
+If no resource path is specified, the current working directory will be used as a default.
+
 ## Command List
 
 ### First
