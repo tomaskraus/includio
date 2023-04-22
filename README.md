@@ -205,6 +205,16 @@ If no resource path is specified, the current working directory will be used as 
 
 ## List Directives in the Template
 
+## Test Mode
+
+## Working with I/O
+
+### Pseudo Interactive Mode
+
+### Non-recursive Directive Replacement
+
+### Pipelining Includio
+
 ## Command List
 
 ### First
