@@ -18,7 +18,7 @@ const log = appLog.extend('CLI');
 program
   .name('includio')
   .description(
-    'Creates the result output by replacing every directive in the input template with the content of the resourceFile (or its part) mentioned in that directive.'
+    "Creates the result output by replacing every directive in the input template with the content of the directive's resource file or its part."
   )
   .version(process.env.npm_package_version || '-')
   .option(
@@ -35,10 +35,7 @@ program
     'Directory where to look for resourceFiles.',
     DEFAULT_INCLUDIO_OPTIONS.resourceDir
   )
-  .option(
-    '-t --test',
-    'Check the input template & its resourcFiles for possible errors.'
-  )
+  .option('-t --test', 'Check the input template for errors.')
   .option('-l --list', 'Lists all directives in the input.')
   .addHelpText(
     'after',
