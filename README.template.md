@@ -38,22 +38,28 @@ $ npm install -g includio
 
 ## Example 1: include whole file
 
-1. This `README.template.md` includes a whole `assets/hello.js` file:
+1. Having this resource file (`assets/refrain.txt`):
 
-   ```md
-   @@ examples/example_first/README.template.md
+   ```
+   @@ examples/example_first/assets/refrain.txt
    ```
 
-2. Run **includio** command line app over the `README.template.md` to (re)generate the `README.md` file.
+2. ...and a template (`santa.template.txt`):
+
+   ```
+   @@ examples/example_first/santa.template.txt
+   ```
+
+3. Run **includio** command line app over the `santa.template.txt` to (re)generate the `santa.txt` file:
 
    ```
    @@ examples/example_first/run.sh : Generate
    ```
 
-3. Result (`README.md`):
+4. Result (`santa.txt`):
 
-   ```md
-   @@ examples/example_first/README.md
+   ```
+   @@ examples/example_first/santa.txt
    ```
 
 **Note:** in the resulting `README.md` file, the content of the `assets/hello.ts` file inserted is aligned the same way as the directive line in `README.template.md`.
@@ -145,6 +151,8 @@ npx includio -r resources/develop -i template.md
 For every directive in `template.md`, includio will prefix directive's file name with "./resources/develop/"
 
 If no resource path is specified, the current working directory will be used as a default.
+
+## List Directives in the Template
 
 ## Command List
 

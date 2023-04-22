@@ -38,38 +38,41 @@ $ npm install -g includio
 
 ## Example 1: include whole file
 
-1. This `README.template.md` includes a whole `assets/hello.js` file:
-
-   ```md
-   ## The first example:
-   
-       ```js
-       @@ assets/hello.js
-       ```
-   
-   That was easy ;)
-   
-   ```
-
-2. Run **includio** command line app over the `README.template.md` to (re)generate the `README.md` file.
+1. Having this resource file (`assets/refrain.txt`):
 
    ```
-   npx includio -i README.template.md -o README.md
+   Ho ho,
+   Ho ho ho...
    ```
 
-3. Result (`README.md`):
+2. ...and a template (`santa.template.txt`):
 
-   ```md
-   ## The first example:
+   ```
+   The First Example:
    
-       ```js
-       console.log('Hello World!');
-       // Hello
-       
-       ```
+   Santa is coming,
+   @@ assets/refrain.txt
+   Santa is almost here!
+   @@ assets/refrain.txt
+   ```
+
+3. Run **includio** command line app over the `santa.template.txt` to (re)generate the `santa.txt` file:
+
+   ```
+   npx includio -i santa.template.txt -o santa.txt
+   ```
+
+4. Result (`santa.txt`):
+
+   ```
+   The First Example:
    
-   That was easy ;)
-   
+   Santa is coming,
+   Ho ho,
+   Ho ho ho...
+   Santa is almost here!
+   Ho ho,
+   Ho ho ho...
    ```
 
 **Note:** in the resulting `README.md` file, the content of the `assets/hello.ts` file inserted is aligned the same way as the directive line in `README.template.md`.
@@ -199,6 +202,8 @@ npx includio -r resources/develop -i template.md
 For every directive in `template.md`, includio will prefix directive's file name with "./resources/develop/"
 
 If no resource path is specified, the current working directory will be used as a default.
+
+## List Directives in the Template
 
 ## Command List
 
