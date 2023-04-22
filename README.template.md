@@ -139,10 +139,10 @@ In one directive, multiple commands can be chained via the pipe operator "|". In
 You can set a common path for all the inclusion files found in your input template. Example:
 
 ```
-includio -r resources/develop -i template.md
+npx includio -r resources/develop -i template.md
 ```
 
-For every directive in `template.md`, includio will prefix directive's selector with "./resources/develop/"
+For every directive in `template.md`, includio will prefix directive's file name with "./resources/develop/"
 
 If no resource path is specified, the current working directory will be used as a default.
 
