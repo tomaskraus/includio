@@ -244,7 +244,7 @@ syntax:
 ```
 last <count>
 ```
-Returns the last _count_ lines of a content. May return fewer lines if the content has less than _count_ lines.
+Returns the last _count_ lines of a content, include trailing blank lines. May return fewer lines if the content has less than _count_ lines.
 
 
 **Example:**
