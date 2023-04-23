@@ -5,14 +5,16 @@
 A simple yet thoughtful file insertion preprocessor for text-based files. Inserts files (or their parts) to the resulting file.  
 It is great for keeping your documentation up to date.
 
+In fact, template of this document was preprocessed by **includio**, linking all the code examples.
+
 - **Simple** & does **one** thing:  
   the file inclusion stuff. The less features the better.  
    If you want more, there are full-blown preprocessors already, such as [preprocess](https://www.npmjs.com/package/preprocess).
 - Extensive **error** checks,  
-   to help find missing or invalid parts in auto-generated documentation easily.
+   to help find missing or invalid parts in the generated result.
 - **CI** friendly.  
   Stdin/stdout. Works well within a **pipeline**.
-- Language **agnostic**  
+- Language **agnostic**.  
   Not only for js & markdown.
 
 ## Installation
