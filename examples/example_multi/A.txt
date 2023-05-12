@@ -1,0 +1,5 @@
+^^^^^^^^^^^^^^^^^^^^
+  ^^^^^^^^^^^^^^^^^^^^
+    @@ A.txt
+  vvvvvvvvvvvvvvvvvvvv
+vvvvvvvvvvvvvvvvvvvv
