@@ -158,6 +158,41 @@ We want the `inc` method from `my-lib.js` **resource** file to be included in `a
   2. Named part `section-2` contains line "line 6"
   3. Named part `another-part` contains line "line 10"
 
+## Commands
+
+The **command** is an optional part of a directive, that further manipulates the content to be inserted. The command is separated by a "|" (pipe) character from the file name. Command can have parameters, separated by a comma ",".
+
+Whole directive consists up to three sections:
+
+1. Directive mark - "@@"
+2. **Selector** - either file name or file name and a named part, separated by ":"
+3. Command(s), separated by "|"
+
+
+**Example:**
+
+This is a **directive** with a **selector**, that returns the **content** of the "greet" **part** of an `examples/hello.js` **resource** file.  
+Only the first 2 lines of the "greet" **part** will be inserted:
+
+```
+@@ examples/hello.js : greet | first 2
+```
+
+
+### Command Chain
+
+In one directive, multiple commands can be chained via the pipe operator "|". In that pipeline, the current command will send its result to the next one.
+
+
+**Example:**
+
+This is a **directive** that returns the 3rd line of the "greet" **part** of an `examples/hello.js` file:
+
+```
+@@ examples/hello.js : greet | first 3 | last 1
+```
+
+
 ## Custom Resource Directory
 
 You can set a common path for all the inclusion files found in your input template. Example:
@@ -181,3 +216,79 @@ If no resource path is specified, the current working directory will be used as 
 ### Non-recursive Directive Replacement
 
 ### Pipelining Includio
+
+## Command List
+
+### First
+
+syntax:
+```
+first <count>
+```
+Returns the first _count_ lines of a content. May return fewer lines if the content has less than _count_ lines.
+
+
+**Example:**
+
+```
+@@ example.js | first 2
+```
+
+
+Result:
+
+```js
+//< add
+const add = x => y => x + y;
+```
+
+original resource file:
+
+```js
+//< add
+const add = x => y => x + y;
+//<
+//< main
+console.log('add(2)(3):', add(2)(3));
+//<
+
+```
+
+
+### Last
+
+syntax:
+```
+last <count>
+```
+Returns the last _count_ lines of a content, include trailing blank lines. May return fewer lines if the content has less than _count_ lines.
+
+
+**Example:**
+
+```
+@@ example.js | last 3
+
+```
+
+
+Result:
+
+```js
+console.log('add(2)(3):', add(2)(3));
+//<
+
+```
+
+original resource file:
+
+```js
+//< add
+const add = x => y => x + y;
+//<
+//< main
+console.log('add(2)(3):', add(2)(3));
+//<
+
+```
+
