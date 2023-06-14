@@ -31,7 +31,7 @@ $ npm install -g includio
 
 ## How it works
 
-1. **Includio** command line app processes an iput file (or a standard input) line by line. This input acts as a **template**, which can contain **directives** - lines starting with "@@" and containing name of some **resource** file to be inserted, plus some optional commands.
+1. **Includio** command line app processes an input file (or a standard input) line by line. This input acts as a **template**, which can contain **directives** - lines starting with "@@" and containing name of some **resource** file to be inserted, plus some optional commands.
 2. **Includio** then writes all but directive input lines to the output file or the standard output.  
    Includio replaces each of those **directive** lines with the content of the resource file mentioned in that directive.
    The replacement can be further refined by the optional **commands** in the directive line.
