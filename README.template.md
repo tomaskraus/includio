@@ -131,24 +131,6 @@ Consider this resource file:
     - the first at the very beginning, containing "line 1"
     - the one containing "line 8"
 
-## Commands
-
-The **command** is an optional part of a directive, that further manipulates the content to be inserted. The command is separated by a "|" (pipe) character from the file name. Command can have parameters, separated by a comma ",".
-
-Whole directive consists up to three sections:
-
-1. Directive mark - "@@"
-2. **Selector** - either file name or file name and a named part, separated by ":"
-3. Command(s), separated by "|"
-
-@@ examples/directive-examples.md : one-command
-
-### Command Chain
-
-In one directive, multiple commands can be chained via the pipe operator "|". In that pipeline, the current command will send its result to the next one.
-
-@@ examples/directive-examples.md : command-pipeline
-
 ## Custom Resource Directory
   
 You can set a common path for all the inclusion files found in your input template. Example:
@@ -172,17 +154,3 @@ If no resource path is specified, the current working directory will be used as 
 ### Non-recursive Directive Replacement
 
 ### Pipelining Includio
-
-## Command List
-
-### First
-
-@@ src/core/commands.ts : first  
-@@ examples/example_commands/examples.md : first  
-@@ examples/example_commands/results.md : first
-
-### Last
-
-@@ src/core/commands.ts : last  
-@@ examples/example_commands/examples.md : last  
-@@ examples/example_commands/results.md : last
