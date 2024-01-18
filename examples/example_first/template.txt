@@ -1,0 +1,4 @@
+Santa is coming,
+  @@ resource.txt
+ Santa is almost here!
+    @@ resource.txt

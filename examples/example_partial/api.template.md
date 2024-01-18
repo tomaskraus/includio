@@ -1,5 +1,5 @@
 # API
 
 ```js
-@@ my-lib.js : inc
+@@ my-lib.js : inc-fn
 ```
